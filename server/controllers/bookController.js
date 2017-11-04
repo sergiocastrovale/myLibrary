@@ -1,11 +1,18 @@
 import axios from './../../plugins/axios'
+import knex from '../../db/knex'
 
 const bookController = {};
 
-bookController.get = (req, res) => {
-  axios.get('https://www.googleapis.com/books/v1/volumes?q=isbn:0735619670').then((response) => {
-    res.json(response.items)
-  });
+bookController.create = (req, res) => {
+  knex('books').insert({
+    title: req.body.volumeInfo.title
+  })
+  .then(function(result) {
+    return res.status(200).json(result)
+  })
+  .catch(function(error) {
+    return res.status(400).json(error)
+  })
 }
 
 export default bookController

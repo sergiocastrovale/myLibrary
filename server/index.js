@@ -1,5 +1,5 @@
 import express from 'express'
-import mongoose from 'mongoose'
+import mysql from 'mysql'
 import bodyParser from 'body-parser'
 import { Nuxt, Builder } from 'nuxt'
 
@@ -20,11 +20,6 @@ app.use('/api', api)
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
-
-// Init mongoDB via mongoose
-mongoose.connect('mongodb://localhost:27017/mylibrary', () => {
-  //console.log('Connected to mongodb...');
-});
 
 // Init Nuxt.js
 const nuxt = new Nuxt(config)

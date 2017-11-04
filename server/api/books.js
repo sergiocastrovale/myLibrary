@@ -3,8 +3,6 @@ import bookController from './../controllers/bookController'
 
 const router = Router()
 
-// Search for books.
-
-router.get('/search/:query', bookController.get);
+router.post('/book/create', bookController.create)
 
 export default router
