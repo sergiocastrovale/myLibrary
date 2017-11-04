@@ -1,7 +1,7 @@
 {
   "name": "mylibrary",
   "version": "1.0.0",
-  "description": "A place where we can store our eBooks.",
+  "description": "An ebook library manager using Vue, NuxtJS, Node, Express, Knex, MySQL and the Google Books API. This is a playground app, use this code with caution!",
   "author": "Sergio Castro <sergio.castro.vale@gmail.com>",
   "private": true,
   "scripts": {
