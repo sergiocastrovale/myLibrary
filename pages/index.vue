@@ -5,9 +5,9 @@
     </div>
 
     <div class="books">
-      <h1>My collection</h1>
+      <h1>My collection ({{ books.length }} books)</h1>
 
-      <ul v-if="books">
+      <ul>
         <li v-for="(book, index) in books" :key="index">
           {{ book.title }}
         </li>
@@ -52,11 +52,16 @@ export default {
       ],
       selectedField: 'title',
       query: 'fahrenheit',
-      searchResults: null,
-      books: null
+      searchResults: null
     }
   },
+  async fetch ({ store }) {
+    await store.dispatch('updateBooks')
+  },
   computed: {
+    books () {
+      return this.$store.state.books
+    },
     results () {
       return this.searchResults ? this.searchResults.items : null
     },
@@ -67,7 +72,6 @@ export default {
   methods: {
     async search () {
       const res = await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + this.selectedField + ':' + this.query)
-      // const rest2 = await axios.get('api/test')
 
       this.loading = true
 
@@ -77,15 +81,15 @@ export default {
         this.loading = false
       }
     },
-    create (book) {
+    async create (book) {
       this.loading = true
 
       axios.post('/api/book/create', book)
-        .then(function (response) {
-          console.log(response)
+        .then((response) => {
+          this.$store.dispatch('updateBooks')
           this.loading = false
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
           this.loading = false
         })
