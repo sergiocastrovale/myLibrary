@@ -54,19 +54,37 @@ html, body
   letter-spacing: 0.5px;
   font-family: "Source Sans Pro", Arial, sans-serif;
   height: 100vh;
-  margin: 0;
 }
 
-footer
-{
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid #ddd;
+body {
+  display: flex;
+  overflow: hidden;
+
+	> div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    > div:not(.nuxt-progress) {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      flex: 1;
+
+      > section {
+        flex: 1;
+      }
+    }
+	}
 }
 
-a, a:hover, a:focus, a:visited
-{
+a, a:hover, a:focus, a:visited {
   color: #000;
+}
+
+.d-flex {
+  display: flex;
 }
 
 .loading {

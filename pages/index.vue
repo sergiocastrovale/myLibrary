@@ -4,37 +4,29 @@
       Loading, please wait ...
     </div>
 
-    <div class="books">
-      <h1>My collection ({{ books.length }} books)</h1>
+    <div class="d-flex">
+      <div class="books">
+        <Table :columns="bookColumns" :data="books" stripe></Table>
+        <Page :total="5" :current="1" @on-change="changePage"></Page>
+      </div>
 
-      <ul>
-        <li v-for="(book, index) in books" :key="index">
-          {{ book.title }}
-        </li>
-      </ul>
-    </div>
+      <div class="search">
+        <form @submit.prevent.stop="search">
+          <Input v-model="query" placeholder="Enter something..."></Input>
+        </form>
 
-    <div class="search">
-      <form @submit.prevent.stop="search">
-        <select v-model="selectedField">
-          <option v-for="(field, index) in fields" :key="index" :value="field.value">
-            {{ field.label }}
-          </option>
-        </select>
-        <input type="text" v-model="query">
-      </form>
+        <ul v-if="results" class="results">
+          <li v-for="(book, index) in results" :key="index">
+            <img :src="book.volumeInfo.imageLinks.smallThumbnail">
 
-      <ul v-if="results">
-        <li v-for="(book, index) in results" :key="index">
-          <img
-            :src="book.volumeInfo.imageLinks.thumbnail"
-            class ="img-thumbnail img-responsive">
+            <div class="details">
+              {{ book.volumeInfo.title }}
+            </div>
 
-          {{ book.volumeInfo.title }}
-
-          <button @click="create(book)">Add</button>
-        </li>
-      </ul>
+            <div class="add" @click="create(book)">+</div>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>
@@ -50,9 +42,38 @@ export default {
         { label: 'Title', value: 'title' },
         { label: 'ISBN', value: 'isbn' }
       ],
-      selectedField: 'title',
       query: 'fahrenheit',
-      searchResults: null
+      searchResults: null,
+      bookColumns: [
+        { title: 'ID', key: 'googleId', sortable: true },
+        { title: 'Title', key: 'title', sortable: true },
+        { title: 'Publisher', key: 'publisher', sortable: true },
+        { title: 'Page no.', key: 'pageCount' },
+        {
+          title: 'Actions',
+          key: 'actions',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: { type: 'primary', size: 'small' },
+                on: {
+                  click: () => {
+                    this.show(params.index)
+                  }
+                }
+              }, 'View'),
+              h('Button', {
+                props: { type: 'error', size: 'small' },
+                on: {
+                  click: () => {
+                    this.remove(params.index)
+                  }
+                }
+              }, 'Delete')
+            ])
+          }
+        }
+      ]
     }
   },
   async fetch ({ store }) {
@@ -64,20 +85,16 @@ export default {
     },
     results () {
       return this.searchResults ? this.searchResults.items : null
-    },
-    total () {
-      return this.searchResults ? this.searchResults.totalItems : 0
     }
   },
   methods: {
     async search () {
-      const res = await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + this.selectedField + ':' + this.query)
+      const res = await axios.get('https://www.googleapis.com/books/v1/volumes?maxResults=7&orderBy=relevance&q=' + this.query)
 
       this.loading = true
 
       if (res.data !== undefined) {
         this.searchResults = res.data
-
         this.loading = false
       }
     },
@@ -93,6 +110,15 @@ export default {
           console.log(error)
           this.loading = false
         })
+    },
+    changePage () {
+
+    },
+    show () {
+
+    },
+    remove () {
+
     }
   },
   head () {
@@ -110,14 +136,48 @@ export default {
   }
 
   .books {
-    width: 70vw;
+    width: 76.5vw;
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .search {
-    width: 30vw;
+    width: 19vw;
+    margin: 0 1.5vw;
+    padding-top: 1.5rem;
 
-    > li {
-      overflow: hidden;
+    > form {
+      margin-bottom: 2rem;
+    }
+
+    .results {
+      > li {
+        display: flex;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-bottom: 1px solid #ddd;
+
+        > img {
+          margin-right: 5px;
+          width: 40px;
+          align-self: center;
+        }
+
+        .details {
+          flex: 1;
+        }
+
+        .add {
+          width: 18px;
+          height: 18px;
+          align-self: flex-start;
+          border-radius: 50%;
+          background: #0a0;
+          color: #ddd;
+          padding: 0.5rem;
+        }
+      }
     }
   }
 </style>
