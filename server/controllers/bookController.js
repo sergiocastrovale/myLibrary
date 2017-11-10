@@ -1,12 +1,12 @@
 import path from 'path'
 import fs from 'fs'
 import request from 'request'
-import knex from '../../db/knex'
 
+const Book = require('../models/book')
 const bookController = {}
 
 bookController.get = (req, res) => {
-  knex.select('id', 'googleId', 'intro', 'pageCount', 'title', 'updated_at').from('books').then((results) => {
+  Book.getAll().then((results) => {
     return res.status(200).json(results)
   }).catch((error) => {
     return res.status(400).json(error)
@@ -27,11 +27,15 @@ bookController.create = (req, res) => {
   // Search for the current record on our own database. We don't need to add
   // duplicates.
 
-  knex('books').where({googleId: data.id}).first().then((row) => {
+  bookshelf('books').where({googleId: data.id}).first().then((row) => {
     if (row === undefined) {
+      // Deal with categories first.
+
+      // let list = dealWithCategories(data.volumeInfo.categories)
+
       // Insert the new book on the database.
 
-      knex('books').insert({
+      bookshelf('books').insert({
         title: vol.title,
         subtitle: vol.subtitle,
         googleId: data.id,
@@ -49,6 +53,26 @@ bookController.create = (req, res) => {
   }).then(() => {
     return res.status(200).json('Duplicate. Nothing done')
   })
+}
+
+// Auxiliary function that checks if given categories exist on
+// the database and processes them otherwise
+
+function dealWithCategories (categories) {
+  let list = []
+
+  categories.forEach(c => {
+    bookshelf('categories').insert(
+      bookshelf.select(c.name)
+        .whereNotExists(bookshelf('categories').where('name', c.name))
+    ).then((res) => {
+      list.push(res.id)
+    }).catch((error) => {
+      console.log(error)
+    })
+  })
+
+  return list
 }
 
 // Auxiliary function that creates a writing stream so we can

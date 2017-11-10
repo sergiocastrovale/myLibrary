@@ -14,13 +14,15 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
+    "bookshelf": "^0.10.4",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
     "fs": "0.0.1-security",
     "iview": "^2.6.0",
     "knex": "^0.13.0",
     "mysql": "^2.15.0",
-    "nuxt": "^1.0.0-rc3",
+    "nuxt": "^1.0.0-rc11",
+    "qonfucius-nuxt-fontawesome": "0.0.1",
     "request": "^2.83.0",
     "source-map-support": "^0.4.15",
     "vue-moment": "^2.1.0"

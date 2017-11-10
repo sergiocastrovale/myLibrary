@@ -1,5 +1,4 @@
 import express from 'express'
-import mysql from 'mysql'
 import bodyParser from 'body-parser'
 import { Nuxt, Builder } from 'nuxt'
 

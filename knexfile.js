@@ -1,18 +1,19 @@
+let path = require('path')
 
 module.exports = {
   development: {
     client: 'mysql',
     connection: {
-      host : '127.0.0.1',
-      user : 'root',
-      password : '',
-      database : 'mylibrary'
+      host: '127.0.0.1',
+      user: 'root',
+      password: '',
+      database: 'mylibrary'
     },
     migrations: {
-      directory: __dirname + '/db/migrations'
+      directory: path.join(__dirname, '/db/migrations')
     },
     seeds: {
-      directory: __dirname + '/db/seeds'
+      directory: path.join(__dirname, '/db/seeds')
     },
     useNullAsDefault: true
   }
