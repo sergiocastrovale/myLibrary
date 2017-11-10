@@ -1,8 +1,13 @@
-const User = require('../models/user')
+import User from '../models/user'
+
 const userController = {}
 
-userController.doLogin = (req, res) => {
-  return res.json('ok')
+userController.login = (req, res) => {
+  res.json('ok')
+}
+
+userController.account = (req, res) => {
+  res.json('ok')
 }
 
 userController.doLogin = (req, res) => {

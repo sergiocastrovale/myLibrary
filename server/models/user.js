@@ -1,7 +1,21 @@
-import bookshelf from 'bookshelf'
+import Bookshelf from '../../db/database'
 
-const User = bookshelf.Model.extend({
-  tableName: 'users'
+const User = Bookshelf.Model.extend({
+  tableName: 'users',
+  hasTimestamps: true,
+
+  // Instance functions
+
+  verifyPassword: (password) => {
+    return this.get('password') === password
+  }
+},
+
+// Class (static) functions
+{
+  findByEmail: (email) => {
+    return this.forge().query({where: { email: email }}).fetch()
+  }
 })
 
-module.exports = User
+export default User

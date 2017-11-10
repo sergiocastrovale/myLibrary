@@ -14,13 +14,13 @@
       <p><i>You can also refresh this page, you'll still be connected!</i></p>
       <button @click="logout">Logout</button>
     </div>
-    <p><nuxt-link to="/user/secret">Super secret page</nuxt-link></p>
+    <p><nuxt-link to="/user/account">Super secret page</nuxt-link></p>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       formError: null,
       formUsername: '',
@@ -28,7 +28,7 @@ export default {
     }
   },
   methods: {
-    async login() {
+    async login () {
       try {
         await this.$store.dispatch('login', {
           username: this.formUsername,
@@ -41,7 +41,7 @@ export default {
         this.formError = e.message
       }
     },
-    async logout() {
+    async logout () {
       try {
         await this.$store.dispatch('logout')
       } catch (e) {
@@ -56,6 +56,7 @@ export default {
 .container {
   padding: 100px;
 }
+
 .error {
   color: red;
 }

@@ -1,7 +1,7 @@
-import bookshelf from 'bookshelf'
+import Bookshelf from '../../db/database'
 
-const Tag = bookshelf.Model.extend({
+const Tag = Bookshelf.Model.extend({
   tableName: 'tags'
 })
 
-module.exports = Tag
+export default Tag

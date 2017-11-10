@@ -1,16 +1,15 @@
 import path from 'path'
 import fs from 'fs'
 import request from 'request'
+import Bookshelf from '../../db/database'
+import Book from '../models/book'
 
-const Book = require('../models/book')
 const bookController = {}
 
 bookController.get = (req, res) => {
-  Book.getAll().then((results) => {
-    return res.status(200).json(results)
-  }).catch((error) => {
-    return res.status(400).json(error)
-  })
+  const list = Book.getAll()
+
+  res.status(200).json(list)
 }
 
 bookController.create = (req, res) => {
@@ -27,31 +26,40 @@ bookController.create = (req, res) => {
   // Search for the current record on our own database. We don't need to add
   // duplicates.
 
-  bookshelf('books').where({googleId: data.id}).first().then((row) => {
-    if (row === undefined) {
+  Book.where({ googleId: data.id }).fetch().then(model => {
+    if (model === undefined) {
       // Deal with categories first.
 
       // let list = dealWithCategories(data.volumeInfo.categories)
 
+      // Check for ISBN identifiers.
+
+      const isbn10 = vol.industryIdentifiers.find(i => i.type === 'ISBN_10')
+      const isbn13 = vol.industryIdentifiers.find(i => i.type === 'ISBN_13')
+
       // Insert the new book on the database.
 
-      bookshelf('books').insert({
-        title: vol.title,
-        subtitle: vol.subtitle,
-        googleId: data.id,
-        intro: data.searchInfo.textSnippet,
-        description: vol.description,
-        pageCount: vol.pageCount,
-        publisher: vol.publisher,
-        publishedDate: vol.publishedDate
-      }).then((result) => {
-        return res.status(200).json(result)
-      }).catch((error) => {
-        return res.status(400).json(error)
-      })
+      new Book(
+        {
+          title: vol.title,
+          subtitle: vol.subtitle,
+          isbn10: (isbn10 && isbn10.length > 0 && isbn10[0].identifier !== undefined) ? isbn10[0].identifier : '',
+          isbn13: (isbn13 && isbn13.length > 0 && isbn13[0].identifier !== undefined) ? isbn13[0].identifier : '',
+          googleId: data.id,
+          intro: data.searchInfo.textSnippet,
+          description: vol.description,
+          pageCount: vol.pageCount,
+          publisher: vol.publisher,
+          publishedDate: vol.publishedDate
+        }
+      ).save().then(model => {
+        res.status(200).json(model)
+      }).catch(error =>
+        res.status(500).send(error.message)
+      )
     }
   }).then(() => {
-    return res.status(200).json('Duplicate. Nothing done')
+    res.status(200).json('Duplicate. Nothing done')
   })
 }
 
@@ -62,8 +70,8 @@ function dealWithCategories (categories) {
   let list = []
 
   categories.forEach(c => {
-    bookshelf('categories').insert(
-      bookshelf.select(c.name)
+    Bookshelf('categories').insert(
+      Bookshelf.select(c.name)
         .whereNotExists(bookshelf('categories').where('name', c.name))
     ).then((res) => {
       list.push(res.id)

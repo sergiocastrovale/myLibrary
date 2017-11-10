@@ -1,7 +1,7 @@
-import bookshelf from 'bookshelf'
+import Bookshelf from '../../db/database'
 
-const Author = bookshelf.Model.extend({
+const Author = Bookshelf.Model.extend({
   tableName: 'authors'
 })
 
-module.exports = Author
+export default Author
