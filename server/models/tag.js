@@ -1,7 +1,20 @@
 import Bookshelf from '../../db/database'
+import Book from './book'
 
-const Tag = Bookshelf.Model.extend({
-  tableName: 'tags'
-})
+class Tag extends Bookshelf.Model {
+  get tableName () {
+    return 'tags'
+  }
+
+  books () {
+    return this.belongsToMany(Book)
+  }
+
+  static getAll () {
+    this.fetchAll().then(results => {
+      return results
+    })
+  }
+}
 
 export default Tag

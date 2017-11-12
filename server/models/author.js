@@ -1,7 +1,20 @@
 import Bookshelf from '../../db/database'
+import Book from './book'
 
-const Author = Bookshelf.Model.extend({
-  tableName: 'authors'
-})
+class Author extends Bookshelf.Model {
+  get tableName () {
+    return 'tags'
+  }
+
+  books () {
+    return this.belongsToMany(Book)
+  }
+
+  static getAll () {
+    this.fetchAll().then(results => {
+      return results
+    })
+  }
+}
 
 export default Author

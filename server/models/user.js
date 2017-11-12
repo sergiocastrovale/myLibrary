@@ -1,21 +1,25 @@
 import Bookshelf from '../../db/database'
 
-const User = Bookshelf.Model.extend({
-  tableName: 'users',
-  hasTimestamps: true,
+class User extends Bookshelf.Model {
+  get tableName () {
+    return 'users'
+  }
 
-  // Instance functions
-
-  verifyPassword: (password) => {
+  verifyPassword (password) {
     return this.get('password') === password
   }
-},
 
-// Class (static) functions
-{
-  findByEmail: (email) => {
-    return this.forge().query({where: { email: email }}).fetch()
+  static findByEmail (email) {
+    this.forge().query({where: { email: email }}).fetch().then(results => {
+      return results
+    })
   }
-})
+
+  static getAll () {
+    this.fetchAll().then(results => {
+      return results
+    })
+  }
+}
 
 export default User

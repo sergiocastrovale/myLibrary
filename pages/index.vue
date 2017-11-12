@@ -77,6 +77,7 @@ export default {
     }
   },
   async fetch ({ store }) {
+    console.log('on fetch')
     await store.dispatch('updateBooks')
   },
   computed: {

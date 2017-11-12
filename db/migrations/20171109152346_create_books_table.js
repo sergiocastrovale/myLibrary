@@ -15,11 +15,11 @@ exports.up = (knex, Promise) => {
     table.string('file')
     table.timestamps(false, true)
   }).createTable('tags_books', function (table) {
-    table.integer('tag_id').unsigned().notNullable().references('tags.id').onDelete('cascade')
-    table.integer('book_id').unsigned().notNullable().references('books.id').onDelete('cascade')
+    table.integer('tag_id').unsigned().references('tags.id').onDelete('cascade')
+    table.integer('book_id').unsigned().references('books.id').onDelete('cascade')
   }).createTable('authors_books', (table) => {
-    table.integer('author_id').unsigned().notNullable().references('authors.id').onDelete('cascade')
-    table.integer('book_id').unsigned().notNullable().references('books.id').onDelete('cascade')
+    table.integer('author_id').unsigned().references('authors.id').onDelete('cascade')
+    table.integer('book_id').unsigned().references('books.id').onDelete('cascade')
   })
 }
 
