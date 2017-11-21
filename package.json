@@ -14,7 +14,6 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
-    "bookshelf": "^0.10.4",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
     "fs": "0.0.1-security",
@@ -22,6 +21,7 @@
     "knex": "^0.13.0",
     "mysql": "^2.15.0",
     "nuxt": "^1.0.0-rc11",
+    "objection": "^0.9.0",
     "qonfucius-nuxt-fontawesome": "0.0.1",
     "request": "^2.83.0",
     "source-map-support": "^0.4.15",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "babel-preset-stage-1": "^6.24.1",
     "backpack-core": "^0.4.1",
     "cross-env": "^5.1.1",
     "eslint": "^4.3.0",

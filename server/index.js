@@ -1,17 +1,25 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import Knex from 'knex'
 import { Nuxt, Builder } from 'nuxt'
-
+import { Model } from 'objection'
 import api from './api'
+import knexConfig from '../knexfile'
 
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
 
+// Initialize knex
+const knex = Knex(knexConfig.development)
+
 app.set('port', port)
 
 // Load express bodyParser
-app.use(bodyParser.json());
+app.use(bodyParser.json())
+
+// Bind all Models to a knex instance
+Model.knex(knex)
 
 // Import API Routes
 app.use('/api', api)

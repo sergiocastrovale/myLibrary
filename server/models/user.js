@@ -1,25 +1,5 @@
-import Bookshelf from '../../db/database'
+import { Model } from 'objection'
 
-class User extends Bookshelf.Model {
-  get tableName () {
-    return 'users'
-  }
-
-  verifyPassword (password) {
-    return this.get('password') === password
-  }
-
-  static findByEmail (email) {
-    this.forge().query({where: { email: email }}).fetch().then(results => {
-      return results
-    })
-  }
-
-  static getAll () {
-    this.fetchAll().then(results => {
-      return results
-    })
-  }
+export default class User extends Model {
+  static tableName = 'users'
 }
-
-export default User

@@ -14,17 +14,15 @@ exports.up = (knex, Promise) => {
     table.integer('pageCount')
     table.string('file')
     table.timestamps(false, true)
-  }).createTable('tags_books', function (table) {
-    table.integer('tag_id').unsigned().references('tags.id').onDelete('cascade')
-    table.integer('book_id').unsigned().references('books.id').onDelete('cascade')
-  }).createTable('authors_books', (table) => {
-    table.integer('author_id').unsigned().references('authors.id').onDelete('cascade')
-    table.integer('book_id').unsigned().references('books.id').onDelete('cascade')
+  }).createTable('tag_book', function (table) {
+    table.integer('tag_id').unsigned().references('id').inTable('tags').onDelete('cascade')
+    table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
+  }).createTable('author_book', (table) => {
+    table.integer('author_id').unsigned().references('id').inTable('tags').onDelete('cascade')
+    table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
   })
 }
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTableIfExists('books')
-    .dropTableIfExists('tags_books')
-    .dropTableIfExists('authors_books')
+  return knex.schema.dropTableIfExists('tags_books').dropTableIfExists('authors_books').dropTableIfExists('books')
 }

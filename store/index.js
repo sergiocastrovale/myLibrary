@@ -12,6 +12,7 @@ const createStore = () => {
         let response = await axios.get('/api/books')
 
         if (response.status === 200 && response.data) {
+          console.log('Updating books with', response.data.length)
           commit('updateBooks', response.data)
         }
       }

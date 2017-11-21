@@ -5,18 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Attach to Process",
             "type": "node",
-            "request": "launch",
-            "name": "Launch via NPM",
-            "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run-script",
-                "dev-debug"
-            ],
-            "port": 9229
+            "request": "attach",
+            "port": 9229,
+            "restart": true,
+            "outFiles": ["${workspaceRoot}/build/*.js"],
+            "sourceMaps": true,
+            "smartStep": true,
+            "sourceMapPathOverrides": {
+                 "webpack:///./*":   "${workspaceRoot}/*"
+            },
+            "protocol": "inspector"
         },
         {
             "type": "node",
+            "protocol": "inspector",
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\build\\main.js"

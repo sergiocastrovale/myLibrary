@@ -1,4 +1,4 @@
-let path = require('path')
+import path from 'path'
 
 module.exports = {
   development: {

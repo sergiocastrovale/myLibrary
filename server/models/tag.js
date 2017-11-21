@@ -1,20 +1,23 @@
-import Bookshelf from '../../db/database'
+import { Model } from 'objection'
 import Book from './book'
 
-class Tag extends Bookshelf.Model {
-  get tableName () {
-    return 'tags'
-  }
+export default class Tag extends Model {
+  static tableName = 'tags'
 
-  books () {
-    return this.belongsToMany(Book)
-  }
-
-  static getAll () {
-    this.fetchAll().then(results => {
-      return results
-    })
+  static relationMappings () {
+    return {
+      books: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Book,
+        join: {
+          from: 'Tag.id',
+          through: {
+            from: 'tags_books.tag_id',
+            to: 'tags_books.book_id'
+          },
+          to: 'Book.id'
+        }
+      }
+    }
   }
 }
-
-export default Tag

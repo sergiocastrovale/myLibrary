@@ -26,6 +26,18 @@ module.exports = {
   build: {
     vendor: ['axios'],
 
+    babel: {
+      'presets': [
+        ['env', {
+          'targets': {
+            'node': 'current'
+          }
+        }],
+        'stage-1'
+      ],
+      'plugins': []
+    },
+
     /*
     ** Run ESLINT on save
     */

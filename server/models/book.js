@@ -1,24 +1,37 @@
-import Bookshelf from '../../db/database'
-import Tag from '../models/tag'
-import Author from '../models/author'
-import fs from 'fs'
-import request from 'request'
+import { Model } from 'objection'
+import Author from './author'
+import Tag from './tag'
 
-class Book extends Bookshelf.Model {
-  get tableName () {
-    return 'books'
-  }
+export default class Book extends Model {
+  static tableName = 'books'
 
-  get hasTimestamps () {
-    return true
-  }
-
-  tags () {
-    return this.belongsToMany(Tag)
-  }
-
-  authors () {
-    return this.belongsToMany(Author)
+  static relationMappings () {
+    return {
+      tags: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Tag,
+        join: {
+          from: 'books.id',
+          through: {
+            from: 'tag_book.book_id',
+            to: 'tag_book.tag_id'
+          },
+          to: 'tags.id'
+        },
+        authors: {
+          relation: Model.ManyToManyRelation,
+          modelClass: Author,
+          join: {
+            from: 'books.id',
+            through: {
+              from: 'author_book.book_id',
+              to: 'author_book.author_id'
+            },
+            to: 'authors.id'
+          }
+        }
+      }
+    }
   }
 
   static retrieveISBN (data, type) {
@@ -31,19 +44,7 @@ class Book extends Bookshelf.Model {
   // the database and processes them otherwise
 
   static dealWithTags (tags) {
-    let list = []
 
-    tags.forEach(c => {
-      Tag.insert(
-        Tag.select(c.name).whereNotExists(Tag.where('name', c.name))
-      ).then((res) => {
-        list.push(res.id)
-      }).catch((error) => {
-        console.log(error)
-      })
-    })
-
-    return list
   }
 
   // Auxiliary function that creates a writing stream so we can
@@ -68,5 +69,3 @@ class Book extends Bookshelf.Model {
     })
   }
 }
-
-export default Book
