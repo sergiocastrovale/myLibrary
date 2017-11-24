@@ -5,6 +5,10 @@ import { Nuxt, Builder } from 'nuxt'
 import { Model } from 'objection'
 import api from './api'
 import knexConfig from '../knexfile'
+import passport from 'passport'
+import credentials from './config/credentials'
+
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
@@ -23,6 +27,16 @@ Model.knex(knex)
 
 // Import API Routes
 app.use('/api', api)
+
+// OAuth
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(new GoogleStrategy(credentials.google,
+  (accessToken, refreshToken, profile, done) => {
+    console.log('profile', profile)
+  }
+))
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')

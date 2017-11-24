@@ -1,6 +1,9 @@
 import { Model } from 'objection'
 import Author from './author'
 import Tag from './tag'
+import request from 'request'
+import fs from 'fs'
+import path from 'path'
 
 export default class Book extends Model {
   static tableName = 'books'

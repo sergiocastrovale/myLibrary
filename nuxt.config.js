@@ -11,6 +11,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
+      { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:500,400' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
@@ -53,7 +54,6 @@ module.exports = {
     }
   },
 
-  plugins: [
-    { src: '~plugins/iview', ssr: true }
+  modules: [
   ]
 }

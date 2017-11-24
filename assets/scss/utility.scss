@@ -1,0 +1,147 @@
+$measures: (
+    '0': 0,
+    '1': 0.5rem,
+    '2': 0.75rem,
+    '3': 1rem,
+    '4': 1.5rem,
+    '5': 2rem,
+    '6': 3rem
+);
+
+@each $key, $value in $measures {
+    .p-#{$key} {
+        padding: $value;
+    }
+
+    .pt-#{$key} {
+        padding-top: $value;
+    }
+
+    .pb-#{$key} {
+        padding-bottom: $value;
+    }
+
+    .pl-#{$key} {
+        padding-left: $value;
+    }
+
+    .pr-#{$key} {
+        padding-right: $value;
+    }
+
+    .px-#{$key} {
+        padding-left: $value;
+        padding-right: $value;
+    }
+
+    .py-#{$key} {
+        padding-top: $value;
+        padding-bottom: $value;
+    }
+
+    .m-#{$key} {
+        margin: $value;
+    }
+
+    .mt-#{$key} {
+        margin-top: $value;
+    }
+
+    .mb-#{$key} {
+        margin-bottom: $value;
+    }
+
+    .ml-#{$key} {
+        margin-left: $value;
+    }
+
+    .mr-#{$key} {
+        margin-right: $value;
+    }
+
+    .mx-#{$key} {
+        margin-left: $value;
+        margin-right: $value;
+    }
+
+    .my-#{$key} {
+        margin-top: $value;
+        margin-bottom: $value;
+    }
+}
+
+// Utility classes for font-size
+
+$font-size-list: (
+    'smallest': $font-size-smallest,
+    'smaller':  $font-size-smaller,
+    'small':    $font-size-small,
+    'normal':   $font-size-normal,
+    'large':    $font-size-large,
+    'larger':   $font-size-larger,
+    'largest':  $font-size-largest,
+    'super':    $font-size-super,
+    'giant':    $font-size-giant
+);
+
+@each $key, $value in $font-size-list {
+    .fs-#{$key} {
+        font-size: $value;
+    }
+}
+
+// Utility classes for color, border and background
+
+$color-list: (
+    'darkest': $darkest,
+    'darker': $darker,
+    'dark': $dark,
+    'medium': $medium,
+    'light': $light,
+    'lighter': $lighter,
+    'lightest': $lightest,
+    'white': $white
+);
+
+@each $key, $value in $color-list {
+    .color-#{$key} {
+        color: $value;
+    }
+
+    .bg-#{$key} {
+        background-color: $value;
+    }
+
+    .border-#{$key} {
+        border: 1px solid $value;
+    }
+
+    .bt-#{$key} {
+        border-top: 1px solid $value;
+    }
+
+    .br-#{$key} {
+        border-right: 1px solid $value;
+    }
+
+    .bl-#{$key} {
+        border-left: 1px solid $value;
+    }
+
+    .bb-#{$key} {
+        border-bottom: 1px solid $value;
+    }
+}
+
+$radius: (
+    'small':  3px,
+    'normal': 4px,
+    'large':  6px,
+    'circle': 50%,
+);
+
+@each $key, $value in $radius {
+    .radius-#{$key} {
+        border-radius: $value;
+    }
+}
