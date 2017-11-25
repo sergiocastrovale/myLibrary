@@ -18,8 +18,9 @@
               <span v-if="book.volumeInfo.pageCount > 0">{{ book.volumeInfo.pageCount }} pages</span>
             </li>
             <li>
-              <span v-if="book.volumeInfo.industryIdentifiers.length > 0">ISBN-10: {{ book.volumeInfo.industryIdentifiers[0]['identifier'] }} | </span>
-              <span v-if="book.volumeInfo.industryIdentifiers.length > 0">ISBN-13: {{ book.volumeInfo.industryIdentifiers[1]['identifier'] }}</span>
+              <span v-for="identifier in book.volumeInfo.industryIdentifiers" :key="identifier.type">
+                {{ identifier.type }}: {{ identifier.identifier }}
+              </span>
             </li>
           </ul>
         </div>
