@@ -1,18 +1,69 @@
 <template>
-  <ul v-if="books">
-    <li v-for="book in books" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
-      <img :src="'uploads/books/' + book.googleId + '.jpg'" />
+  <div class="list">
+    <search></search>
 
-      {{ book.title }}
-    </li>
-  </ul>
+    <table v-if="books">
+      <thead>
+        <tr>
+          <th v-for="header in headers" :key="header.id">{{ header.label }}</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr v-for="book in books" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
+        <td>
+          <img class="cover" :src="'/uploads/books/' + book.googleId + '.jpg'" />
+        </td>
+
+        <td>
+          {{ book.title }}
+          <div class="fs-small">{{ book.subtitle }}</div>
+        </td>
+
+        <td>{{ book.authors }}</td>
+        <td>{{ book.pageCount }}</td>
+        <td>{{ book.isbn13 }}</td>
+
+        <td>
+          {{ book.publisher }}
+          <div class="fs-small">Published in {{ book.publishedDate }}</div>
+        </td>
+
+        <td>{{ book.collection }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
+  import Search from './search'
 
-export default {
-  props: {
-    books: Array
+  export default {
+    props: {
+      books: Array
+    },
+    data () {
+      return {
+        headers: [
+          { id: 0, label: 'Cover' },
+          { id: 1, label: 'Title' },
+          { id: 2, label: 'Authors' },
+          { id: 3, label: 'Pages' },
+          { id: 4, label: 'ISBN-13' },
+          { id: 5, label: 'Publisher' },
+          { id: 6, label: 'Collection' }
+        ]
+      }
+    },
+    components: {
+      Search
+    }
   }
-}
 </script>
+
+<style lang="scss" scoped>
+  .cover {
+    height: 50px;
+    width: auto;
+  }
+</style>

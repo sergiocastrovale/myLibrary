@@ -14,6 +14,10 @@ bookController.get = (req, res) => {
 }
 
 bookController.create = (req, res) => {
+  res.status(200).json('')
+}
+
+bookController.doCreate = (req, res) => {
   const data = req.body
   const vol = data.volumeInfo
 

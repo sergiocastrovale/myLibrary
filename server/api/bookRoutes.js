@@ -4,6 +4,7 @@ import bookController from './../controllers/bookController'
 const router = Router()
 
 router.get('/books', bookController.get)
-router.post('/book/create', bookController.create)
+router.get('/books/create', bookController.create)
+router.post('/book/create', bookController.doCreate)
 
 export default router

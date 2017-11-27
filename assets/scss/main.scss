@@ -15,11 +15,47 @@ html, body
 }
 
 a, a:hover, a:focus, a:visited {
-  color: #000;
+  text-decoration: none;
+  color: $primary-color-dark;
+  font-weight: 500;
 }
 
 strong {
   font-weight: 500;
+}
+
+table {
+  width: 100%;
+
+  th {
+    text-align: left;
+    padding: 0.75rem;
+    font-weight: 500;
+    color: $darker;
+    border: 1px solid $light;
+    vertical-align: middle;
+  }
+
+  td {
+    padding: 1rem 0.75rem;
+    color: $darker;
+    border: 1px solid $light;
+    background: $white;
+    vertical-align: middle;
+  }
+}
+
+input[type=text] {
+  @extend .radius-small;
+  -webkit-appearance: none;
+  border: 3px solid $light;
+  color: $darkest;
+  height: 48px;
+  line-height: 1;
+  outline: none;
+  padding: 0 1rem;
+  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+  width: 100%;
 }
 
 .d-block {
@@ -51,36 +87,26 @@ strong {
 .wrapper {
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
+  height: 100vh;
 }
 
 .content {
   display: flex;
   flex: 1;
-
-  overflow-y: scroll;
-}
-
-.columns {
-  display: flex;
-  flex: 1;
-  padding-top: 3rem;
 }
 
 .main {
   flex: 1;
   order: 2;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  overflow-y: scroll;
 
 }
 
 .menu {
-  width: 15vw;
+  width: 200px;
   order: 1;
-}
-
-.sidebar {
-  width: 25vw;
-  order: 3;
 }
