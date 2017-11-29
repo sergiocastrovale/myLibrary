@@ -10,7 +10,7 @@ export default class Author extends Model {
     return {
       books: {
         relation: Model.ManyToManyRelation,
-        modelClass: path.join(__dirname, 'book'),
+        modelClass: require('./book').default,
         join: {
           from: 'authors.id',
           through: {
