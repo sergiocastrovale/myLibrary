@@ -20,18 +20,18 @@ export default class Book extends Model {
             to: 'tag_book.tag_id'
           },
           to: 'tags.id'
-        },
-        authors: {
-          relation: Model.ManyToManyRelation,
-          modelClass: require('./author').default,
-          join: {
-            from: 'books.id',
-            through: {
-              from: 'author_book.book_id',
-              to: 'author_book.author_id'
-            },
-            to: 'authors.id'
-          }
+        }
+      },
+      authors: {
+        relation: Model.ManyToManyRelation,
+        modelClass: require('./author').default,
+        join: {
+          from: 'books.id',
+          through: {
+            from: 'author_book.book_id',
+            to: 'author_book.author_id'
+          },
+          to: 'authors.id'
         }
       }
     }
