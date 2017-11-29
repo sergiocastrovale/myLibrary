@@ -1,21 +1,23 @@
+import path from 'path'
 import { Model } from 'objection'
-import Book from './book'
 
 export default class Tag extends Model {
-  static tableName = 'tags'
+  static get tableName () {
+    return 'tags'
+  }
 
-  static relationMappings () {
+  static get relationMappings () {
     return {
       books: {
         relation: Model.ManyToManyRelation,
-        modelClass: Book,
+        modelClass: path.join(__dirname, 'Book'),
         join: {
-          from: 'Tag.id',
+          from: 'tags.id',
           through: {
-            from: 'tags_books.tag_id',
-            to: 'tags_books.book_id'
+            from: 'tag_book.tag_id',
+            to: 'tag_book.book_id'
           },
-          to: 'Book.id'
+          to: 'books.id'
         }
       }
     }

@@ -1,18 +1,18 @@
 import { Model } from 'objection'
-import Author from './author'
-import Tag from './tag'
+import path from 'path'
 import request from 'request'
 import fs from 'fs'
-import path from 'path'
 
 export default class Book extends Model {
-  static tableName = 'books'
+  static get tableName () {
+    return 'books'
+  }
 
-  static relationMappings () {
+  static get relationMappings () {
     return {
       tags: {
         relation: Model.ManyToManyRelation,
-        modelClass: Tag,
+        modelClass: path.join(__dirname, 'Tag'),
         join: {
           from: 'books.id',
           through: {
@@ -23,7 +23,7 @@ export default class Book extends Model {
         },
         authors: {
           relation: Model.ManyToManyRelation,
-          modelClass: Author,
+          modelClass: path.join(__dirname, 'Author'),
           join: {
             from: 'books.id',
             through: {
@@ -38,16 +38,13 @@ export default class Book extends Model {
   }
 
   static retrieveISBN (data, type) {
-    const isbn = data.find(i => i.type === 'ISBN_' + type)
+    let isbn = ''
+
+    if (data) {
+      isbn = data.find(i => i.type === 'ISBN_' + type)
+    }
 
     return (isbn && isbn.identifier !== undefined) ? isbn.identifier : ''
-  }
-
-  // Auxiliary function that checks if given tags exist on
-  // the database and processes them otherwise
-
-  static dealWithTags (tags) {
-
   }
 
   // Auxiliary function that creates a writing stream so we can
@@ -60,14 +57,16 @@ export default class Book extends Model {
       } else {
         let stream = request(uri)
 
-        stream.pipe(fs.createWriteStream(file)
-          .on('error', function (err) {
-            callback(err, file)
-            stream.read()
+        if (stream) {
+          stream.pipe(fs.createWriteStream(file)
+            .on('error', function (err) {
+              callback(err, file)
+              stream.read()
+            })
+          ).on('close', function () {
+            callback(null, file)
           })
-        ).on('close', function () {
-          callback(null, file)
-        })
+        }
       }
     })
   }
