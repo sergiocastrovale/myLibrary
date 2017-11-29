@@ -1,10 +1,15 @@
 <template>
-  <div class="menu bg-primary-light">
+  <div class="menu">
     <app-header></app-header>
 
     <ul>
-      <nuxt-link tag="li" to="/"><a>Library</a></nuxt-link>
-      <nuxt-link tag="li" to="/books/create"><a>Add books</a></nuxt-link>
+      <nuxt-link tag="li" to="/" exact>
+        <a><i class="fa fa-book" aria-hidden="true"></i> <span>Library</span></a>
+      </nuxt-link>
+
+      <nuxt-link tag="li" to="/books/create" exact>
+        <a><i class="fa fa-plus-square" aria-hidden="true"></i> <span>Add books</span></a>
+      </nuxt-link>
     </ul>
 
     <app-footer></app-footer>
@@ -22,3 +27,10 @@
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  a > span {
+    display: inline-block;
+    margin-left: 8px;
+  }
+</style>

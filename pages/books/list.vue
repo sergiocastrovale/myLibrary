@@ -29,6 +29,8 @@
         </td>
 
         <td>{{ book.collection }}</td>
+
+        <td>Download</td>
       </tr>
       </tbody>
     </table>
@@ -51,7 +53,8 @@
           { id: 3, label: 'Pages' },
           { id: 4, label: 'ISBN-13' },
           { id: 5, label: 'Publisher' },
-          { id: 6, label: 'Collection' }
+          { id: 6, label: 'Collection' },
+          { id: 7, label: 'Actions' }
         ]
       }
     },

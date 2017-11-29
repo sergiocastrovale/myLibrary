@@ -18,7 +18,7 @@ export default {
   },
   head () {
     return {
-      title: 'Books'
+      title: 'myLibrary - My Books'
     }
   },
   components: {

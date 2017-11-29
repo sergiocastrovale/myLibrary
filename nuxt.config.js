@@ -4,7 +4,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'starter',
+    title: 'myLibrary',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -19,7 +19,10 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['@/assets/scss/main.scss'],
+  css: [
+    '@/assets/scss/main.scss',
+    '@/assets/scss/fa/font-awesome.scss'
+  ],
 
   /*
   ** Add axios globally
