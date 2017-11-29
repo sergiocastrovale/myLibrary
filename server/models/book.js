@@ -12,7 +12,7 @@ export default class Book extends Model {
     return {
       tags: {
         relation: Model.ManyToManyRelation,
-        modelClass: path.join(__dirname, 'Tag'),
+        modelClass: path.join(__dirname, 'tag'),
         join: {
           from: 'books.id',
           through: {
@@ -23,7 +23,7 @@ export default class Book extends Model {
         },
         authors: {
           relation: Model.ManyToManyRelation,
-          modelClass: path.join(__dirname, 'Author'),
+          modelClass: path.join(__dirname, 'author'),
           join: {
             from: 'books.id',
             through: {

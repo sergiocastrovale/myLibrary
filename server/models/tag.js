@@ -10,7 +10,7 @@ export default class Tag extends Model {
     return {
       books: {
         relation: Model.ManyToManyRelation,
-        modelClass: path.join(__dirname, 'Book'),
+        modelClass: path.join(__dirname, 'book'),
         join: {
           from: 'tags.id',
           through: {
