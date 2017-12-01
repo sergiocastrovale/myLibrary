@@ -1,11 +1,13 @@
 import Book from '../models/book'
+import Author from '../models/author'
+import Tag from '../models/tag'
 import path from 'path'
 
 const bookController = {}
 
 bookController.get = (req, res) => {
   return Book.query()
-    // .eager('[authors, tags]')
+    .eager('authors')
     .orderBy('title')
     .then(books => {
       res.status(200).json(books)
@@ -28,13 +30,11 @@ bookController.doCreate = (req, res) => {
       if (response.length === 0) {
         const uri = data.volumeInfo.imageLinks.thumbnail
         const file = path.join(__dirname, '../../static/uploads/books/' + data.id + '.jpg')
+        const intro = (data.searchInfo && data.searchInfo.textSnippet) ? data.searchInfo.textSnippet : ''
 
-        // Downloads the book cover to the specified path with the Google API's id
-        // for a name.
+        // Download the book cover using the Google API's id as name
 
         Book.downloadImage(uri, file, () => {})
-
-        // let list = this.dealWithTags(data.volumeInfo.categories)
 
         Book.query().insert({
           title: vol.title,
@@ -42,20 +42,61 @@ bookController.doCreate = (req, res) => {
           isbn10: Book.retrieveISBN(vol.industryIdentifiers, '10'),
           isbn13: Book.retrieveISBN(vol.industryIdentifiers, '13'),
           googleId: data.id,
-          intro: data.searchInfo.textSnippet,
+          intro: intro,
           description: vol.description,
           pageCount: vol.pageCount,
           publisher: vol.publisher,
           publishedDate: vol.publishedDate
         }).then(book => {
-          // Insert authors
+          // Insert authors and associate them with the new book.
+          // If the author already exists, we'll just "relate it" with the book.
 
           vol.authors.forEach(author => {
-            book
-              .$relatedQuery('authors')
-              .insert({ name: author })
-              .then(author => {
-                console.log(author)
+            Author.query()
+              .where('name', '=', author)
+              .first()
+              .then(foundAuthor => {
+                if (foundAuthor) {
+                  book.$relatedQuery('authors').relate(foundAuthor.id)
+                } else {
+                  book
+                    .$relatedQuery('authors')
+                    .insert({ name: author })
+                    .then(addedAuthor => {
+                      console.log('Added ', addedAuthor)
+                    })
+                    .catch(error => {
+                      res.status(500).json(error.message)
+                    })
+                }
+              }).catch(error => {
+                res.status(500).json(error.message)
+              })
+          })
+
+          // Insert tags (categories from google books) and associate them with the new book.
+          // If the tag already exists, we'll just "relate it" with the book.
+
+          vol.categories.forEach(tag => {
+            Tag.query()
+              .where('name', '=', tag)
+              .first()
+              .then(foundTag => {
+                if (foundTag) {
+                  book.$relatedQuery('tags').relate(foundTag.id)
+                } else {
+                  book
+                    .$relatedQuery('tags')
+                    .insert({ name: tag })
+                    .then(addedTag => {
+                      console.log('Added ', addedTag)
+                    })
+                    .catch(error => {
+                      res.status(500).json(error.message)
+                    })
+                }
+              }).catch(error => {
+                res.status(500).json(error.message)
               })
           })
 
@@ -69,6 +110,18 @@ bookController.doCreate = (req, res) => {
       } else {
         res.status(200).json('You already have this book in your library! Skipping ...')
       }
+    })
+}
+
+bookController.doUpdateFile = (req, res) => {
+  console.log(req.body)
+  Book.query()
+    .patch({ file: req.body.file })
+    .where('id', '=', req.body.id)
+    .then(updatedBook => {
+      res.status(200).json(updatedBook)
+    }).catch(error => {
+      res.status(500).json(error.message)
     })
 }
 

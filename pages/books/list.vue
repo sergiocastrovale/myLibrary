@@ -17,20 +17,24 @@
         <td>
           {{ book.title }}
           <div class="fs-small">{{ book.subtitle }}</div>
+          <div class="fs-small">ISBN-13: {{ book.isbn13 }}</div>
         </td>
 
-        <td>{{ book.authors }}</td>
+        <td>
+          <span v-for="(author, index) in book.authors" :key="author.id">
+            {{ author.name }}<span v-if="index < book.authors.length - 1">, </span>
+          </span>
+        </td>
         <td>{{ book.pageCount }}</td>
-        <td>{{ book.isbn13 }}</td>
 
         <td>
           {{ book.publisher }}
           <div class="fs-small">Published in {{ book.publishedDate }}</div>
         </td>
 
-        <td>{{ book.collection }}</td>
-
-        <td>Download</td>
+        <td>
+          <book-file :book="book"></book-file>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -39,6 +43,7 @@
 
 <script>
   import Search from './search'
+  import BookFile from './file'
 
   export default {
     props: {
@@ -51,15 +56,14 @@
           { id: 1, label: 'Title' },
           { id: 2, label: 'Authors' },
           { id: 3, label: 'Pages' },
-          { id: 4, label: 'ISBN-13' },
           { id: 5, label: 'Publisher' },
-          { id: 6, label: 'Collection' },
-          { id: 7, label: 'Actions' }
+          { id: 6, label: 'File' }
         ]
       }
     },
     components: {
-      Search
+      Search,
+      BookFile
     }
   }
 </script>

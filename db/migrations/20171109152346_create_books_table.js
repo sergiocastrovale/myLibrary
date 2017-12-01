@@ -18,7 +18,7 @@ exports.up = (knex, Promise) => {
     table.integer('tag_id').unsigned().references('id').inTable('tags').onDelete('cascade')
     table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
   }).createTable('author_book', (table) => {
-    table.integer('author_id').unsigned().references('id').inTable('tags').onDelete('cascade')
+    table.integer('author_id').unsigned().references('id').inTable('authors').onDelete('cascade')
     table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
   })
 }

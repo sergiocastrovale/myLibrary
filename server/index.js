@@ -21,6 +21,7 @@ app.set('port', port)
 
 // Load express bodyParser
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // Bind all Models to a knex instance
 Model.knex(knex)

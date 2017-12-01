@@ -1,5 +1,3 @@
-import path from 'path'
-
 module.exports = {
   development: {
     client: 'mysql',
@@ -10,10 +8,10 @@ module.exports = {
       database: 'mylibrary'
     },
     migrations: {
-      directory: path.join(__dirname, '/db/migrations')
+      directory: __dirname + '/db/migrations'
     },
     seeds: {
-      directory: path.join(__dirname, '/db/seeds')
+      directory: __dirname + '/db/seeds'
     },
     useNullAsDefault: true
   }

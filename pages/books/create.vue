@@ -44,7 +44,7 @@ export default {
   data () {
     return {
       loading: false,
-      query: 'fahrenheit',
+      query: 'music history',
       searchResults: null
     }
   },

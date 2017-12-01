@@ -60,5 +60,7 @@ module.exports = {
   modules: [
   ],
 
-  plugins: []
+  plugins: [
+    './plugins/truncate'
+  ]
 }
