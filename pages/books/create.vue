@@ -1,5 +1,12 @@
 <template>
   <div class="p-3">
+    <div class="mb-3">
+      <nuxt-link to="/books/add" exact>
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+        <span>Manually add a book</span>
+      </nuxt-link>
+    </div>
+
     <form @submit.prevent.stop="search">
       <input type="text" v-model="query" placeholder="Enter something..."></input>
     </form>

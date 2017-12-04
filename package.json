@@ -30,6 +30,7 @@
     "passport-google-plus-token": "^2.1.0",
     "request": "^2.83.0",
     "source-map-support": "^0.4.15",
+    "vue-json-schema": "^1.1.0",
     "vue-moment": "^2.1.0",
     "vue-truncate-filter": "^1.1.7"
   },

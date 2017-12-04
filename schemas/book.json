@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Book",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 400,
+      "attrs": {
+        "placeholder": "Title of the book"
+      }
+    },
+    "subtitle": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 400,
+      "attrs": {
+        "placeholder": "Subtitle of the book (optional)"
+      }
+    },
+    "publisher": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 180,
+      "attrs": {
+        "placeholder": "Publisher (optional)"
+      }
+    },
+    "intro": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 280,
+      "attrs": {
+        "placeholder": "Intro text (optional)"
+      }
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 2048,
+      "attrs": {
+        "placeholder": "Description (optional)"
+      }
+    },
+    "authors": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 1024,
+      "attrs": {
+        "placeholder": "Authors (separated by comma, e.g. John Smith, Ann Smith) (optional)"
+      }
+    },
+    "publishedDate": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 120,
+      "attrs": {
+        "placeholder": "Date (YYYY-MM-DD) (optional)"
+      }
+    },
+    "isbn10": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 10,
+      "attrs": {
+        "placeholder": "ISBN-10 (optional)"
+      }
+    },
+    "isbn13": {
+      "type": "string",
+      "minLength": 13,
+      "maxLength": 13,
+      "attrs": {
+        "placeholder": "ISBN-13"
+      }
+    },
+    "pageCount": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 6,
+      "attrs": {
+        "placeholder": "No. of pages (optional)"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["title"]
+}

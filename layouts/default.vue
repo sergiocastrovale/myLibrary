@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="inside">
     <section class="content">
       <app-menu></app-menu>
 

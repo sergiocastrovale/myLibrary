@@ -11,7 +11,10 @@
       <tbody>
       <tr v-for="book in books" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
         <td>
-          <img class="cover" :src="'/uploads/books/' + book.googleId + '.jpg'" />
+          <div class="cover">
+            <img v-if="book.googleId" :src="'/uploads/books/' + book.googleId + '.jpg'" />
+            <div v-else class="blank bg-light border-medium"></div>
+          </div>
         </td>
 
         <td>
@@ -70,7 +73,27 @@
 
 <style lang="scss" scoped>
   .cover {
-    height: 50px;
-    width: auto;
+    min-height: 50px;
+    position: relative;
+
+    > .blank {
+      height: 50px;
+      width: 34px;
+    }
+
+    > img {
+      height: 50px;
+      width: auto;
+
+      &:hover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        height: auto;
+        width: auto;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25)
+      }
+    }
   }
 </style>

@@ -113,6 +113,38 @@ bookController.doCreate = (req, res) => {
     })
 }
 
+bookController.add = (req, res) => {
+  res.status(200).json('')
+}
+
+bookController.doAdd = (req, res) => {
+  const data = req.body
+  console.log('here', data)
+  Book.query().insert(data)
+    .then(book => {
+      res.status(200).json(data)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
+bookController.edit = (req, res) => {
+  res.status(200).json('')
+}
+
+bookController.doEdit = (req, res) => {
+  const data = req.body
+
+  Book.query()
+    .where('id', '=', data.id)
+    .patch(data)
+    .then(book => {
+      res.status(200).json(book)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
 bookController.doUpdateFile = (req, res) => {
   console.log(req.body)
   Book.query()
