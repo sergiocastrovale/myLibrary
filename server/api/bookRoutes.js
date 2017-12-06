@@ -10,6 +10,7 @@ router.get('/books/edit/:id', bookController.edit)
 router.post('/book/edit', bookController.doEdit)
 router.get('/books/create', bookController.create)
 router.post('/book/create', bookController.doCreate)
+router.post('/book/toggleFavorite', bookController.doAddToFavorites)
 router.post('/book/updateFile', bookController.doUpdateFile)
 
 export default router

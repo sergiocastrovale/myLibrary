@@ -9,8 +9,6 @@
       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
       <input type="file" @change="updateFileName">
     </label>
-
-    <i class="fa fa-download" aria-hidden="true"></i>
   </div>
 </template>
 

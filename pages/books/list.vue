@@ -38,6 +38,16 @@
         <td>
           <book-file :book="book"></book-file>
         </td>
+
+        <td class="text-center">
+          <nuxt-link :to="'/books/edit/' + book.id" exact>
+            <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
+          </nuxt-link>
+
+          <a @click="toggleFavorite(book.id)">
+            <i :class="['fa', 'fa-star', book.isFavorite ? ' favorite' : '']" aria-hidden="true" title="Add to favorites"></i>
+          </a>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -45,6 +55,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import Search from './search'
   import BookFile from './file'
 
@@ -60,8 +71,23 @@
           { id: 2, label: 'Authors' },
           { id: 3, label: 'Pages' },
           { id: 5, label: 'Publisher' },
-          { id: 6, label: 'File' }
+          { id: 6, label: 'File' },
+          { id: 7, label: 'Actions' }
         ]
+      }
+    },
+    methods: {
+      async toggleFavorite (id) {
+        let response = await axios.post('/api/book/toggleFavorite', {
+          id: id
+        })
+
+        if (response.status === 200 && response.data) {
+          this.$store.dispatch('updateBooks')
+          console.log('Updated book!', response.data)
+        } else {
+          console.log('Error', response)
+        }
       }
     },
     components: {
