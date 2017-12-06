@@ -103,8 +103,7 @@ $color-list: (
     'medium': $medium,
     'light': $light,
     'lighter': $lighter,
-    'lightest': $lightest,
-    'white': $white
+    'lightest': $lightest
 );
 
 @each $key, $value in $color-list {

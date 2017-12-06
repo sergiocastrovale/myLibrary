@@ -1,20 +1,26 @@
-$darkest: #212121;
-$darker: #616161;
-$dark: #757575;
-$medium: #BDBDBD;
-$light: #E0E0E0;
-$lighter: #EEEEEE;
-$lightest: #f8f8f8;
-$white: #fff;
-$yellow: #ffc400;
+$black: #111;
+$darkest: #3A3A3A;
+$darker: #666;
+$dark: #888;
+$medium: #ABABAB;
+$light: #e0e0e0;
+$lighter: #fafafb;
+$lightest: #fff;
 
-$yes: #68c579;
+$blue: #3F91EB;
+$yellow: #FACE42;
+$green: #68c579;
+$red: #EB423F;
+$orange: #F8B04B;
+$orange-dark: #FA9242;
 
 $primary-color-dark: #4e7897;
 $primary-color: #76a3c7;
 $primary-color-light: #8cb6d8;
 $primary-color-lighter: #bddbf1;
 $primary-color-lightest: #dfedf8;
+
+$heading-color: #565c66;
 
 $base-font-size: 14px;
 $font-size-smallest: 0.6rem;
@@ -27,4 +33,4 @@ $font-size-largest: 1.35rem;
 $font-size-super: 1.45rem;
 $font-size-giant: 1.8rem;
 
-$box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+$box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);

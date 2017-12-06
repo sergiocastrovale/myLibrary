@@ -1,13 +1,11 @@
 <template>
-  <div class="inside">
-    <section class="content">
-      <app-menu></app-menu>
+  <section class="content">
+    <app-menu></app-menu>
 
-      <main class="main">
-        <nuxt></nuxt>
-      </main>
-    </section>
-  </div>
+    <main class="main">
+      <nuxt></nuxt>
+    </main>
+  </section>
 </template>
 
 <script>

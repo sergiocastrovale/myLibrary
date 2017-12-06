@@ -1,5 +1,5 @@
 <template>
-  <footer class="primary-lighter text-center fs-small">
+  <footer class="light text-center fs-small">
       Developed with <span>❤</span>️ by <a href="http://sergiocastro.me">Sérgio Castro</a> using Nuxt, Express and Objection.
   </footer>
 </template>

@@ -37,19 +37,19 @@ table {
 
   th {
     text-align: left;
-    padding: 0.75rem;
+    padding: 1.25rem 1rem;
     font-weight: 500;
-    color: $darker;
-    background: $white;
+    background: $lightest;
     border: 1px solid $light;
     vertical-align: middle;
+    color: $heading-color;
   }
 
   td {
-    padding: 1rem 0.75rem;
+    padding: 0.75rem 1rem;
     color: $darker;
     border: 1px solid $light;
-    background: $white;
+    background: $lightest;
     vertical-align: middle;
   }
 }
@@ -102,55 +102,60 @@ input[type=text] {
 	padding: 10px;
 }
 
-.inside {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
 .content {
   display: flex;
-  flex: 1;
+  height: 100vh;
+
+  .main {
+    flex: 1;
+    order: 2;
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+
+      .search {
+        padding: 1rem 2rem;
+        background: $lightest;
+        border-bottom: 1px solid $light;
+
+        input[type=text] {
+          border: 0;
+          background: transparent;
+          font-size: $font-size-larger;
+        }
+      }
+
+      .inside {
+        padding: 2rem;
+        background: $lighter;
+        overflow-y: auto;
+        flex: 1;
+      }
+    }
+  }
 }
 
-.main {
-  flex: 1;
-  order: 2;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 4rem;
-  padding-right: 4rem;
-  overflow-y: scroll;
-
-}
 
 .menu {
   position: relative;
   width: 200px;
   order: 1;
-  border-right: 1px solid $light;
+  background: $darkest;
 
   > ul {
-
     > li {
-      border-left: 5px solid transparent;
-      border-bottom: 1px solid $light;
-
-      &:first-child {
-        border-top: 1px solid $light;
-      }
-
-      &:hover:not(.nuxt-link-active) {
-        border-left-color: $primary-color-dark;
-      }
+      text-transform: uppercase;
 
       &.nuxt-link-active {
-        background: $light;
+        background: $black;
       }
 
       > a {
+        color: $lightest;
         display: block;
-        padding: 1.5rem;
+        padding: 2rem 1.5rem;
       }
     }
   }

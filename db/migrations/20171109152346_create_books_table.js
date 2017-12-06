@@ -13,7 +13,7 @@ exports.up = (knex, Promise) => {
     table.text('notes')
     table.integer('pageCount')
     table.string('file')
-    table.boolean('isFavorite')
+    table.boolean('isFavorite').defaultTo(false)
     table.timestamps(false, true)
   }).createTable('tag_book', function (table) {
     table.integer('tag_id').unsigned().references('id').inTable('tags').onDelete('cascade')

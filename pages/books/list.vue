@@ -1,56 +1,58 @@
 <template>
-  <div class="list">
+  <div class="wrapper">
     <search></search>
 
-    <table v-if="books">
-      <thead>
-        <tr>
-          <th v-for="header in headers" :key="header.id">{{ header.label }}</th>
+    <div class="inside">
+      <table v-if="books">
+        <thead>
+          <tr>
+            <th v-for="header in headers" :key="header.id">{{ header.label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr v-for="book in books" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
+          <td>
+            <div class="cover">
+              <img v-if="book.googleId" :src="'/uploads/books/' + book.googleId + '.jpg'" />
+              <div v-else class="blank bg-light border-medium"></div>
+            </div>
+          </td>
+
+          <td>
+            {{ book.title }}
+            <div class="fs-small">{{ book.subtitle }}</div>
+            <div class="fs-small">ISBN-13: {{ book.isbn13 }}</div>
+          </td>
+
+          <td>
+            <span v-for="(author, index) in book.authors" :key="author.id">
+              {{ author.name }}<span v-if="index < book.authors.length - 1">, </span>
+            </span>
+          </td>
+          <td>{{ book.pageCount }}</td>
+
+          <td>
+            {{ book.publisher }}
+            <div class="fs-small">Published in {{ book.publishedDate }}</div>
+          </td>
+
+          <td>
+            <book-file :book="book"></book-file>
+          </td>
+
+          <td class="text-center fs-larger">
+            <nuxt-link :to="'/books/edit/' + book.id" exact>
+              <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
+            </nuxt-link>
+
+            <a @click="toggleFavorite(book.id)">
+              <i :class="['fa', 'fa-star', book.isFavorite ? ' favorite' : '']" aria-hidden="true" title="Add to favorites"></i>
+            </a>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-      <tr v-for="book in books" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
-        <td>
-          <div class="cover">
-            <img v-if="book.googleId" :src="'/uploads/books/' + book.googleId + '.jpg'" />
-            <div v-else class="blank bg-light border-medium"></div>
-          </div>
-        </td>
-
-        <td>
-          {{ book.title }}
-          <div class="fs-small">{{ book.subtitle }}</div>
-          <div class="fs-small">ISBN-13: {{ book.isbn13 }}</div>
-        </td>
-
-        <td>
-          <span v-for="(author, index) in book.authors" :key="author.id">
-            {{ author.name }}<span v-if="index < book.authors.length - 1">, </span>
-          </span>
-        </td>
-        <td>{{ book.pageCount }}</td>
-
-        <td>
-          {{ book.publisher }}
-          <div class="fs-small">Published in {{ book.publishedDate }}</div>
-        </td>
-
-        <td>
-          <book-file :book="book"></book-file>
-        </td>
-
-        <td class="text-center">
-          <nuxt-link :to="'/books/edit/' + book.id" exact>
-            <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
-          </nuxt-link>
-
-          <a @click="toggleFavorite(book.id)">
-            <i :class="['fa', 'fa-star', book.isFavorite ? ' favorite' : '']" aria-hidden="true" title="Add to favorites"></i>
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

@@ -112,12 +112,12 @@ export default {
     color: $dark;
 
     &:hover {
-      background: $yes;
-      color: $white;
+      background: $green;
+      color: $lightest;
       cursor: pointer;
       border-top-left-radius: 4px;
       border-bottom-left-radius: 4px;
-      border-right-color: $yes;
+      border-right-color: $green;
     }
   }
 </style>

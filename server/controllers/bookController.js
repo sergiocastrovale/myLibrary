@@ -152,10 +152,8 @@ bookController.doEdit = (req, res) => {
 }
 
 bookController.doAddToFavorites = (req, res) => {
-  const id = req.body.id
-
   Book.query()
-    .patchAndFetchById(id, { isFavorite: Book.raw('NOT ??', ['isFavorite']) })
+    .patchAndFetchById(req.body.id, { isFavorite: Book.raw('NOT ??', ['isFavorite']) })
     .then(book => {
       res.status(200).json(book)
     }).catch(error => {
@@ -164,10 +162,8 @@ bookController.doAddToFavorites = (req, res) => {
 }
 
 bookController.doUpdateFile = (req, res) => {
-  console.log(req.body)
   Book.query()
-    .patch({ file: req.body.file })
-    .where('id', '=', req.body.id)
+    .patchAndFetchById(req.body.id, { file: req.body.file })
     .then(updatedBook => {
       res.status(200).json(updatedBook)
     }).catch(error => {
