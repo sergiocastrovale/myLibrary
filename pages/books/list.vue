@@ -6,11 +6,15 @@
       <table v-if="books">
         <thead>
           <tr>
-            <th v-for="header in headers" :key="header.id">{{ header.label }}</th>
+            <th v-for="header in headers" :key="header.id">
+              {{ header.label }}
+              <a @click="sortBooks(header.label, 'asc')"><i class="fa fa-sort-up" aria-hidden="true"></i></a>
+              <a @click="sortBooks(header.label, 'desc')"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+            </th>
           </tr>
         </thead>
         <tbody>
-        <tr v-for="book in books" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
+        <tr v-for="book in sortedBooks" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
           <td>
             <div class="cover">
               <img v-if="book.googleId" :src="'/uploads/books/' + book.googleId + '.jpg'" />
@@ -60,6 +64,7 @@
   import axios from 'axios'
   import Search from './search'
   import BookFile from './file'
+  import { orderBy } from 'lodash'
 
   export default {
     props: {
@@ -75,8 +80,12 @@
           { id: 5, label: 'Publisher' },
           { id: 6, label: 'File' },
           { id: 7, label: 'Actions' }
-        ]
+        ],
+        sortedBooks: null
       }
+    },
+    created: function () {
+      this.sortedBooks = this.books
     },
     methods: {
       async toggleFavorite (id) {
@@ -90,6 +99,12 @@
         } else {
           console.log('Error', response)
         }
+      },
+      sortBooks (property, value) {
+        property = property.toLowerCase() // To ignore the upper case
+        console.log(property, value)
+        this.sortedBooks = orderBy(this.books, property, value)
+        console.log(this.sortedBooks)
       }
     },
     components: {
