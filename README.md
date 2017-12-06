@@ -10,6 +10,8 @@ something I actually needed, so I'm continuously updating things and adding new 
 * Knex
 * Objection.js
 * Ava E2E test suite
+* Google Books API
+* MySQL
 * Backpack to watch and build the application, so you can use the latest ES6 features (module syntax, async/await, etc.)
 
 ## How to install
