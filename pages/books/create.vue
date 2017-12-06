@@ -17,85 +17,92 @@
     </div>
 
     <div class="inside">
-      <ul v-if="results" class="list">
-        <li v-for="(book, index) in results" :key="index">
-          <div class="add fs-largest p-3" @click="create(book)" title="Add to your collection">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-          </div>
+      <component v-if="loading" :is="loader"></component>
+      <div v-else>
+        <component v-if="adding" :is="loader"></component>
 
-          <div class="d-flex p-3">
-            <div class="cover bg-lighter border-light mr-3">
-              <img v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail">
-            </div>
+        <div v-else>
+          <ul v-if="results" class="list">
+            <li v-for="(book, index) in results" :key="index">
+              <div class="add fs-largest p-3" @click="create(book)" title="Add to your collection">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </div>
 
-            <div class="details">
-              <h3>{{ book.volumeInfo.title }}</h3>
+              <div class="d-flex p-3">
+                <div class="cover bg-lighter border-light mr-3">
+                  <img v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail">
+                </div>
 
-              <ul class="fs-small">
-                <li v-if="book.volumeInfo.authors" class="mb-1">by {{ book.volumeInfo.authors.join(', ') }}</li>
-                <li>
-                  <span v-if="book.volumeInfo.publishedDate">Published in {{ book.volumeInfo.publishedDate }} | </span>
-                  <span v-if="book.volumeInfo.pageCount > 0">{{ book.volumeInfo.pageCount }} pages</span>
-                </li>
-                <li>
-                  <span v-for="identifier in book.volumeInfo.industryIdentifiers" :key="identifier.type">
-                    {{ identifier.type }}: {{ identifier.identifier }}
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
-      </ul>
+                <div class="details">
+                  <h3>{{ book.volumeInfo.title }}</h3>
+
+                  <ul class="fs-small">
+                    <li v-if="book.volumeInfo.authors" class="mb-1">by {{ book.volumeInfo.authors.join(', ') }}</li>
+                    <li>
+                      <span v-if="book.volumeInfo.publishedDate">Published in {{ book.volumeInfo.publishedDate }} | </span>
+                      <span v-if="book.volumeInfo.pageCount > 0">{{ book.volumeInfo.pageCount }} pages</span>
+                    </li>
+                    <li>
+                      <span v-for="identifier in book.volumeInfo.industryIdentifiers" :key="identifier.type">
+                        {{ identifier.type }}: {{ identifier.identifier }}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from '~/plugins/axios'
+  import axios from '~/plugins/axios'
+  import Dots from '~/components/dots'
 
-export default {
-  data () {
-    return {
+  export default {
+    data: () => ({
+      loader: 'dots',
       loading: false,
+      adding: false,
       query: 'music history',
-      searchResults: null
-    }
-  },
-  async fetch ({ store }) {
-    await store.dispatch('updateBooks')
-  },
-  computed: {
-    results () {
-      return this.searchResults ? this.searchResults.items : null
-    }
-  },
-  methods: {
-    async search () {
-      const res = await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + this.query + '&maxResults=40')
+      results: null
+    }),
+    async fetch ({ store }) {
+      await store.dispatch('updateBooks')
+    },
+    methods: {
+      async search () {
+        let response = null
 
-      this.loading = true
+        this.loading = true
 
-      if (res.data !== undefined) {
-        this.searchResults = res.data
-        this.loading = false
+        response = await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + this.query + '&maxResults=40')
+
+        if (response.data && response.data.items !== undefined) {
+          this.results = response.data.items
+          this.loading = false
+        }
+      },
+      async create (book) {
+        let response = null
+
+        this.adding = true
+
+        response = await axios.post('/api/book/create', book)
+
+        if (response.data) {
+          this.$store.dispatch('updateBooks')
+          this.adding = false
+        }
       }
     },
-    async create (book) {
-      this.loading = true
-
-      axios.post('/api/book/create', book)
-        .then((response) => {
-          this.$store.dispatch('updateBooks')
-          this.loading = false
-        })
-        .catch((error) => {
-          console.log(error)
-          this.loading = false
-        })
+    components: {
+      Dots
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
