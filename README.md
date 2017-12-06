@@ -1,8 +1,20 @@
-# mylibrary
+# myLibrary: A playground turned actually useful app
 
-> A place where we can store our eBooks.
+This project started out as a playground to improve my knowledge on some technologies. As it grew, I found out that keeping track of my eBook collection and wishlist is
+something I actually needed, so I'm continuously updating things and adding new features as I see fit.
 
-## Build Setup
+## Tech stack
+
+* Node.js + Express
+* Vue.js + Nuxt
+* Knex
+* Objection.js
+* Ava E2E test suite
+* Google Books API
+* MySQL
+* Backpack to watch and build the application, so you can use the latest ES6 features (module syntax, async/await, etc.)
+
+## How to install
 
 ``` bash
 # install dependencies
@@ -14,9 +26,3 @@ $ npm run dev
 # build for production and launch server
 $ npm start
 ```
-
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
-
-## Backpack
-
-We use [backpack](https://github.com/palmerhq/backpack) to watch and build the application, so you can use the latest ES6 features (module syntax, async/await, etc.).
