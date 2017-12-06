@@ -14,10 +14,42 @@ html, body
   overflow: hidden;
 }
 
+::-webkit-input-placeholder {
+  color: $medium;
+}
+
+:-moz-placeholder {
+  color: $medium;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  color: $medium;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: $medium;
+}
+
+::-ms-input-placeholder {
+  color: $medium;
+}
+
+::placeholder {
+  color: $medium;
+}
+
 a, a:hover, a:focus, a:visited {
   text-decoration: none;
   color: $primary-color-dark;
   font-weight: 500;
+}
+
+h2 {
+  font-size: $font-size-largest;
+  font-weight: 400;
+  margin: 1rem 0;
 }
 
 h3 {
@@ -25,6 +57,12 @@ h3 {
   color: $primary-color-dark;
   margin: 0 0 5px;
   font-weight: 500;
+}
+
+h4 {
+  font-size: $font-size-large;
+  font-weight: 400;
+  margin: 0.5rem 0;
 }
 
 strong {
@@ -54,17 +92,8 @@ table {
   }
 }
 
-input[type=text] {
-  @extend .radius-small;
-  -webkit-appearance: none;
-  border: 3px solid $light;
-  color: $darkest;
-  height: 48px;
-  line-height: 1;
-  outline: none;
-  padding: 0 1rem;
-  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
-  width: 100%;
+.nuxt-progress {
+  background-color: $dark;
 }
 
 .favorite {
@@ -92,16 +121,6 @@ input[type=text] {
   text-align: center;
 }
 
-.loading {
-	position: absolute;
-	top: 0;
-	left: 40%;
-	z-index: 1;
-	background: #999;
-	color: #333;
-	padding: 10px;
-}
-
 .content {
   display: flex;
   height: 100vh;
@@ -120,10 +139,24 @@ input[type=text] {
         background: $lightest;
         border-bottom: 1px solid $light;
 
-        input[type=text] {
-          border: 0;
-          background: transparent;
-          font-size: $font-size-larger;
+        > form {
+          color: $dark;
+          display: flex;
+          align-items: center;
+
+          > .fa {
+            font-size: $font-size-largest;
+          }
+
+          input[type=text] {
+            flex: 1;
+            border: 0;
+            background: transparent;
+            font-size: $font-size-largest;
+            line-height: 48px;
+            margin-left: 0.75rem;
+            color: $dark;
+          }
         }
       }
 
@@ -137,19 +170,18 @@ input[type=text] {
   }
 }
 
-
 .menu {
   position: relative;
   width: 200px;
   order: 1;
-  background: $darkest;
+  background: $darker;
 
   > ul {
     > li {
       text-transform: uppercase;
 
       &.nuxt-link-active {
-        background: $black;
+        background: $darkest;
       }
 
       > a {
@@ -158,5 +190,16 @@ input[type=text] {
         padding: 2rem 1.5rem;
       }
     }
+  }
+}
+
+.list {
+  > li {
+    @extend .d-flex;
+    @extend .bg-lightest;
+    @extend .border-light;
+    @extend .mb-2;
+    @extend .radius-normal;
+    box-shadow: $box-shadow;
   }
 }

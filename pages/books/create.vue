@@ -1,46 +1,53 @@
 <template>
-  <div class="p-3">
-    <div class="mb-3">
-      <nuxt-link to="/books/add" exact>
-        <i class="fa fa-plus-square" aria-hidden="true"></i>
-        <span>Manually add a book</span>
-      </nuxt-link>
+  <div class="wrapper">
+    <div class="search">
+      <h2>Search for a book</h2>
+      <h4>
+        Alternatively, you can
+        <nuxt-link to="/books/add" exact>
+          <span>add your book manually</span>
+        </nuxt-link>
+        too.
+      </h4>
+
+      <form @submit.prevent.stop="search" class="mt-3">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input type="text" v-model="query" placeholder="Enter something..."></input>
+      </form>
     </div>
 
-    <form @submit.prevent.stop="search">
-      <input type="text" v-model="query" placeholder="Enter something..."></input>
-    </form>
-
-    <ul v-if="results" class="results">
-      <li v-for="(book, index) in results" :key="index" class="d-flex border-light bg-white radius-small my-2">
-        <div class="add fs-largest p-3" @click="create(book)" title="Add to your collection">
-          <i class="fa fa-plus-circle" aria-hidden="true"></i>
-        </div>
-
-        <div class="d-flex p-3">
-          <div class="cover bg-lighter border-light mr-3">
-            <img v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail">
+    <div class="inside">
+      <ul v-if="results" class="list">
+        <li v-for="(book, index) in results" :key="index">
+          <div class="add fs-largest p-3" @click="create(book)" title="Add to your collection">
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
           </div>
 
-          <div class="details">
-            <h3>{{ book.volumeInfo.title }}</h3>
+          <div class="d-flex p-3">
+            <div class="cover bg-lighter border-light mr-3">
+              <img v-if="book.volumeInfo.imageLinks" :src="book.volumeInfo.imageLinks.smallThumbnail">
+            </div>
 
-            <ul class="fs-small">
-              <li v-if="book.volumeInfo.authors" class="mb-1">by {{ book.volumeInfo.authors.join(', ') }}</li>
-              <li>
-                <span v-if="book.volumeInfo.publishedDate">Published in {{ book.volumeInfo.publishedDate }} | </span>
-                <span v-if="book.volumeInfo.pageCount > 0">{{ book.volumeInfo.pageCount }} pages</span>
-              </li>
-              <li>
-                <span v-for="identifier in book.volumeInfo.industryIdentifiers" :key="identifier.type">
-                  {{ identifier.type }}: {{ identifier.identifier }}
-                </span>
-              </li>
-            </ul>
+            <div class="details">
+              <h3>{{ book.volumeInfo.title }}</h3>
+
+              <ul class="fs-small">
+                <li v-if="book.volumeInfo.authors" class="mb-1">by {{ book.volumeInfo.authors.join(', ') }}</li>
+                <li>
+                  <span v-if="book.volumeInfo.publishedDate">Published in {{ book.volumeInfo.publishedDate }} | </span>
+                  <span v-if="book.volumeInfo.pageCount > 0">{{ book.volumeInfo.pageCount }} pages</span>
+                </li>
+                <li>
+                  <span v-for="identifier in book.volumeInfo.industryIdentifiers" :key="identifier.type">
+                    {{ identifier.type }}: {{ identifier.identifier }}
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 

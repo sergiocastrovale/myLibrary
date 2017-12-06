@@ -16,6 +16,8 @@ module.exports = {
     ]
   },
 
+  loading: '~/components/loading.vue',
+
   /*
   ** Global CSS
   */

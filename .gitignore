@@ -14,7 +14,7 @@ dist
 build
 
 # uploads folder
-server/uploads
+server/uploads/*
 
 # auth
 oauth.js
