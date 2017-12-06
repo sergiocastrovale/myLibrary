@@ -8,8 +8,16 @@
           <tr>
             <th v-for="header in headers" :key="header.id">
               {{ header.label }}
-              <a @click="sortBooks(header.label, 'asc')"><i class="fa fa-sort-up" aria-hidden="true"></i></a>
-              <a @click="sortBooks(header.label, 'desc')"><i class="fa fa-sort-down" aria-hidden="true"></i></a>
+
+              <span v-if="header.field">
+                <a @click="sortBooks(header.field, 'asc')">
+                  <i class="fa fa-sort-up" aria-hidden="true"></i>
+                </a>
+
+                <a @click="sortBooks(header.field, 'desc')">
+                  <i class="fa fa-sort-down" aria-hidden="true"></i>
+                </a>
+              </span>
             </th>
           </tr>
         </thead>
@@ -74,10 +82,10 @@
       return {
         headers: [
           { id: 0, label: 'Cover' },
-          { id: 1, label: 'Title' },
-          { id: 2, label: 'Authors' },
-          { id: 3, label: 'Pages' },
-          { id: 5, label: 'Publisher' },
+          { id: 1, label: 'Title', field: 'title' },
+          { id: 2, label: 'Authors', field: 'authors' },
+          { id: 3, label: 'Pages', field: 'pageCount' },
+          { id: 5, label: 'Publisher', field: 'publisher' },
           { id: 6, label: 'File' },
           { id: 7, label: 'Actions' }
         ],
@@ -100,10 +108,8 @@
           console.log('Error', response)
         }
       },
-      sortBooks (property, value) {
-        property = property.toLowerCase() // To ignore the upper case
-        console.log(property, value)
-        this.sortedBooks = orderBy(this.books, property, value)
+      sortBooks (field, value) {
+        this.sortedBooks = orderBy(this.books, field, value)
         console.log(this.sortedBooks)
       }
     },
