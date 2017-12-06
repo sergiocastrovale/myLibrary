@@ -193,6 +193,36 @@ table {
   }
 }
 
+.toasted.primary.mylibrary {
+  color: $lightest;
+  box-shadow: $box-shadow;
+  min-height: 54px;
+  line-height: 2rem;
+  padding: 0 1.5rem;
+  font-weight: 400;
+  @extend .radius-normal;
+
+  &.success {
+    background: $green;
+  }
+
+  &.error {
+    background: $red;
+  }
+
+  &.info {
+    background: $blue;
+  }
+
+  > .action {
+    color: $lightest;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
 .list {
   > li {
     @extend .d-flex;

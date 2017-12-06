@@ -63,7 +63,7 @@ bookController.doCreate = (req, res) => {
                     .$relatedQuery('authors')
                     .insert({ name: author })
                     .then(addedAuthor => {
-                      console.log('Added ', addedAuthor)
+
                     })
                     .catch(error => {
                       res.status(500).json(error.message)

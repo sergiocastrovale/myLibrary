@@ -60,9 +60,17 @@ module.exports = {
   },
 
   modules: [
+    '@nuxtjs/toast'
   ],
 
   plugins: [
     './plugins/truncate'
-  ]
+  ],
+
+  toast: {
+    className: 'mylibrary',
+    position: 'bottom-right',
+    duration: 4000,
+    singleton: true
+  }
 }

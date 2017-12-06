@@ -77,25 +77,34 @@
       async search () {
         let response = null
 
-        this.loading = true
+        try {
+          this.loading = true
 
-        response = await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + this.query + '&maxResults=40')
+          response = await axios.get('https://www.googleapis.com/books/v1/volumes?q=' + this.query + '&maxResults=40')
 
-        if (response.data && response.data.items !== undefined) {
-          this.results = response.data.items
-          this.loading = false
+          if (response.data && response.data.items !== undefined) {
+            this.results = response.data.items
+            this.loading = false
+          }
+        } catch (e) {
+          this.$toast.error('Something happened while searching. Please try again later!')
         }
       },
       async create (book) {
         let response = null
 
-        this.adding = true
+        try {
+          this.adding = true
 
-        response = await axios.post('/api/book/create', book)
+          response = await axios.post('/api/book/create', book)
 
-        if (response.data) {
-          this.$store.dispatch('updateBooks')
-          this.adding = false
+          if (response.data) {
+            this.$store.dispatch('updateBooks')
+            this.adding = false
+            this.$toast.success('Book added to your library!')
+          }
+        } catch (e) {
+          this.$toast.error('Something happened while trying to add your book :( Please try again!')
         }
       }
     },
