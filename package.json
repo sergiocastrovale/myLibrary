@@ -15,7 +15,6 @@
     "@nuxtjs/toast": "^2.3.3",
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
-    "bootstrap": "^4.0.0-alpha.6",
     "cross-env": "^5.0.1",
     "express": "^4.15.3",
     "fs": "0.0.1-security",
@@ -33,6 +32,7 @@
     "source-map-support": "^0.4.15",
     "vue-json-schema": "^1.1.0",
     "vue-moment": "^2.1.0",
+    "vue-paginate": "^3.5.1",
     "vue-truncate-filter": "^1.1.7"
   },
   "devDependencies": {

@@ -15,8 +15,8 @@ bookController.getAll = (req, res) => {
     .eager('authors')
     .orderBy('title')
     .page(params.page, params.limit)
-    .then(books => {
-      res.status(200).json(books.results)
+    .then(results => {
+      res.status(200).json(results)
     }).catch(error => {
       res.status(500).json(error.message)
     })

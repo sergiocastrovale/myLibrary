@@ -64,7 +64,8 @@ module.exports = {
   ],
 
   plugins: [
-    './plugins/truncate'
+    './plugins/truncate',
+    './plugins/paginate'
   ],
 
   toast: {

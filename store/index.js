@@ -8,6 +8,7 @@ const createStore = () => {
       query: '',
       page: 1,
       limit: 5,
+      count: 0,
       selectedBook: null
     },
     actions: {
@@ -18,7 +19,8 @@ const createStore = () => {
         })
 
         if (response.status === 200 && response.data) {
-          commit('updateBooks', response.data)
+          commit('setCount', response.data.total)
+          commit('updateBooks', response.data.results)
         }
       },
       async searchInCollection ({ state, commit }, query) {
@@ -26,7 +28,7 @@ const createStore = () => {
 
         if (response.status === 200 && response.data) {
           commit('setQuery', query)
-          console.log('Updating books with ', response.data)
+          commit('setCount', response.data.length)
           commit('updateBooks', response.data)
         }
       }
@@ -34,6 +36,9 @@ const createStore = () => {
     mutations: {
       setQuery: (state, query) => {
         state.query = query
+      },
+      setCount: (state, count) => {
+        state.count = count
       },
       updateBooks: (state, books) => {
         state.books = books
