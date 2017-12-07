@@ -3,6 +3,10 @@
     <search @reset="reset"></search>
 
     <div class="inside">
+      <div class="fs-small color-dark mb-2">
+        Showing {{ count }} / {{ total }} results
+      </div>
+
       <table v-if="books">
         <thead>
           <tr>
@@ -63,6 +67,8 @@
         </tr>
         </tbody>
       </table>
+
+
     </div>
   </div>
 </template>
@@ -95,6 +101,12 @@
     computed: {
       sortedBooks () {
         return orderBy(this.books, this.sortField, this.sortDirection)
+      },
+      count () {
+        return this.$store.state.limit
+      },
+      total () {
+        return this.$store.state.count
       }
     },
     methods: {
@@ -118,6 +130,9 @@
         this.sortField = 'title'
         this.sortDirection = 'asc'
         this.$store.dispatch('updateBooks')
+      },
+      clickCallback (pageNum) {
+        console.log(pageNum)
       }
     },
     components: {
