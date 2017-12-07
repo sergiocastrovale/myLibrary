@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <search></search>
+    <search @reset="reset"></search>
 
     <div class="inside">
       <table v-if="books">
@@ -89,11 +89,14 @@
           { id: 6, label: 'File' },
           { id: 7, label: 'Actions' }
         ],
-        sortedBooks: null
+        sortField: 'title',
+        sortDirection: 'asc'
       }
     },
-    created: function () {
-      this.sortedBooks = this.books
+    computed: {
+      sortedBooks () {
+        return orderBy(this.books, this.sortField, this.sortDirection)
+      }
     },
     methods: {
       async toggleFavorite (id) {
@@ -108,9 +111,14 @@
           console.log('Error', response)
         }
       },
-      sortBooks (field, value) {
-        this.sortedBooks = orderBy(this.books, field, value)
-        console.log(this.sortedBooks)
+      sortBooks (field, direction) {
+        this.sortField = field
+        this.sortDirection = direction
+      },
+      reset () {
+        this.sortField = 'title'
+        this.sortDirection = 'asc'
+        this.$store.dispatch('updateBooks')
       }
     },
     components: {

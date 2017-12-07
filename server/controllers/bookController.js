@@ -5,15 +5,45 @@ import path from 'path'
 
 const bookController = {}
 
-bookController.get = (req, res) => {
-  return Book.query()
+// Sets the list of books. This is a good example
+// of querying via POST route.
+
+bookController.getAll = (req, res) => {
+  const params = req.body
+
+  Book.query()
     .eager('authors')
     .orderBy('title')
+    .page(params.page, params.limit)
     .then(books => {
-      res.status(200).json(books)
+      res.status(200).json(books.results)
     }).catch(error => {
       res.status(500).json(error.message)
     })
+}
+
+// Searches in your collection of books. This is a good example
+// of querying via GET route.
+
+bookController.searchInCollection = (req, res) => {
+  const query = req.query.query
+
+  if (query !== undefined && query.length > 2) {
+    Book.query()
+      .eager('authors')
+      .orderBy('title')
+      .where('title', 'like', '%' + query + '%')
+      .orWhere('isbn10', 'like', '%' + query + '%')
+      .orWhere('isbn13', 'like', '%' + query + '%')
+      .orWhere('publisher', 'like', '%' + query + '%')
+      .then(books => {
+        res.status(200).json(books)
+      }).catch(error => {
+        res.status(500).json(error.message)
+      })
+  } else {
+    bookController.getAll(req, res)
+  }
 }
 
 bookController.create = (req, res) => {
