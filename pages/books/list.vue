@@ -12,10 +12,10 @@
           <tr>
             <th v-for="header in headers" :key="header.id">
               <span v-if="header.field">
-                <a @click="sortBooks(header.field, sortDirection)">
+                <a class="pointer" @click="sortBooks(header.field)">
                   {{ header.label }}
-                  <i v-if="header.field === sortField" :class="(sortDirection === 'asc') ? 'fa fa-chevron-up' : 'fa fa-chevron-up' " aria-hidden="true"></i>
-                  <div v-else class="blank"></div>
+                  <i v-if="header.field === sortField" :class="(sortDirection === 'asc') ? 'fa fa-chevron-up' : 'fa fa-chevron-down'" aria-hidden="true"></i>
+                  <div v-else class="unsorted"></div>
                 </a>
               </span>
               <span v-else>
@@ -122,9 +122,13 @@
           console.log('Error', response)
         }
       },
-      sortBooks (field, direction) {
-        this.sortField = field
-        this.sortDirection = (direction === 'asc' ? 'desc' : 'asc')
+      sortBooks (field) {
+        if (this.sortField === field) {
+          this.sortDirection = (this.sortDirection === 'asc') ? 'desc' : 'asc'
+        } else {
+          this.sortField = field
+          this.sortDirection = 'asc'
+        }
       },
       reset () {
         this.sortField = 'title'
@@ -167,5 +171,8 @@
       }
     }
   }
-
+  .unsorted {
+    width: 17px;
+    display: inline-block;
+  }
 </style>
