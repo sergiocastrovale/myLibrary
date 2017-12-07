@@ -7,16 +7,15 @@
         <thead>
           <tr>
             <th v-for="header in headers" :key="header.id">
-              {{ header.label }}
-
               <span v-if="header.field">
-                <a @click="sortBooks(header.field, 'asc')">
-                  <i class="fa fa-sort-up" aria-hidden="true"></i>
+                <a @click="sortBooks(header.field, sortDirection)">
+                  {{ header.label }}
+                  <i v-if="header.field === sortField" :class="(sortDirection === 'asc') ? 'fa fa-chevron-up' : 'fa fa-chevron-up' " aria-hidden="true"></i>
+                  <div v-else class="blank"></div>
                 </a>
-
-                <a @click="sortBooks(header.field, 'desc')">
-                  <i class="fa fa-sort-down" aria-hidden="true"></i>
-                </a>
+              </span>
+              <span v-else>
+                {{ header.label }}
               </span>
             </th>
           </tr>
@@ -113,7 +112,7 @@
       },
       sortBooks (field, direction) {
         this.sortField = field
-        this.sortDirection = direction
+        this.sortDirection = (direction === 'asc' ? 'desc' : 'asc')
       },
       reset () {
         this.sortField = 'title'
@@ -153,4 +152,5 @@
       }
     }
   }
+
 </style>
