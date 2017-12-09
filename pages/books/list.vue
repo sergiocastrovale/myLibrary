@@ -10,13 +10,11 @@
       <table v-if="books">
         <thead>
           <tr>
-            <th v-for="header in headers" :key="header.id">
+            <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" class="pointer">
               <span v-if="header.field">
-                <a class="pointer" @click="sortBooks(header.field)">
-                  {{ header.label }}
-                  <i v-if="header.field === sortField" :class="(sortDirection === 'asc') ? 'fa fa-chevron-up' : 'fa fa-chevron-down'" aria-hidden="true"></i>
-                  <div v-else class="unsorted"></div>
-                </a>
+                {{ header.label }}
+                <i v-if="header.field === sortField" :class="['fa', ((sortDirection === 'asc') ? 'fa-chevron-up' : 'fa-chevron-down')]" aria-hidden="true"></i>
+                <div v-else class="unsorted"></div>
               </span>
               <span v-else>
                 {{ header.label }}
@@ -67,8 +65,6 @@
         </tr>
         </tbody>
       </table>
-
-
     </div>
   </div>
 </template>
@@ -103,10 +99,10 @@
         return orderBy(this.books, this.sortField, this.sortDirection)
       },
       count () {
-        return this.$store.state.limit
+        return this.$store.state.books.limit
       },
       total () {
-        return this.$store.state.count
+        return this.$store.state.books.count
       }
     },
     methods: {
@@ -116,7 +112,7 @@
         })
 
         if (response.status === 200 && response.data) {
-          this.$store.dispatch('updateBooks')
+          this.$store.dispatch('books/updateList')
           console.log('Updated book!', response.data)
         } else {
           console.log('Error', response)
@@ -133,7 +129,7 @@
       reset () {
         this.sortField = 'title'
         this.sortDirection = 'asc'
-        this.$store.dispatch('updateBooks')
+        this.$store.dispatch('books/updateList')
       },
       clickCallback (pageNum) {
         console.log(pageNum)

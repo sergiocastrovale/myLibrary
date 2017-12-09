@@ -71,7 +71,7 @@
       results: null
     }),
     async fetch ({ store }) {
-      await store.dispatch('updateBooks')
+      await store.dispatch('books/updateList')
     },
     methods: {
       async search () {
@@ -99,7 +99,7 @@
           response = await axios.post('/api/book/create', book)
 
           if (response.data) {
-            this.$store.dispatch('updateBooks')
+            this.$store.dispatch('books/updateList')
             this.adding = false
             this.$toast.success('Book added to your library!')
           }

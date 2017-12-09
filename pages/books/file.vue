@@ -31,7 +31,7 @@
           })
 
           if (response.status === 200 && response.data) {
-            this.$store.dispatch('updateBooks')
+            this.$store.dispatch('books/updateList')
           }
         }
       }

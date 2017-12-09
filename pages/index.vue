@@ -9,11 +9,11 @@ import BookList from './books/list'
 
 export default {
   async fetch ({ store }) {
-    await store.dispatch('updateBooks')
+    await store.dispatch('books/updateList')
   },
   computed: {
     books () {
-      return this.$store.state.books
+      return this.$store.state.books.list
     }
   },
   head () {

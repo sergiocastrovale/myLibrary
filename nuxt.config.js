@@ -60,6 +60,8 @@ module.exports = {
   },
 
   modules: [
+    '@nuxtjs/auth',
+    '@nuxtjs/axios',
     '@nuxtjs/toast'
   ],
 
@@ -67,6 +69,33 @@ module.exports = {
     './plugins/truncate',
     './plugins/paginate'
   ],
+
+  auth: {
+    user: {
+      endpoint: 'auth/user',
+      propertyName: 'user',
+      resetOnFail: true
+    },
+    login: {
+      endpoint: 'auth/login'
+    },
+    logout: {
+      endpoint: 'auth/logout',
+      method: 'GET'
+    },
+    redirect: {
+      notLoggedIn: '/login',
+      loggedIn: '/'
+    },
+    token: {
+      enabled: true,
+      type: 'Bearer',
+      localStorage: true,
+      name: 'token',
+      cookie: true,
+      cookieName: 'token'
+    }
+  },
 
   toast: {
     className: 'mylibrary',
