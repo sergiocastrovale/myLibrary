@@ -24,7 +24,7 @@
         axios.post('/api/book/add', this.book)
           .then((response) => {
             console.log(response)
-            this.$store.dispatch('updateBooks')
+            this.$store.dispatch('books/updateList')
             this.loading = false
           })
           .catch((error) => {

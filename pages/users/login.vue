@@ -1,9 +1,11 @@
 <template>
   <div class="container">
-    <h1>Please login to see the secret content</h1>
-    <form v-if="!$store.state.authUser" @submit.prevent="login">
+
+    <form v-if="!loggedIn" @submit.prevent="login">
       <p class="error" v-if="formError">{{ formError }}</p>
+
       <p><i>To login, use <b>demo</b> as username and <b>demo</b> as password.</i></p>
+
       <p>Username: <input type="text" v-model="formUsername" name="username" /></p>
       <p>Password: <input type="password" v-model="formPassword" name="password" /></p>
       <button type="submit">Login</button>
@@ -14,6 +16,7 @@
       <p><i>You can also refresh this page, you'll still be connected!</i></p>
       <button @click="logout">Logout</button>
     </div>
+
     <p><nuxt-link to="/user/account">Super secret page</nuxt-link></p>
   </div>
 </template>
@@ -27,10 +30,15 @@ export default {
       formPassword: ''
     }
   },
+  computed: {
+    loggedIn () {
+      return this.$store.state.users.user
+    }
+  },
   methods: {
     async login () {
       try {
-        await this.$store.dispatch('login', {
+        await this.$store.dispatch('users/login', {
           username: this.formUsername,
           password: this.formPassword
         })
@@ -51,13 +59,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.container {
-  padding: 100px;
-}
-
-.error {
-  color: red;
-}
-</style>

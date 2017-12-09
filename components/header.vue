@@ -5,7 +5,10 @@
 
     <ul>
       <li>
-        <a @click="login">Login</a>
+        <a href="/api/auth/google">Sign In with Google</a>
+      </li>
+      <li>
+        <a href="/users/login">Login</a>
       </li>
 
       <li>
@@ -15,25 +18,3 @@
     </div>
   </header>
 </template>
-
-<script>
-  export default {
-    methods: {
-      login () {
-        this.$store.dispatch('login', {
-          fields: {
-            username: 'your_username',
-            password: 'your_password'
-          }
-        })
-      },
-      logout () {
-        this.$store.dispatch('logout')
-      }
-    }
-  }
-</script>
-
-<style>
-
-</style>

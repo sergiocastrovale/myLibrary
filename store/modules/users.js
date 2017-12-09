@@ -7,6 +7,9 @@ const actions = {
   },
   async logout ({ commit }) {
     console.log('logout')
+  },
+  account ({ commit }) {
+    console.log('details')
   }
 }
 

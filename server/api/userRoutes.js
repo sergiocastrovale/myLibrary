@@ -4,7 +4,10 @@ import passport from 'passport'
 
 const router = Router()
 
-router.route('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }))
-router.route('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => { res.redirect('/') })
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), userController.googleCallback)
+router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }), userController.loginWithGoogle)
+router.post('/auth/login', userController.login)
+router.post('/auth/logout', userController.logout)
+router.get('/user/details', userController.details)
 
 export default router

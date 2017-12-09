@@ -72,19 +72,19 @@ module.exports = {
 
   auth: {
     user: {
-      endpoint: 'auth/user',
+      endpoint: 'users/account',
       propertyName: 'user',
       resetOnFail: true
     },
     login: {
-      endpoint: 'auth/login'
+      endpoint: 'users/login'
     },
     logout: {
-      endpoint: 'auth/logout',
+      endpoint: 'users/logout',
       method: 'GET'
     },
     redirect: {
-      notLoggedIn: '/login',
+      notLoggedIn: '/users/login',
       loggedIn: '/'
     },
     token: {
