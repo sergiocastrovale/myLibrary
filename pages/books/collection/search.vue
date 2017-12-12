@@ -1,6 +1,7 @@
 <template>
   <div class="search">
     <form class="bg-lightest" @submit.prevent.stop="">
+      <i class="fa fa-search" aria-hidden="true"></i>
       <input type="text" v-model="query" placeholder="Type to search in your collection..." @keyup="search"></input>
       <div @click="reset">Reset</div>
     </form>
@@ -31,6 +32,7 @@
       },
       reset () {
         this.query = ''
+        this.$store.dispatch('books/updateQuery', this.query)
         this.$emit('filtered', false)
         this.$emit('reset')
       }

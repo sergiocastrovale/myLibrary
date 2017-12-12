@@ -50,9 +50,7 @@
           <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
         </nuxt-link>
 
-        <a @click="toggleFavorite(book.id)">
-          <i :class="['fa', 'fa-star', book.isFavorite ? ' favorite' : '']" aria-hidden="true" title="Add to favorites"></i>
-        </a>
+        <add-to-favorites :book="book"></add-to-favorites>
       </td>
     </tr>
     </tbody>
@@ -60,8 +58,8 @@
 </template>
 
 <script>
+  import AddToFavorites from './addToFavorites'
   import BookFile from './file'
-  import axios from 'axios'
   import { orderBy } from 'lodash'
 
   export default {
@@ -89,18 +87,6 @@
       }
     },
     methods: {
-      async toggleFavorite (id) {
-        let response = await axios.post('/api/book/toggleFavorite', {
-          id: id
-        })
-
-        if (response.status === 200 && response.data) {
-          this.$store.dispatch('books/updateList')
-          console.log('Updated book!', response.data)
-        } else {
-          console.log('Error', response)
-        }
-      },
       sortBooks (field) {
         if (this.sortField === field) {
           this.sortDirection = (this.sortDirection === 'asc') ? 'desc' : 'asc'
@@ -111,7 +97,8 @@
       }
     },
     components: {
-      BookFile
+      BookFile,
+      AddToFavorites
     }
   }
 </script>

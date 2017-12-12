@@ -96,10 +96,6 @@ table {
   background-color: $dark;
 }
 
-.favorite {
-  color: $yellow;
-}
-
 .fa {
   cursor: pointer;
   margin-right: 3px;
@@ -123,6 +119,25 @@ table {
 
 .pointer {
   cursor: pointer;
+}
+
+.form-area {
+  background: $lightest;
+  padding: 2rem;
+  max-width: 650px;
+
+  .row {
+    display: block;
+    margin: 1rem 0;
+  }
+
+  input[type=text] {
+    flex: 1;
+    border: 2px solid $light;
+    background: transparent;
+    font-size: $font-size-large;
+    color: $dark;
+  }
 }
 
 .content {

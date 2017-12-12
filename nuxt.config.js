@@ -8,7 +8,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'Your personal ebook organizer' }
     ],
     link: [
       { rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Roboto:500,400' },
@@ -66,8 +66,7 @@ module.exports = {
   ],
 
   plugins: [
-    './plugins/truncate',
-    './plugins/paginate'
+    './plugins/truncate'
   ],
 
   auth: {

@@ -161,7 +161,7 @@ bookController.doAdd = (req, res) => {
 
 bookController.edit = (req, res) => {
   Book.query()
-    .findById(req.body.id)
+    .findById(req.query.id)
     .then(book => {
       res.status(200).json(book)
     }).catch(error => {
@@ -170,13 +170,15 @@ bookController.edit = (req, res) => {
 }
 
 bookController.doEdit = (req, res) => {
-  const data = req.body
-  const id = data.id
+  const book = req.body.book
 
   Book.query()
-    .patchAndFetchById(id, data)
+    .patchAndFetchById(book.id, book)
     .then(book => {
-      res.status(200).json(book)
+      res.status(200).json({
+        obj: book,
+        message: 'Book saved!'
+      })
     }).catch(error => {
       res.status(500).json(error.message)
     })
@@ -186,7 +188,10 @@ bookController.doAddToFavorites = (req, res) => {
   Book.query()
     .patchAndFetchById(req.body.id, { isFavorite: Book.raw('NOT ??', ['isFavorite']) })
     .then(book => {
-      res.status(200).json(book)
+      res.status(200).json({
+        obj: book,
+        message: book.title + ' was added to your favorites.'
+      })
     }).catch(error => {
       res.status(500).json(error.message)
     })
