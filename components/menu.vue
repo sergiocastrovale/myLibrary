@@ -3,7 +3,7 @@
     <app-header></app-header>
 
     <ul>
-      <nuxt-link tag="li" to="/" exact>
+      <nuxt-link tag="li" to="/books/collection">
         <a><i class="fa fa-book" aria-hidden="true"></i> <span>Library</span></a>
       </nuxt-link>
 

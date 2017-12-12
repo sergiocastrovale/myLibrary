@@ -1,28 +1,29 @@
 <template>
   <div>
-    <book-list :books="books"></book-list>
+    <a href="/books/collection">Collection</a>
+
+    <ul>
+      <li>
+        <a href="/api/auth/google">Sign In with Google</a>
+      </li>
+      <li>
+        <a href="/users/login">Login</a>
+      </li>
+
+      <li>
+        <a href="/api/auth/logout">Logout</a>
+      </li>
+    </ul>
+
   </div>
 </template>
 
 <script>
-import BookList from './books/list'
-
 export default {
-  async fetch ({ store }) {
-    await store.dispatch('books/updateList')
-  },
-  computed: {
-    books () {
-      return this.$store.state.books.list
-    }
-  },
   head () {
     return {
       title: 'myLibrary - My Books'
     }
-  },
-  components: {
-    BookList
   }
 }
 </script>

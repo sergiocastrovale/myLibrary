@@ -4,24 +4,35 @@ const state = {
   list: [],
   query: '',
   page: 1,
-  limit: 5,
+  size: 3,
   count: 0
 }
 
 const actions = {
-  async updateList ({ state, commit }) {
-    let response = await axios.post('/api/books/getAll', {
-      limit: state.limit,
-      page: state.page
-    })
+  async updateList ({ state, commit }, page) {
+    if (page !== undefined && page) {
+      commit('setPage', page)
+    } else {
+      page = state.page
+    }
+
+    let response = await axios.get('/api/books/getAll', { params: {
+      page: page,
+      size: state.size
+    }})
 
     if (response.status === 200 && response.data) {
       commit('setCount', response.data.total)
       commit('updateList', response.data.results)
     }
   },
+  async updateQuery ({ state, commit }, query) {
+    commit('setQuery', query)
+  },
   async searchInCollection ({ state, commit }, query) {
-    let response = await axios.get('/api/books/search/:query', { params: { query: query } })
+    let response = await axios.get('/api/books/search/:query', { params: {
+      query: query
+    }})
 
     if (response.status === 200 && response.data) {
       commit('setQuery', query)
@@ -37,6 +48,9 @@ const mutations = {
   },
   setCount: (state, count) => {
     state.count = count
+  },
+  setPage: (state, page) => {
+    state.page = page
   },
   updateList: (state, books) => {
     state.list = books

@@ -3,7 +3,7 @@ import bookController from './../controllers/bookController'
 
 const router = Router()
 
-router.post('/books/getAll', bookController.getAll)
+router.get('/books/getAll', bookController.getAll)
 router.get('/books/search/:query', bookController.searchInCollection)
 router.get('/books/add', bookController.add)
 router.post('/book/add', bookController.doAdd)

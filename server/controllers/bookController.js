@@ -5,16 +5,17 @@ import path from 'path'
 
 const bookController = {}
 
-// Sets the list of books. This is a good example
-// of querying via POST route.
+// Sets the list of books.
 
 bookController.getAll = (req, res) => {
-  const params = req.body
+  const params = req.query
+  const from = params.page * params.size - params.size
+  const to = params.page * params.size - 1
 
   Book.query()
     .eager('authors')
     .orderBy('title')
-    .page(params.page, params.limit)
+    .range(from, to)
     .then(results => {
       res.status(200).json(results)
     }).catch(error => {
