@@ -18,8 +18,10 @@
         })
 
         if (response.status === 200 && response.data) {
+          const str = response.data.isFavorite ? ' was added to' : ' was removed from'
+
           this.$store.dispatch('books/updateList')
-          console.log('Updated book!', response.data)
+          this.$toasted.success(response.data.title + str + ' your favorites!')
         } else {
           console.log('Error', response)
         }

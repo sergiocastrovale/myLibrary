@@ -39,7 +39,7 @@
         if (response.status === 200 && response.data) {
           this.$store.dispatch('books/updateList')
           this.loading = false
-          this.$toast.success(response.data.message)
+          this.$toast.success(response.data.title + ' saved!')
         } else {
           this.$toast.error(response.data)
           this.loading = false

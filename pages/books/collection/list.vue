@@ -1,5 +1,5 @@
 <template>
-  <table v-if="books">
+  <table v-if="books && books.length">
     <thead>
       <tr>
         <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" class="pointer">
@@ -55,6 +55,9 @@
     </tr>
     </tbody>
   </table>
+  <div v-else class="my-5">
+    No books found matching your criteria.
+  </div>
 </template>
 
 <script>
@@ -83,6 +86,7 @@
     },
     computed: {
       sortedBooks () {
+        console.log(this.books.length)
         return orderBy(this.books, this.sortField, this.sortDirection)
       }
     },

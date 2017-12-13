@@ -3,13 +3,17 @@
     <search @reset="reset" @filtered="filtered"></search>
 
     <div class="inside">
-      <div class="fs-small color-dark mb-2">
-        <span v-if="hasFilters">
-          Found {{ total }} results
-        </span>
-        <span v-else>
-          Showing {{ size }} / {{ total }} results
-        </span>
+      <div class="d-flex fs-small color-dark mb-2">
+        <div>
+          <span v-if="hasFilters">
+            Found {{ total }} results
+          </span>
+          <span v-else>
+            Showing {{ size }} / {{ total }} results
+          </span>
+        </div>
+
+        <filters :books="books" @filtered="filtered"></filters>
       </div>
 
       <list :books="books"></list>
@@ -22,6 +26,7 @@
 <script>
   import List from './list'
   import Search from './search'
+  import Filters from './filters'
   import Pagination from '@/components/pagination'
 
   export default {
@@ -58,6 +63,7 @@
     components: {
       Search,
       List,
+      Filters,
       Pagination
     }
   }

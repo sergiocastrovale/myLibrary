@@ -29,6 +29,22 @@ const actions = {
   async updateQuery ({ state, commit }, query) {
     commit('setQuery', query)
   },
+  async filterByFavorites ({ commit }) {
+    let response = await axios.get('/api/books/filterByFavorites')
+
+    if (response.status === 200 && response.data) {
+      commit('setCount', response.data.length)
+      commit('updateList', response.data)
+    }
+  },
+  async filterByPDF ({ commit }) {
+    let response = await axios.get('/api/books/filterByPDF')
+
+    if (response.status === 200 && response.data) {
+      commit('setCount', response.data.length)
+      commit('updateList', response.data)
+    }
+  },
   async searchInCollection ({ state, commit }, query) {
     let response = await axios.get('/api/books/search/:query', { params: {
       query: query

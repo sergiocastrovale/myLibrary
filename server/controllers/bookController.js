@@ -175,10 +175,7 @@ bookController.doEdit = (req, res) => {
   Book.query()
     .patchAndFetchById(book.id, book)
     .then(book => {
-      res.status(200).json({
-        obj: book,
-        message: 'Book saved!'
-      })
+      res.status(200).json(book)
     }).catch(error => {
       res.status(500).json(error.message)
     })
@@ -188,10 +185,7 @@ bookController.doAddToFavorites = (req, res) => {
   Book.query()
     .patchAndFetchById(req.body.id, { isFavorite: Book.raw('NOT ??', ['isFavorite']) })
     .then(book => {
-      res.status(200).json({
-        obj: book,
-        message: book.title + ' was added to your favorites.'
-      })
+      res.status(200).json(book)
     }).catch(error => {
       res.status(500).json(error.message)
     })
@@ -202,6 +196,30 @@ bookController.doUpdateFile = (req, res) => {
     .patchAndFetchById(req.body.id, { file: req.body.file })
     .then(updatedBook => {
       res.status(200).json(updatedBook)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
+bookController.filterByFavorites = (req, res) => {
+  Book.query()
+    .eager('authors')
+    .orderBy('title')
+    .where('isFavorite', '=', true)
+    .then(books => {
+      res.status(200).json(books)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
+bookController.filterByPDF = (req, res) => {
+  Book.query()
+    .eager('authors')
+    .orderBy('title')
+    .where('file', 'IS NOT', null)
+    .then(books => {
+      res.status(200).json(books)
     }).catch(error => {
       res.status(500).json(error.message)
     })

@@ -32,6 +32,7 @@
 
           if (response.status === 200 && response.data) {
             this.$store.dispatch('books/updateList')
+            this.$toasted.success('File added to book ' + response.data.title)
           }
         }
       }
