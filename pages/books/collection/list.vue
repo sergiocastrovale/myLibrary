@@ -19,11 +19,7 @@
     <tr v-for="book in sortedBooks" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
       <td>
         <book-details :book="book"></book-details>
-
-        <div class="cover">
-          <img v-if="book.googleId" :src="'/uploads/books/' + book.googleId + '.jpg'">
-          <div v-else class="blank bg-light border-medium"></div>
-        </div>
+        <book-cover :book="book" size="small"></book-cover>
       </td>
 
       <td>
@@ -70,6 +66,7 @@
 <script>
   import AddToFavorites from './addToFavorites'
   import BookFile from './file'
+  import BookCover from './cover'
   import BookDetails from './details'
   import { orderBy } from 'lodash'
 
@@ -114,36 +111,13 @@
     components: {
       BookFile,
       BookDetails,
+      BookCover,
       AddToFavorites
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .cover {
-    min-height: 50px;
-    position: relative;
-
-    > .blank {
-      height: 50px;
-      width: 34px;
-    }
-
-    > img {
-      height: 50px;
-      width: auto;
-
-      &:hover {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1;
-        height: auto;
-        width: auto;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25)
-      }
-    }
-  }
   .unsorted {
     width: 17px;
     display: inline-block;

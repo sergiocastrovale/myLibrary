@@ -5,6 +5,8 @@ exports.up = (knex, Promise) => {
     table.string('subtitle')
     table.string('isbn10')
     table.string('isbn13')
+    table.string('language')
+    table.string('url')
     table.string('publisher')
     table.string('publishedDate')
     table.string('googleId')

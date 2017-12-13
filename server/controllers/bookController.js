@@ -74,6 +74,8 @@ bookController.doCreate = (req, res) => {
           isbn13: Book.retrieveISBN(vol.industryIdentifiers, '13'),
           googleId: data.id,
           intro: intro,
+          language: vol.language,
+          url: vol.canonicalVolumeLink,
           description: vol.description,
           pageCount: vol.pageCount,
           publisher: vol.publisher,
