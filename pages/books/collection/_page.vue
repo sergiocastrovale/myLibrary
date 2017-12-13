@@ -41,7 +41,9 @@
         return this.$store.state.books.list
       },
       size () {
-        return this.$store.state.books.size
+        const size = this.$store.state.books.size
+
+        return size < this.total ? size : this.total
       },
       total () {
         return this.$store.state.books.count

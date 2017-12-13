@@ -4,7 +4,7 @@ const state = {
   list: [],
   query: '',
   page: 1,
-  size: 3,
+  size: 20,
   count: 0
 }
 

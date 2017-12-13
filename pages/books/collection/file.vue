@@ -1,14 +1,13 @@
 <template>
   <div class="file">
     <div class="mb-3" :title="book.file">
+      <label class="file-select">
         <span v-if="book.file">{{ book.file | truncate(40) }}</span>
-        <span v-else>-</span>
-    </div>
+        <span v-else class="add">(click to edit)</span>
 
-    <label class="file-select">
-      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-      <input type="file" @change="updateFileName">
-    </label>
+        <input type="file" @change="updateFileName">
+      </label>
+    </div>
   </div>
 </template>
 
@@ -41,8 +40,28 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../../../assets/scss/variables';
+
   input[type=file] {
     display: none;
+  }
+
+  .file-select {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+
+    &:hover {
+      background: #f9f8d0;
+    }
+
+    .add {
+      color: $medium;
+
+      &:hover {
+        color: #9c9b74;
+      }
+    }
   }
 
   .button {
