@@ -66,7 +66,8 @@ module.exports = {
   ],
 
   plugins: [
-    './plugins/truncate'
+    './plugins/truncate',
+    './plugins/modal'
   ],
 
   auth: {

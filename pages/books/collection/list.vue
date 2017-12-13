@@ -2,9 +2,10 @@
   <table v-if="books && books.length">
     <thead>
       <tr>
-        <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" class="pointer">
+        <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" :class="header.className">
           <span v-if="header.field">
             {{ header.label }}
+
             <i v-if="header.field === sortField" :class="['fa', ((sortDirection === 'asc') ? 'fa-chevron-up' : 'fa-chevron-down')]" aria-hidden="true"></i>
             <div v-else class="unsorted"></div>
           </span>
@@ -17,6 +18,8 @@
     <tbody>
     <tr v-for="book in sortedBooks" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
       <td>
+        <book-details :book="book"></book-details>
+
         <div class="cover">
           <img v-if="book.googleId" :src="'/uploads/books/' + book.googleId + '.jpg'">
           <div v-else class="blank bg-light border-medium"></div>
@@ -50,6 +53,10 @@
           <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
         </nuxt-link>
 
+        <a>
+          <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>
+        </a>
+
         <add-to-favorites :book="book"></add-to-favorites>
       </td>
     </tr>
@@ -63,6 +70,7 @@
 <script>
   import AddToFavorites from './addToFavorites'
   import BookFile from './file'
+  import BookDetails from './details'
   import { orderBy } from 'lodash'
 
   export default {
@@ -78,7 +86,7 @@
           { id: 3, label: 'Pages', field: 'pageCount' },
           { id: 5, label: 'Publisher', field: 'publisher' },
           { id: 6, label: 'File' },
-          { id: 7, label: 'Actions' }
+          { id: 7, label: 'Actions', className: 'actions' }
         ],
         sortField: 'title',
         sortDirection: 'asc'
@@ -98,10 +106,14 @@
           this.sortField = field
           this.sortDirection = 'asc'
         }
+      },
+      openDetails (id) {
+        this.$modal.show('book-' + id + '-details')
       }
     },
     components: {
       BookFile,
+      BookDetails,
       AddToFavorites
     }
   }

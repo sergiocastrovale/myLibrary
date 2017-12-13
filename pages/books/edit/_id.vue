@@ -2,7 +2,10 @@
   <div class="wrapper">
     <div class="inside">
       <form-schema :schema="schema" v-model="book" @submit.stop.prevent="save" class="form-area">
-        <button type="submit">Add book</button>
+        <div class="actions">
+          <nuxt-link to="/books/collection" class="btn hollow">« Back to collection</nuxt-link>
+          <button class="btn ok" type="submit">Save changes</button>
+        </div>
       </form-schema>
     </div>
   </div>
@@ -12,6 +15,9 @@
   import axios from '~/plugins/axios'
   import FormSchema from 'vue-json-schema'
   import schema from '@/schemas/book.json'
+
+  FormSchema.setComponent('title', 'h2')
+  FormSchema.setComponent('description', 'h4')
 
   export default {
     async asyncData ({ params }) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a href="/books/collection">Collection</a>
+    <nuxt-link to="/books/collection">Collection</nuxt-link>
 
     <ul>
       <li>

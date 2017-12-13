@@ -1,0 +1,23 @@
+@mixin setColorsAndHovers($bg, $color, $border, $percentage: 10%) {
+  background-color: $bg;
+  color: $color;
+  border-color: $border;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  overflow: hidden;
+  transition-duration: 0.5s;
+  transition-property: color, background-color;
+
+  &:hover, &:active {
+    font-weight: 400;
+    background-color: darken($bg, $percentage);
+    color: darken($color, 5%);
+    border-color: darken($border, $percentage);
+  }
+
+  &.outlined {
+    color: $bg;
+    background-color: $color;
+    border-color: $bg;
+  }
+}

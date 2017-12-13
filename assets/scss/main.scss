@@ -1,6 +1,7 @@
 @import "variables";
 @import "reset";
 @import "utility";
+@import "mixins";
 
 html, body
 {
@@ -46,6 +47,12 @@ a, a:hover, a:focus, a:visited {
   font-weight: 500;
 }
 
+h1 {
+  font-size: $font-size-super;
+  font-weight: 400;
+  margin: 1rem 0;
+}
+
 h2 {
   font-size: $font-size-largest;
   font-weight: 400;
@@ -81,6 +88,10 @@ table {
     border: 1px solid $light;
     vertical-align: middle;
     color: $heading-color;
+
+    &.actions {
+      width: 120px;
+    }
   }
 
   td {
@@ -121,22 +132,87 @@ table {
   cursor: pointer;
 }
 
+.btn {
+  border-radius: 4px;
+  font-size: $font-size-normal;
+  padding: 0 1.5rem;
+  cursor: pointer;
+  height: 50px;
+  line-height: 50px;
+  font-weight: 400;
+  border: 0;
+  @include setColorsAndHovers($dark, $lightest, $dark);
+
+  &.ok {
+    @include setColorsAndHovers($green, $lightest, $green);
+  }
+
+  &.secondary {
+    @include setColorsAndHovers($light, $dark, $light);
+  }
+
+  &.hollow {
+    @include setColorsAndHovers($lightest, $dark, $lightest);
+  }
+}
+
 .form-area {
   background: $lightest;
-  padding: 2rem;
-  max-width: 650px;
+  padding: 2rem 3rem;
+  max-width: 750px;
+  margin: 0 auto;
+
+  form {
+    margin: 2rem 0 0;
+  }
+
+  label {
+    display: block;
+    margin: 0 0 1.5rem;
+
+    > span {
+      display: block;
+      color: $dark;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+  }
 
   .row {
     display: block;
     margin: 1rem 0;
   }
 
-  input[type=text] {
-    flex: 1;
-    border: 2px solid $light;
-    background: transparent;
-    font-size: $font-size-large;
+  .actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+
+    > .btn {
+      margin-right: 2rem;
+    }
+  }
+
+  .input, textarea, input[type=text], input[type=email], input[type=password], input[type=number], input[type=date] {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: $font-size-normal;
+    width: 100%;
+    display: block;
+    outline: 0;
+    border-radius: 4px;
+    background: $input-bg;
+    border: 1px solid $medium;
+    padding: 0 1rem;
+    line-height: 56px;
     color: $dark;
+
+    &:focus {
+      color: $darker;
+      border-color: $orange;
+    }
   }
 }
 
