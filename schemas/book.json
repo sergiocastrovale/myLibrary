@@ -46,6 +46,7 @@
       "minLength": 10,
       "maxLength": 2048,
       "attrs": {
+        "type": "textarea",
         "placeholder": "Description (optional)"
       }
     },
@@ -100,6 +101,7 @@
       "minLength": 2,
       "maxLength": 4096,
       "attrs": {
+        "type": "textarea",
         "placeholder": "Notes (optional)"
       }
     }

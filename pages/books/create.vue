@@ -37,9 +37,14 @@
                   <h3>{{ book.volumeInfo.title }}</h3>
 
                   <ul class="fs-small">
-                    <li v-if="book.volumeInfo.authors" class="mb-1">by {{ book.volumeInfo.authors.join(', ') }}</li>
+                    <li v-if="book.volumeInfo.authors" class="mb-1">
+                      by {{ book.volumeInfo.authors.join(', ') }}
+                    </li>
                     <li>
-                      <span v-if="book.volumeInfo.publishedDate">Published in {{ book.volumeInfo.publishedDate }} | </span>
+                      <span v-if="book.volumeInfo.publishedDate">
+                        Published in {{ book.volumeInfo.publishedDate }} |
+                      </span>
+
                       <span v-if="book.volumeInfo.pageCount > 0">{{ book.volumeInfo.pageCount }} pages</span>
                     </li>
                     <li>
@@ -92,19 +97,30 @@
       },
       async create (book) {
         let response = null
+        let found = await axios.get('/api/books/findByGoogleId/:googleId', { params: {
+          googleId: book.id
+        }})
 
-        try {
-          this.adding = true
+        // Test if the book already exists. If it does, we'll warn the user and
+        // switch the add button for a 'remove'.
+        // If it doesn't, we'll add the book to our collection.
 
-          response = await axios.post('/api/book/create', book)
+        if (found.status === 200 && found.data) {
+          this.$toast.error('This book is already on your collection!')
+        } else {
+          try {
+            this.adding = true
 
-          if (response.data) {
-            this.$store.dispatch('books/updateList')
-            this.adding = false
-            this.$toast.success('Book added to your library!')
+            response = await axios.post('/api/book/create', book)
+
+            if (response.data) {
+              this.$store.dispatch('books/updateList')
+              this.adding = false
+              this.$toast.success('Book added to your library!')
+            }
+          } catch (e) {
+            this.$toast.error('Something happened while trying to add your book :( Please try again!')
           }
-        } catch (e) {
-          this.$toast.error('Something happened while trying to add your book :( Please try again!')
         }
       }
     },

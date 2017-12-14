@@ -47,8 +47,29 @@ bookController.searchInCollection = (req, res) => {
   }
 }
 
-bookController.create = (req, res) => {
-  res.status(200).json('')
+bookController.findByGoogleId = (req, res) => {
+  const googleId = req.query.googleId
+
+  Book.query()
+    .where('googleId', '=', googleId)
+    .first()
+    .then(book => {
+      res.status(200).json(book)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
+bookController.doRemove = (req, res) => {
+  const book = req.body
+
+  Book.query()
+    .deleteById(book.id)
+    .then(deletedRows => {
+      res.status(200).json(deletedRows)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
 }
 
 bookController.doCreate = (req, res) => {
@@ -146,16 +167,12 @@ bookController.doCreate = (req, res) => {
     })
 }
 
-bookController.add = (req, res) => {
-  res.status(200).json('')
-}
-
 bookController.doAdd = (req, res) => {
   const data = req.body
 
   Book.query().insert(data)
     .then(book => {
-      res.status(200).json(data)
+      res.status(200).json(book)
     }).catch(error => {
       res.status(500).json(error.message)
     })

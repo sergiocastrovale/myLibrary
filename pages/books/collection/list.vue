@@ -3,10 +3,10 @@
     <thead>
       <tr>
         <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" :class="header.className">
-          <span v-if="header.field">
+          <span v-if="header.field" class="d-flex align-items-center">
             {{ header.label }}
 
-            <i v-if="header.field === sortField" :class="['fa', ((sortDirection === 'asc') ? 'fa-chevron-up' : 'fa-chevron-down')]" aria-hidden="true"></i>
+            <i v-if="header.field === sortField" :class="sortArrow" aria-hidden="true"></i>
             <div v-else class="unsorted"></div>
           </span>
           <span v-else>
@@ -24,8 +24,9 @@
 
       <td>
         {{ book.title }}
-        <div class="fs-small">{{ book.subtitle }}</div>
-        <div class="fs-small">ISBN: {{ book.isbn13 }}, {{ book.isbn10 }}</div>
+        <div v-if="book.subtitle" class="fs-small">{{ book.subtitle }}</div>
+
+        <div v-if="book.isbn10 || book.isbn13" class="fs-small">ISBN: {{ book.isbn13 }}, {{ book.isbn10 }}</div>
       </td>
 
       <td>
@@ -33,11 +34,14 @@
           {{ author.name }}<span v-if="index < book.authors.length - 1">, </span>
         </span>
       </td>
-      <td>{{ book.pageCount }}</td>
 
       <td>
-        {{ book.publisher }}
-        <div class="fs-small">Published in {{ book.publishedDate }}</div>
+        <div v-if="book.pageCount">{{ book.pageCount }}</div>
+      </td>
+
+      <td>
+        <div v-if="book.publisher">{{ book.publisher }}</div>
+        <div v-if="book.publishedDate" class="fs-small">Published in {{ book.publishedDate }}</div>
       </td>
 
       <td>
@@ -45,15 +49,19 @@
       </td>
 
       <td class="text-center fs-larger">
-        <nuxt-link :to="'/books/edit/' + book.id" exact>
-          <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
-        </nuxt-link>
+        <div class="d-flex align-items-center">
+          <a>
+            <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>
+          </a>
 
-        <a>
-          <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>
-        </a>
+          <add-to-favorites :book="book"></add-to-favorites>
 
-        <add-to-favorites :book="book"></add-to-favorites>
+          <nuxt-link :to="'/books/edit/' + book.id" exact>
+            <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
+          </nuxt-link>
+
+          <remove :book="book"></remove>
+        </div>
       </td>
     </tr>
     </tbody>
@@ -67,6 +75,7 @@
   import AddToFavorites from './addToFavorites'
   import BookFile from './file'
   import BookCover from './cover'
+  import Remove from './remove'
   import BookDetails from './details'
   import { orderBy } from 'lodash'
 
@@ -93,6 +102,9 @@
       sortedBooks () {
         console.log(this.books.length)
         return orderBy(this.books, this.sortField, this.sortDirection)
+      },
+      sortArrow () {
+        return ['fa', 'sort', ((this.sortDirection === 'asc') ? 'fa-chevron-up' : 'fa-chevron-down')]
       }
     },
     methods: {
@@ -111,6 +123,7 @@
     components: {
       BookFile,
       BookDetails,
+      Remove,
       BookCover,
       AddToFavorites
     }
@@ -118,6 +131,13 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../../../assets/scss/variables';
+
+  .sort {
+    font-size: $font-size-small;
+    margin-left: 5px;
+  }
+
   .unsorted {
     width: 17px;
     display: inline-block;

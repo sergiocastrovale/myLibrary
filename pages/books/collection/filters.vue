@@ -16,7 +16,7 @@
     data: () => ({
       selectedOption: 0,
       options: [
-        { value: 0, label: '(None)' },
+        { value: 0, label: '(No filters selected)' },
         { value: 1, label: 'Show only favorites' },
         { value: 2, label: 'Show only books with PDF' }
       ]

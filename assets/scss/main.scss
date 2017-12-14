@@ -73,6 +73,32 @@ h4 {
   margin: 0.5rem 0;
 }
 
+.input, textarea, input[type=text], input[type=email], input[type=password], input[type=number], input[type=date] {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: $font-size-normal;
+  width: 100%;
+  display: block;
+  outline: 0;
+  border-radius: 4px;
+  background: $input-bg;
+  border: 1px solid $medium;
+  padding: 1.25rem;
+  color: $dark;
+
+
+  &:focus {
+    color: $darker;
+    border-color: $orange;
+  }
+}
+
+textarea {
+  padding: 0.75rem;
+  line-height: 1.5rem;
+  min-height: 15rem
+}
+
 strong {
   font-weight: 500;
 }
@@ -123,10 +149,18 @@ table {
 
 .d-flex {
   display: flex;
+
+  &.align-items-center {
+    align-items: center;
+  }
+
+  &.align-content-stretch {
+    align-content: stretch;
+  }
 }
 
-.align-content-stretch {
-  align-content: stretch;
+.flex-grow {
+  flex: 1;
 }
 
 .text-center {
@@ -140,20 +174,30 @@ table {
 .btn {
   border-radius: 4px;
   font-size: $font-size-normal;
+  text-align: center;
   padding: 0 1.5rem;
   cursor: pointer;
   height: 50px;
   line-height: 50px;
   font-weight: 400;
   border: 0;
+
+  &+.btn {
+    margin-left: 2rem;
+  }
+
   @include setColorsAndHovers($dark, $lightest, $dark);
 
   &.ok {
     @include setColorsAndHovers($green, $lightest, $green);
   }
 
+  &.no {
+    @include setColorsAndHovers($red, $lightest, $red);
+  }
+
   &.secondary {
-    @include setColorsAndHovers($light, $dark, $light);
+    @include setColorsAndHovers($lighter, $dark, $lighter, 3%);
   }
 
   &.hollow {
@@ -199,26 +243,6 @@ table {
       margin-right: 2rem;
     }
   }
-
-  .input, textarea, input[type=text], input[type=email], input[type=password], input[type=number], input[type=date] {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    font-size: $font-size-normal;
-    width: 100%;
-    display: block;
-    outline: 0;
-    border-radius: 4px;
-    background: $input-bg;
-    border: 1px solid $medium;
-    padding: 0 1rem;
-    line-height: 56px;
-    color: $dark;
-
-    &:focus {
-      color: $darker;
-      border-color: $orange;
-    }
-  }
 }
 
 .content {
@@ -255,6 +279,7 @@ table {
             font-size: $font-size-largest;
             line-height: 48px;
             margin-left: 0.75rem;
+            padding: 0;
             color: $dark;
           }
         }
