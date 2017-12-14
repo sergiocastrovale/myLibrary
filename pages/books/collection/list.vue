@@ -25,7 +25,7 @@
       <td>
         {{ book.title }}
         <div class="fs-small">{{ book.subtitle }}</div>
-        <div class="fs-small">ISBN-13: {{ book.isbn13 }}</div>
+        <div class="fs-small">ISBN: {{ book.isbn13 }}, {{ book.isbn10 }}</div>
       </td>
 
       <td>

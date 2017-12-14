@@ -40,7 +40,7 @@
       }
 
       &.large {
-        height: 160px;
+        height: auto;
       }
 
       &.zoom {
