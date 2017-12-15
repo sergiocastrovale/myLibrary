@@ -11,7 +11,7 @@
       </li>
 
       <li>
-        <a href="/api/auth/logout">Logout</a>
+        <div @click="logout">Logout</div>
       </li>
     </ul>
 
@@ -23,6 +23,22 @@ export default {
   head () {
     return {
       title: 'myLibrary - My Books'
+    }
+  },
+  computed: {
+    loggedIn () {
+      console.log(this.$store.getters['auth/loggedIn'])
+      return this.$store.getters['auth/loggedIn']
+    }
+  },
+  methods: {
+    async logout () {
+      console.log('logging out')
+      try {
+        await this.$store.dispatch('auth/logout')
+      } catch (e) {
+        this.formError = e.message
+      }
     }
   }
 }

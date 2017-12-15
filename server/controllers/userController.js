@@ -3,14 +3,15 @@ import User from '../models/user'
 const userController = {}
 
 userController.login = (req, res) => {
+  res.status(200).json({ token: 'bla' })
+}
 
+userController.fetch = (req, res) => {
+  res.status(200).json({ username: 'usernamez' })
 }
 
 userController.logout = (req, res) => {
-  req.logout()
-  req.session.destroy(() => {
-    res.redirect('/')
-  })
+  res.redirect('/')
 }
 
 userController.loginWithGoogle = (req, res) => {
@@ -19,10 +20,6 @@ userController.loginWithGoogle = (req, res) => {
 
 userController.googleCallback = (req, res) => {
   res.redirect('/')
-}
-
-userController.details = (req, res) => {
-  res.status(200).send({ user: req.user })
 }
 
 export default userController

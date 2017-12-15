@@ -70,21 +70,27 @@ module.exports = {
     './plugins/modal'
   ],
 
+  router: {
+    middleware: [
+      'check-auth'
+    ]
+  },
+
   auth: {
     user: {
-      endpoint: 'users/account',
-      propertyName: 'user',
+      endpoint: 'auth/user',
+      propertyName: '',
       resetOnFail: true
     },
     login: {
-      endpoint: 'users/login'
+      endpoint: '/auth/login'
     },
     logout: {
-      endpoint: 'users/logout',
+      endpoint: '/auth/logout',
       method: 'GET'
     },
     redirect: {
-      notLoggedIn: '/users/login',
+      notLoggedIn: '/users/loginForm',
       loggedIn: '/'
     },
     token: {

@@ -5,7 +5,7 @@ import bookRoutes from './bookRoutes'
 
 const router = Router()
 
-router.use(userRoutes)
 router.use(bookRoutes)
+router.use(userRoutes)
 
 export default router
