@@ -8,6 +8,7 @@
   @import '../assets/scss/variables';
 
   footer {
+    width: 100%;
     position: absolute;
     bottom: 1rem;
     color: $dark;

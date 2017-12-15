@@ -2,6 +2,8 @@
   <div class="menu">
     <app-header></app-header>
 
+    <logout></logout>
+
     <ul>
       <nuxt-link tag="li" to="/books/collection">
         <a><i class="fa fa-book" aria-hidden="true"></i> <span>Library</span></a>
@@ -17,13 +19,15 @@
 </template>
 
 <script>
-  import AppFooter from '~/components/Footer.vue'
-  import AppHeader from '~/components/Header.vue'
+  import AppFooter from './footer.vue'
+  import AppHeader from './header.vue'
+  import Logout from '~/pages/users/logout.vue'
 
   export default {
     components: {
       AppHeader,
-      AppFooter
+      AppFooter,
+      Logout
     }
   }
 </script>

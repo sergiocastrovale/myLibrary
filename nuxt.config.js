@@ -90,7 +90,7 @@ module.exports = {
       method: 'GET'
     },
     redirect: {
-      notLoggedIn: '/users/loginForm',
+      notLoggedIn: '/users/login',
       loggedIn: '/'
     },
     token: {
