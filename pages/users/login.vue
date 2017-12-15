@@ -11,12 +11,12 @@
       <form @submit.prevent="login" class="mt-5">
         <label for="username">
           Username
-          <input type="text" v-model="formUsername" name="username">
+          <input type="text" v-model="username" name="username">
         </label>
 
         <label for="password">
           Password
-          <input type="password" v-model="formPassword" name="password">
+          <input type="password" v-model="password" name="password">
         </label>
 
         <div class="actions">
@@ -37,27 +37,37 @@
     layout: 'base',
     data () {
       return {
-        formError: null,
-        formUsername: '',
-        formPassword: ''
+        error: null,
+        username: '',
+        password: ''
       }
     },
     methods: {
-      async login () {
+      login () {
         try {
-          await this.$store.dispatch('auth/login', { fields: {
-            username: this.formUsername,
-            password: this.formPassword
+          // This action handles the whole login assigning process
+          // and stores both the user and token
+
+          this.$store.dispatch('auth/login', { fields: {
+            username: this.username,
+            password: this.password
           }})
 
-          console.log(this.$store.state.auth)
+          // Reset form
 
-          this.formUsername = ''
-          this.formPassword = ''
-          this.formError = null
+          this.reset()
+
+          // Move to the front page
+
+          // this.$router.push({ path: '/' })
         } catch (e) {
-          this.formError = e.message
+          this.error = e.message
         }
+      },
+      reset () {
+        this.username = ''
+        this.password = ''
+        this.error = null
       }
     },
     components: {

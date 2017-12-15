@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="loggedIn" @click="logout">Logout</div>
+
   </div>
 </template>
 
@@ -9,6 +9,11 @@ export default {
   head () {
     return {
       title: 'myLibrary - My Books'
+    }
+  },
+  created () {
+    if (this.$store.getters['auth/loggedIn']) {
+      this.$router.push({ path: '/books/collection' })
     }
   }
 }

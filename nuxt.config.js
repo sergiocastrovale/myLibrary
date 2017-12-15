@@ -72,14 +72,15 @@ module.exports = {
 
   router: {
     middleware: [
-      'check-auth'
+      'auth',
+      'no-auth'
     ]
   },
 
   auth: {
     user: {
-      endpoint: 'auth/user',
-      propertyName: '',
+      endpoint: 'auth/fetch',
+      propertyName: 'user',
       resetOnFail: true
     },
     login: {
@@ -91,15 +92,15 @@ module.exports = {
     },
     redirect: {
       notLoggedIn: '/users/login',
-      loggedIn: '/'
+      loggedIn: '/books/collection'
     },
     token: {
       enabled: true,
       type: 'Bearer',
       localStorage: true,
-      name: 'token',
+      name: 'myLibraryToken',
       cookie: true,
-      cookieName: 'token'
+      cookieName: 'myLibraryToken'
     }
   },
 
