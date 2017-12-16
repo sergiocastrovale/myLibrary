@@ -97,6 +97,11 @@
       },
       async create (book) {
         let response = null
+        console.log('auth', this.$store.state.auth)
+        let data = {
+          user: this.$store.state.auth.user,
+          book: book
+        }
         let found = await axios.get('/api/books/findByGoogleId/:googleId', { params: {
           googleId: book.id
         }})
@@ -111,7 +116,7 @@
           try {
             this.adding = true
 
-            response = await axios.post('/api/book/create', book)
+            response = await axios.post('/api/book/create', data)
 
             if (response.data) {
               this.$store.dispatch('books/updateList')

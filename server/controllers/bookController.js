@@ -1,6 +1,7 @@
 import Book from '../models/book'
 import Author from '../models/author'
 import Tag from '../models/tag'
+import User from '../models/user'
 import path from 'path'
 
 const bookController = {}
@@ -14,6 +15,7 @@ bookController.getAll = (req, res) => {
 
   Book.query()
     .eager('authors')
+    .eager('users')
     .orderBy('title')
     .range(from, to)
     .then(results => {
@@ -60,7 +62,7 @@ bookController.findByGoogleId = (req, res) => {
     })
 }
 
-bookController.doRemove = (req, res) => {
+bookController.remove = (req, res) => {
   const book = req.body
 
   Book.query()
@@ -72,8 +74,9 @@ bookController.doRemove = (req, res) => {
     })
 }
 
-bookController.doCreate = (req, res) => {
-  const data = req.body
+bookController.create = (req, res) => {
+  const user = req.body.user
+  const data = req.body.book
   const vol = data.volumeInfo
 
   Book.query()
@@ -102,6 +105,11 @@ bookController.doCreate = (req, res) => {
           publisher: vol.publisher,
           publishedDate: vol.publishedDate
         }).then(book => {
+          // Tie this book to the logged in user.
+
+          book.$relatedQuery('users').relate(user.id).then(updatedRows => {
+          })
+
           // Insert authors and associate them with the new book.
           // If the author already exists, we'll just "relate it" with the book.
 
@@ -167,7 +175,7 @@ bookController.doCreate = (req, res) => {
     })
 }
 
-bookController.doAdd = (req, res) => {
+bookController.add = (req, res) => {
   const data = req.body
 
   Book.query().insert(data)
@@ -200,7 +208,7 @@ bookController.doEdit = (req, res) => {
     })
 }
 
-bookController.doAddToFavorites = (req, res) => {
+bookController.addToFavorites = (req, res) => {
   Book.query()
     .patchAndFetchById(req.body.id, { isFavorite: Book.raw('NOT ??', ['isFavorite']) })
     .then(book => {
@@ -210,7 +218,7 @@ bookController.doAddToFavorites = (req, res) => {
     })
 }
 
-bookController.doUpdateFile = (req, res) => {
+bookController.updateFile = (req, res) => {
   Book.query()
     .patchAndFetchById(req.body.id, { file: req.body.file })
     .then(updatedBook => {

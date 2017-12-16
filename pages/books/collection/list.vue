@@ -49,6 +49,14 @@
           <book-file :book="book"></book-file>
         </td>
 
+        <td>
+          <ul>
+            <li v-for="user in book.users" :key="user.id">
+              {{ user.username }}
+            </li>
+          </ul>
+        </td>
+
         <td class="text-center fs-larger">
           <div class="d-flex align-items-center">
             <a>
@@ -94,7 +102,8 @@
           { id: 3, label: 'Pages', field: 'pageCount' },
           { id: 5, label: 'Publisher', field: 'publisher' },
           { id: 6, label: 'File' },
-          { id: 7, label: 'Actions', className: 'actions' }
+          { id: 7, label: 'Owners' },
+          { id: 8, label: 'Actions', className: 'actions' }
         ],
         sortField: 'title',
         sortDirection: 'asc'

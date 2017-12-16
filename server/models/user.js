@@ -11,12 +11,12 @@ export default class User extends Model {
         relation: Model.ManyToManyRelation,
         modelClass: require('./book').default,
         join: {
-          from: 'user.id',
+          from: 'users.id',
           through: {
-            from: 'user_book.book_id',
-            to: 'user_book.user_id'
+            from: 'user_book.user_id',
+            to: 'user_book.book_id'
           },
-          to: 'book.id'
+          to: 'books.id'
         }
       }
     }

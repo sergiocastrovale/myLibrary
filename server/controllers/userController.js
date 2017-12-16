@@ -8,11 +8,13 @@ userController.register = (req, res) => {
   const data = req.body
   const hash = bcrypt.hashSync(data.password, 10)
 
+  // Add the new user with the hashed password
+
   User.query()
     .insert({ username: data.username, password: hash })
     .then(user => {
       if (user) {
-        res.status(200).json({ username: user.username })
+        res.status(200).json({ id: user.id, username: user.username })
       } else {
         res.status(403).json({ success: false, message: 'Unable to create user' })
       }
@@ -71,6 +73,7 @@ userController.fetch = (req, res) => {
         res.status(200).json({
           success: true,
           user: {
+            id: user.id,
             username: user.username
           }
         })

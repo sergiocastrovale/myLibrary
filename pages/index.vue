@@ -13,11 +13,6 @@ export default {
     return {
       title: 'myLibrary - My Books'
     }
-  },
-  created () {
-    if (this.$store.getters['auth/loggedIn']) {
-      console.log('logged in with', this.$store.state.auth.user)
-    }
   }
 }
 </script>
