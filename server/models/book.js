@@ -1,5 +1,4 @@
 import { Model } from 'objection'
-import path from 'path'
 import request from 'request'
 import fs from 'fs'
 
@@ -10,6 +9,18 @@ export default class Book extends Model {
 
   static get relationMappings () {
     return {
+      users: {
+        relation: Model.ManyToManyRelation,
+        modelClass: require('./user').default,
+        join: {
+          from: 'book.id',
+          through: {
+            from: 'user_book.user_id',
+            to: 'user_book.book_id'
+          },
+          to: 'user.id'
+        }
+      },
       tags: {
         relation: Model.ManyToManyRelation,
         modelClass: require('./tag').default,

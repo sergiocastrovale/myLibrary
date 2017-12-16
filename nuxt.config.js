@@ -70,13 +70,6 @@ module.exports = {
     './plugins/modal'
   ],
 
-  router: {
-    middleware: [
-      'auth',
-      'no-auth'
-    ]
-  },
-
   auth: {
     user: {
       endpoint: 'auth/fetch',
@@ -84,15 +77,15 @@ module.exports = {
       resetOnFail: true
     },
     login: {
-      endpoint: '/auth/login'
+      endpoint: 'auth/login'
     },
     logout: {
-      endpoint: '/auth/logout',
+      endpoint: 'auth/logout',
       method: 'GET'
     },
     redirect: {
       notLoggedIn: '/users/login',
-      loggedIn: '/books/collection'
+      loggedIn: '/'
     },
     token: {
       enabled: true,

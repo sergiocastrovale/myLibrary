@@ -17,6 +17,9 @@ exports.up = (knex, Promise) => {
     table.string('file')
     table.boolean('isFavorite').defaultTo(false)
     table.timestamps(false, true)
+  }).createTable('user_book', function (table) {
+    table.integer('user_id').unsigned().references('id').inTable('users').onDelete('cascade')
+    table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
   }).createTable('tag_book', function (table) {
     table.integer('tag_id').unsigned().references('id').inTable('tags').onDelete('cascade')
     table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
@@ -27,5 +30,5 @@ exports.up = (knex, Promise) => {
 }
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTableIfExists('tags_books').dropTableIfExists('authors_books').dropTableIfExists('books')
+  return knex.schema.dropTableIfExists('user_book').dropTableIfExists('tag_book').dropTableIfExists('author_book').dropTableIfExists('books')
 }
