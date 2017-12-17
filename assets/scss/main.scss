@@ -263,9 +263,9 @@ table {
       height: 100vh;
 
       .search {
+        flex: 1;
+        border-right: 1px solid $light;
         padding: 1rem 2rem;
-        background: $lightest;
-        border-bottom: 1px solid $light;
 
         > form {
           color: $dark;
@@ -282,7 +282,7 @@ table {
             background: transparent;
             font-size: $font-size-largest;
             line-height: 48px;
-            margin-left: 0.75rem;
+            margin: 0 2rem 0 0.75rem;
             padding: 0;
             color: $dark;
           }

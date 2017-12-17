@@ -1,17 +1,16 @@
 import crypto from 'crypto'
-import bcrypt from 'bcrypt'
 import User from '../models/user'
 
 const userController = {}
 
 userController.register = (req, res) => {
   const data = req.body
-  const hash = bcrypt.hashSync(data.password, 10)
 
-  // Add the new user with the hashed password
+  // Add the new user. Password will automatically be hashed
+  // via User's $beforeInsert
 
   User.query()
-    .insert({ username: data.username, password: hash })
+    .insert({ username: data.username, password: data.password })
     .then(user => {
       if (user) {
         res.status(200).json({ id: user.id, username: user.username })
@@ -33,14 +32,15 @@ userController.login = (req, res) => {
     .first()
     .then(user => {
       if (user) {
-        // First we need to make sure the password is correct.
-        // We'll match the raw password against the bcrypted hash
+        // First we need to make sure the password is correct
         // and return 404 if this or any other info fails
 
-        if (bcrypt.compareSync(data.password, user.password)) {
-          // Update this user with a new token
+        if (user.passwordsMatch(data.password)) {
+          // Generate a new token
 
           const token = crypto.randomBytes(64).toString('hex')
+
+          // Update user with the new token
 
           User.query()
             .patchAndFetchById(user.id, { token: token })
@@ -48,7 +48,7 @@ userController.login = (req, res) => {
               if (updatedUser) {
                 res.status(200).json({ myLibraryToken: token })
               } else {
-                res.status(403).json({ success: false, message: 'Unable to assign a new token' })
+                res.status(500).json({ success: false, message: 'Unable to assign a new token' })
               }
             }).catch(error => {
               res.status(500).json(error.message)

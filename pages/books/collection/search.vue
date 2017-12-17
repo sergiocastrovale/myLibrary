@@ -26,6 +26,8 @@
           this.$emit('filtered', true)
           this.$store.dispatch('books/updateQuery', this.query)
           this.$store.dispatch('books/searchInCollection', this.query)
+
+          this.$router.push({ path: '/books/collection' })
         } else if (length === 0) {
           this.reset()
         }
@@ -35,6 +37,8 @@
         this.$store.dispatch('books/updateQuery', this.query)
         this.$emit('filtered', false)
         this.$emit('reset')
+
+        this.$router.push({ path: '/books/collection' })
       }
     }
   }

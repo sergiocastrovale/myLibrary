@@ -34,25 +34,22 @@
     },
     methods: {
       async login () {
-        try {
-          // This action handles the whole login assigning process
-          // and stores both the user and token
+        // This action handles the whole login assigning process
+        // and stores both the user and token
 
-          await this.$store.dispatch('auth/login', { fields: {
-            username: this.username,
-            password: this.password
-          }})
+        await this.$store.dispatch('auth/login', { fields: {
+          username: this.username,
+          password: this.password
+        }}).then(() => {
+          // Did we login successfully? If so, move on to the list
 
-          // Reset form
-
-          this.reset()
-
-          // Move to your collection
-
-          this.$router.push({ path: '/books/collection' })
-        } catch (e) {
-          console.log(e.message)
-        }
+          if (this.$store.getters['auth/loggedIn']) {
+            this.$router.push({ path: '/books/collection' })
+          } else {
+            console.log('nope')
+            this.$toast.error('We weren\'t able to log you in. Maybe your password is wrong?')
+          }
+        })
       },
       reset () {
         this.username = ''

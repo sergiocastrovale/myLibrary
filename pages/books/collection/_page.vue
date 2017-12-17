@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <search @reset="reset" @filtered="filtered"></search>
+    <top @reset="reset" @filtered="filtered"></top>
 
     <div class="inside">
       <div class="d-flex fs-small color-dark mb-2">
@@ -25,7 +25,7 @@
 
 <script>
   import List from './list'
-  import Search from './search'
+  import Top from './top'
   import Filters from './filters'
   import Pagination from '@/components/pagination'
 
@@ -63,7 +63,7 @@
       }
     },
     components: {
-      Search,
+      Top,
       List,
       Filters,
       Pagination

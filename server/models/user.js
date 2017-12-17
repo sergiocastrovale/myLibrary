@@ -1,6 +1,13 @@
 import { Model } from 'objection'
+import bcrypt from 'bcrypt'
 
 export default class User extends Model {
+  // Always hash passwords before inserting
+
+  $beforeInsert () {
+    this.password = bcrypt.hashSync(this.password, 10)
+  }
+
   static get tableName () {
     return 'users'
   }
@@ -20,5 +27,11 @@ export default class User extends Model {
         }
       }
     }
+  }
+
+  // Match a raw password against the bcrypted hash
+
+  passwordsMatch (password) {
+    return bcrypt.compareSync(password, this.password)
   }
 }
