@@ -20,8 +20,8 @@ export default class User extends Model {
         join: {
           from: 'users.id',
           through: {
-            from: 'user_book.user_id',
-            to: 'user_book.book_id'
+            from: 'user_book.userId',
+            to: 'user_book.bookId'
           },
           to: 'books.id'
         }

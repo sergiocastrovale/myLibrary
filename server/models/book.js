@@ -15,8 +15,8 @@ export default class Book extends Model {
         join: {
           from: 'books.id',
           through: {
-            from: 'user_book.book_id',
-            to: 'user_book.user_id'
+            from: 'user_book.bookId',
+            to: 'user_book.userId'
           },
           to: 'users.id'
         }
@@ -27,8 +27,8 @@ export default class Book extends Model {
         join: {
           from: 'books.id',
           through: {
-            from: 'tag_book.book_id',
-            to: 'tag_book.tag_id'
+            from: 'tag_book.bookId',
+            to: 'tag_book.tagId'
           },
           to: 'tags.id'
         }
@@ -39,8 +39,8 @@ export default class Book extends Model {
         join: {
           from: 'books.id',
           through: {
-            from: 'author_book.book_id',
-            to: 'author_book.author_id'
+            from: 'author_book.bookId',
+            to: 'author_book.authorId'
           },
           to: 'authors.id'
         }

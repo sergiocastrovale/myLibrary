@@ -29,16 +29,10 @@ const actions = {
   async updateQuery ({ state, commit }, query) {
     commit('setQuery', query)
   },
-  async filterByFavorites ({ commit }) {
-    let response = await axios.get('/api/books/filterByFavorites')
-
-    if (response.status === 200 && response.data) {
-      commit('setCount', response.data.length)
-      commit('updateList', response.data)
-    }
-  },
-  async filterByPDF ({ commit }) {
-    let response = await axios.get('/api/books/filterByPDF')
+  async filterBy ({ commit }, data) {
+    let response = (data.id !== undefined && data.id)
+      ? await axios.get('/api/books/filterBy' + data.type, { params: { id: data.id } })
+      : await axios.get('/api/books/filterBy' + data.type)
 
     if (response.status === 200 && response.data) {
       commit('setCount', response.data.length)

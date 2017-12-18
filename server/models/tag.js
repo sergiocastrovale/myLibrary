@@ -14,8 +14,8 @@ export default class Tag extends Model {
         join: {
           from: 'tags.id',
           through: {
-            from: 'tag_book.tag_id',
-            to: 'tag_book.book_id'
+            from: 'tag_book.tagId',
+            to: 'tag_book.bookId'
           },
           to: 'books.id'
         }

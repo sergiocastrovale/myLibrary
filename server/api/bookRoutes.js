@@ -15,5 +15,6 @@ router.post('/book/remove', bookController.remove)
 router.get('/books/findByGoogleId/:googleId', bookController.findByGoogleId)
 router.get('/books/filterByFavorites', bookController.filterByFavorites)
 router.get('/books/filterByPDF', bookController.filterByPDF)
+router.get('/books/filterByUser', bookController.filterByUser)
 
 export default router

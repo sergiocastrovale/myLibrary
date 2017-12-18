@@ -22,6 +22,23 @@ userController.register = (req, res) => {
     })
 }
 
+// Gets all users with the currently logged in user in the first position
+
+userController.getAllForSelect = (req, res) => {
+  const id = req.params.id
+
+  User.query()
+    .select('id', 'username')
+    .orderBy('username', 'desc')
+    .orderByRaw(User.raw('id = ? desc', [id]))
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
 userController.login = (req, res) => {
   const data = req.body
 

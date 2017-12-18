@@ -22,7 +22,7 @@
   export default {
     async asyncData ({ params }) {
       let book = null
-      let response = await axios.get('/api/books/edit/:id', { params: {
+      const response = await axios.get('/api/books/edit/:id', { params: {
         id: params.id
       }})
 

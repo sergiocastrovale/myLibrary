@@ -15,17 +15,18 @@ exports.up = (knex, Promise) => {
     table.text('notes')
     table.integer('pageCount')
     table.string('file')
+    table.boolean('fetched').defaultTo(true)
     table.boolean('isFavorite').defaultTo(false)
     table.timestamps(false, true)
   }).createTable('user_book', function (table) {
-    table.integer('user_id').unsigned().references('id').inTable('users').onDelete('cascade')
-    table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
+    table.integer('userId').unsigned().references('id').inTable('users').onDelete('cascade')
+    table.integer('bookId').unsigned().references('id').inTable('books').onDelete('cascade')
   }).createTable('tag_book', function (table) {
-    table.integer('tag_id').unsigned().references('id').inTable('tags').onDelete('cascade')
-    table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
+    table.integer('tagId').unsigned().references('id').inTable('tags').onDelete('cascade')
+    table.integer('bookId').unsigned().references('id').inTable('books').onDelete('cascade')
   }).createTable('author_book', (table) => {
-    table.integer('author_id').unsigned().references('id').inTable('authors').onDelete('cascade')
-    table.integer('book_id').unsigned().references('id').inTable('books').onDelete('cascade')
+    table.integer('authorId').unsigned().references('id').inTable('authors').onDelete('cascade')
+    table.integer('bookId').unsigned().references('id').inTable('books').onDelete('cascade')
   })
 }
 

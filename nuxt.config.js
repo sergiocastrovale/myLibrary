@@ -85,7 +85,7 @@ module.exports = {
     },
     redirect: {
       notLoggedIn: '/users/login',
-      loggedIn: '/'
+      loggedIn: '/books/collection'
     },
     token: {
       enabled: true,

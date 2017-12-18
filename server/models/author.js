@@ -14,8 +14,8 @@ export default class Author extends Model {
         join: {
           from: 'authors.id',
           through: {
-            from: 'author_book.author_id',
-            to: 'author_book.book_id'
+            from: 'author_book.authorId',
+            to: 'author_book.bookId'
           },
           to: 'books.id'
         }

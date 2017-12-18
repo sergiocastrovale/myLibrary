@@ -1,5 +1,5 @@
 <template>
-  <div class="user color-dark py-3 px-5">
+  <div v-if="loggedIn" class="user color-dark py-3 px-5">
     <strong>{{ username }}</strong>
 
     <ul class="fs-small text-center">
@@ -20,6 +20,9 @@
     computed: {
       username () {
         return this.$store.state.auth.user.username
+      },
+      loggedIn () {
+        return this.$store.getters['auth/loggedIn']
       }
     },
     methods: {

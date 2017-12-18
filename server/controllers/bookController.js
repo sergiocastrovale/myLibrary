@@ -74,6 +74,8 @@ bookController.remove = (req, res) => {
     })
 }
 
+// Inserts a book with information provided via Google Books
+
 bookController.create = (req, res) => {
   const user = req.body.user
   const data = req.body.book
@@ -231,8 +233,8 @@ bookController.updateFile = (req, res) => {
 bookController.filterByFavorites = (req, res) => {
   Book.query()
     .eager('authors')
-    .orderBy('title')
     .where('isFavorite', '=', true)
+    .orderBy('title')
     .then(books => {
       res.status(200).json(books)
     }).catch(error => {
@@ -243,13 +245,26 @@ bookController.filterByFavorites = (req, res) => {
 bookController.filterByPDF = (req, res) => {
   Book.query()
     .eager('authors')
-    .orderBy('title')
     .where('file', 'IS NOT', null)
+    .orderBy('title')
     .then(books => {
       res.status(200).json(books)
     }).catch(error => {
       res.status(500).json(error.message)
     })
 }
+
+bookController.filterByUser = (req, res) => {
+  Book.query()
+    .$relatedQuery('users')
+    .where('userId', '=', req.params.id)
+    .orderBy('title')
+    .then(books => {
+      res.status(200).json(books)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
 
 export default bookController
