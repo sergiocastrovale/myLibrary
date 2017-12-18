@@ -29,7 +29,7 @@ bookController.getAll = (req, res) => {
 // of querying via GET route.
 
 bookController.searchInCollection = (req, res) => {
-  const query = req.query.query
+  const query = req.params.query
 
   if (query !== undefined && query.length > 2) {
     Book.query()
@@ -50,10 +50,8 @@ bookController.searchInCollection = (req, res) => {
 }
 
 bookController.findByGoogleId = (req, res) => {
-  const googleId = req.query.googleId
-
   Book.query()
-    .where('googleId', '=', googleId)
+    .where('googleId', '=', req.params.googleId)
     .first()
     .then(book => {
       res.status(200).json(book)
@@ -190,7 +188,7 @@ bookController.add = (req, res) => {
 
 bookController.edit = (req, res) => {
   Book.query()
-    .findById(req.query.id)
+    .findById(req.params.id)
     .then(book => {
       res.status(200).json(book)
     }).catch(error => {
@@ -256,8 +254,8 @@ bookController.filterByPDF = (req, res) => {
 
 bookController.filterByUser = (req, res) => {
   Book.query()
-    .$relatedQuery('users')
-    .where('userId', '=', req.params.id)
+    .joinRelation('users')
+    .where('users.id', req.params.id)
     .orderBy('title')
     .then(books => {
       res.status(200).json(books)

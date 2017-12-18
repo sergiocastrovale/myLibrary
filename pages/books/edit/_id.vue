@@ -22,9 +22,7 @@
   export default {
     async asyncData ({ params }) {
       let book = null
-      const response = await axios.get('/api/books/edit/:id', { params: {
-        id: params.id
-      }})
+      const response = await axios.get('/api/books/edit/' + params.id)
 
       if (response.status === 200 && response.data) {
         book = response.data

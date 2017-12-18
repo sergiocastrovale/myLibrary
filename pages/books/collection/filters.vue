@@ -49,9 +49,7 @@
       },
       async fetchUsers () {
         const empty = [{ id: 0, username: '(No user selected)' }]
-        const { data } = await axios.get('/api/users/getAllForSelect/:id', { params: {
-          id: this.$store.state.auth.user.id
-        }})
+        const { data } = await axios.get('/api/users/getAllForSelect/' + this.$store.state.auth.user.id)
 
         this.users = [...empty, ...data]
       },

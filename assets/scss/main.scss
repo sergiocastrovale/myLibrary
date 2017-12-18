@@ -293,7 +293,7 @@ table {
         padding: 2rem;
         background: $lighter;
         overflow-y: auto;
-        flex: 1;
+        flex-grow: 1;
       }
     }
   }

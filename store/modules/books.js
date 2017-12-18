@@ -31,7 +31,7 @@ const actions = {
   },
   async filterBy ({ commit }, data) {
     let response = (data.id !== undefined && data.id)
-      ? await axios.get('/api/books/filterBy' + data.type, { params: { id: data.id } })
+      ? await axios.get('/api/books/filterBy' + data.type + '/' + data.id)
       : await axios.get('/api/books/filterBy' + data.type)
 
     if (response.status === 200 && response.data) {
@@ -40,9 +40,7 @@ const actions = {
     }
   },
   async searchInCollection ({ state, commit }, query) {
-    let response = await axios.get('/api/books/search/:query', { params: {
-      query: query
-    }})
+    let response = await axios.get('/api/books/search/' + query)
 
     if (response.status === 200 && response.data) {
       commit('setQuery', query)

@@ -102,9 +102,7 @@
           user: this.$store.state.auth.user,
           book: book
         }
-        let found = await axios.get('/api/books/findByGoogleId/:googleId', { params: {
-          googleId: book.id
-        }})
+        let found = await axios.get('/api/books/findByGoogleId/' + book.id)
 
         // Test if the book already exists. If it does, we'll warn the user and
         // switch the add button for a 'remove'.
