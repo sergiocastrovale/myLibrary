@@ -38,12 +38,10 @@
       triggerOption () {
         if (this.selectedOption === 0) {
           this.$store.dispatch('books/updateList')
+          this.$store.dispatch('books/resetFilter', 'typeFilter')
           this.$emit('filtered', false)
-        } else if (this.selectedOption === 1) {
-          this.$store.dispatch('books/filterBy', { type: 'Favorites' })
-          this.$emit('filtered', true)
-        } else if (this.selectedOption === 2) {
-          this.$store.dispatch('books/filterBy', { type: 'PDF' })
+        } else {
+          this.$store.dispatch('books/filterBy', this.selectedOption)
           this.$emit('filtered', true)
         }
       },
@@ -56,8 +54,9 @@
       triggerUser () {
         if (this.selectedUser === 0) {
           this.$store.dispatch('books/updateList')
+          this.$store.dispatch('books/resetFilter', 'userFilter')
         } else {
-          this.$store.dispatch('books/filterBy', { id: this.selectedUser, type: 'User' })
+          this.$store.dispatch('books/filterByUser', this.selectedUser)
           this.$emit('filtered', true)
         }
       }

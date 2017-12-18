@@ -28,14 +28,14 @@
           </div>
         </div>
 
-        <div v-if="book.notes" class="text my-3">
+        <!-- <div v-if="book.notes" class="text my-3">
           <i class="fa fa-sticky-note" aria-hidden="true"></i>
           <strong>Notes</strong>
 
           <div class="mt-1">
             {{ book.notes }}
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </modal>

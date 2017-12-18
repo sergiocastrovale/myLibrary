@@ -4,7 +4,7 @@ High priority
 * Add email field to user forms
 * Forgot password (send mail)
 * Filter by user or 'mine' or 'all'
-* Change isFavorite to have users in consideration
+* Switch isFavorite, notes, file to user_books
 * Change 'you already have that book' to have users in consideration
 * Upload cover on manual add
 * Handle authors and categories in forms

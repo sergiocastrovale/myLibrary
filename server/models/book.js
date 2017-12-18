@@ -16,7 +16,8 @@ export default class Book extends Model {
           from: 'books.id',
           through: {
             from: 'user_book.bookId',
-            to: 'user_book.userId'
+            to: 'user_book.userId',
+            extra: ['isFavorite', 'notes', 'file']
           },
           to: 'users.id'
         }

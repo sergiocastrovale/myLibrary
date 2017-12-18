@@ -14,11 +14,11 @@ bookController.getAll = (req, res) => {
   const to = params.page * params.size - 1
 
   Book.query()
-    .eager('authors')
-    .eager('users')
+    .joinEager('[users, authors, tags]')
     .orderBy('title')
     .range(from, to)
     .then(results => {
+      console.log(results)
       res.status(200).json(results)
     }).catch(error => {
       res.status(500).json(error.message)
@@ -33,7 +33,7 @@ bookController.searchInCollection = (req, res) => {
 
   if (query !== undefined && query.length > 2) {
     Book.query()
-      .eager('authors')
+      .joinEager('[authors, users, tags]')
       .orderBy('title')
       .where('title', 'like', '%' + query + '%')
       .orWhere('isbn10', 'like', '%' + query + '%')
@@ -210,9 +210,18 @@ bookController.doEdit = (req, res) => {
 
 bookController.addToFavorites = (req, res) => {
   Book.query()
-    .patchAndFetchById(req.body.id, { isFavorite: Book.raw('NOT ??', ['isFavorite']) })
-    .then(book => {
-      res.status(200).json(book)
+    .joinEager('users')
+    .findById(req.body.id)
+    .then(current => {
+      Book.query()
+        .joinEager('users')
+        .patchAndFetchById(req.body.id, {
+          isFavorite: !current.isFavorite
+        }).then(book => {
+          res.status(200).json(book)
+        }).catch(error => {
+          res.status(500).json(error.message)
+        })
     }).catch(error => {
       res.status(500).json(error.message)
     })
@@ -230,8 +239,8 @@ bookController.updateFile = (req, res) => {
 
 bookController.filterByFavorites = (req, res) => {
   Book.query()
-    .eager('authors')
-    .where('isFavorite', '=', true)
+    .joinEager('[authors, users, tags]')
+    .where('isFavorite', '=', true) // How can I reach this property of the book_user table?
     .orderBy('title')
     .then(books => {
       res.status(200).json(books)
@@ -240,9 +249,12 @@ bookController.filterByFavorites = (req, res) => {
     })
 }
 
+// Retrieves all books with a file
+
 bookController.filterByPDF = (req, res) => {
   Book.query()
     .eager('authors')
+    .eager('users')
     .where('file', 'IS NOT', null)
     .orderBy('title')
     .then(books => {
@@ -252,9 +264,11 @@ bookController.filterByPDF = (req, res) => {
     })
 }
 
+// Retrieves a collection of all books from a given user's id
+
 bookController.filterByUser = (req, res) => {
   Book.query()
-    .joinRelation('users')
+    .joinEager('[authors, users, tags]')
     .where('users.id', req.params.id)
     .orderBy('title')
     .then(books => {
@@ -263,6 +277,5 @@ bookController.filterByUser = (req, res) => {
       res.status(500).json(error.message)
     })
 }
-
 
 export default bookController

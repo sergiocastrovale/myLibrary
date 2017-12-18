@@ -2,6 +2,8 @@ import axios from './../../plugins/axios'
 
 const state = {
   list: [],
+  typeFilter: 0,
+  userFilter: 0,
   query: '',
   page: 1,
   size: 20,
@@ -29,12 +31,30 @@ const actions = {
   async updateQuery ({ state, commit }, query) {
     commit('setQuery', query)
   },
-  async filterBy ({ commit }, data) {
-    let response = (data.id !== undefined && data.id)
-      ? await axios.get('/api/books/filterBy' + data.type + '/' + data.id)
-      : await axios.get('/api/books/filterBy' + data.type)
+  async resetFilter ({ commit }, filter) {
+    commit('resetFilter', filter)
+  },
+  async filterBy ({ commit }, type) {
+    let response = null
+    let urlPart = 'PDF'
+
+    if (type === 1) {
+      urlPart = 'Favorites'
+    }
+
+    response = await axios.get('/api/books/filterBy' + urlPart)
 
     if (response.status === 200 && response.data) {
+      commit('setTypeFilter', type)
+      commit('setCount', response.data.length)
+      commit('updateList', response.data)
+    }
+  },
+  async filterByUser ({ commit }, id) {
+    let response = await axios.get('/api/books/filterByUser/' + id)
+
+    if (response.status === 200 && response.data) {
+      commit('setUserFilter', id)
       commit('setCount', response.data.length)
       commit('updateList', response.data)
     }
@@ -53,6 +73,17 @@ const actions = {
 const mutations = {
   setQuery: (state, query) => {
     state.query = query
+  },
+  setUserFilter: (state, value) => {
+    state.userFilter = value
+  },
+  setTypeFilter: (state, value) => {
+    state.typeFilter = value
+  },
+  resetFilter: (state, filter) => {
+    if (state[filter] !== undefined) {
+      state[filter] = 0
+    }
   },
   setCount: (state, count) => {
     state.count = count

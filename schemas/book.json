@@ -94,16 +94,6 @@
       "attrs": {
         "placeholder": "No. of pages (optional)"
       }
-    },
-    "notes": {
-      "title": "Notes",
-      "type": "string",
-      "minLength": 2,
-      "maxLength": 4096,
-      "attrs": {
-        "type": "textarea",
-        "placeholder": "Notes (optional)"
-      }
     }
   },
   "additionalProperties": false,
