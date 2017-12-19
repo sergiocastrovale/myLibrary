@@ -18,7 +18,6 @@ bookController.getAll = (req, res) => {
     .orderBy('title')
     .range(from, to)
     .then(results => {
-      console.log(results)
       res.status(200).json(results)
     }).catch(error => {
       res.status(500).json(error.message)
@@ -51,7 +50,9 @@ bookController.searchInCollection = (req, res) => {
 
 bookController.findByGoogleId = (req, res) => {
   Book.query()
-    .where('googleId', '=', req.params.googleId)
+    .joinEager('users')
+    .where('users.id', '=', req.query.googleId)
+    .where('googleId', '=', req.query.googleId)
     .first()
     .then(book => {
       res.status(200).json(book)
@@ -81,8 +82,12 @@ bookController.create = (req, res) => {
 
   Book.query()
     .where('googleId', '=', data.id)
-    .then(response => {
-      if (response.length === 0) {
+    .first()
+    .then(found => {
+      // Book not found? Add it and then relate it to our user
+      // Book found? We only need to sync to our user
+
+      if (!found) {
         const uri = data.volumeInfo.imageLinks.thumbnail
         const file = path.join(__dirname, '../../static/uploads/books/' + data.id + '.jpg')
         const intro = (data.searchInfo && data.searchInfo.textSnippet) ? data.searchInfo.textSnippet : ''
@@ -105,13 +110,12 @@ bookController.create = (req, res) => {
           publisher: vol.publisher,
           publishedDate: vol.publishedDate
         }).then(book => {
-          // Tie this book to the logged in user.
+          // Tie this book to the logged in user
 
-          book.$relatedQuery('users').relate(user.id).then(updatedRows => {
-          })
+          book.$relatedQuery('users').relate(user.id).then(updatedRows => {})
 
           // Insert authors and associate them with the new book.
-          // If the author already exists, we'll just "relate it" with the book.
+          // If the author already exists, we'll just "relate it" with the book
 
           vol.authors.forEach(author => {
             Author.query()
@@ -150,9 +154,7 @@ bookController.create = (req, res) => {
                   book
                     .$relatedQuery('tags')
                     .insert({ name: tag })
-                    .then(addedTag => {
-                      console.log('Added ', addedTag)
-                    })
+                    .then(addedTag => {})
                     .catch(error => {
                       res.status(500).json(error.message)
                     })
@@ -162,15 +164,30 @@ bookController.create = (req, res) => {
               })
           })
 
-          res.status(200).json({
-            obj: book,
-            message: 'Book added successfully!'
-          })
+          res.status(200).json({ success: true, synced: false, book: book })
         }).catch(error => {
           res.status(500).json(error.message)
         })
       } else {
-        res.status(200).json('You already have this book in your library! Skipping ...')
+        // Sync the book with the user if not found on his collection.
+        // Otherwise, we'll just send the book we already have
+
+        Book.query()
+          .joinEager('users')
+          .where('users.id', '=', user.id)
+          .where('googleId', '=', found.googleId)
+          .first()
+          .then(ownsIt => {
+            if (ownsIt) {
+              res.status(200).json({ success: false, synced: true, book: found })
+            } else {
+              found.$relatedQuery('users').relate(user.id).then(updatedRows => {
+                res.status(200).json({ success: true, synced: true, book: found })
+              })
+            }
+          }).catch(error => {
+            res.status(500).json(error.message)
+          })
       }
     })
 }

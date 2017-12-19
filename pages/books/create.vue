@@ -96,34 +96,47 @@
         }
       },
       async create (book) {
+        let user = this.$store.state.auth.user
         let response = null
-        console.log('auth', this.$store.state.auth)
         let data = {
-          user: this.$store.state.auth.user,
+          user: user,
           book: book
         }
-        let found = await axios.get('/api/books/findByGoogleId/' + book.id)
 
-        // Test if the book already exists. If it does, we'll warn the user and
-        // switch the add button for a 'remove'.
-        // If it doesn't, we'll add the book to our collection.
+        // Upon adding, we test if the book already exists.
+        // If it doesn't, two things can happen:
+        // 1) The book doesn't exist: we'll add the book and then sync to our collection
+        // 2) The book already exists because someone else added it: we'll sync to our collection only
+        // this.$toast.error('This book is already on your collection!')
 
-        if (found.status === 200 && found.data) {
-          this.$toast.error('This book is already on your collection!')
-        } else {
-          try {
-            this.adding = true
+        try {
+          this.adding = true
 
-            response = await axios.post('/api/book/create', data)
+          response = await axios.post('/api/book/create', data)
 
-            if (response.data) {
-              this.$store.dispatch('books/updateList')
-              this.adding = false
-              this.$toast.success('Book added to your library!')
+          if (response.status === 200 && response.data) {
+            const data = response.data
+            const title = data.book.title
+
+            if (data.success) {
+              if (data.synced) {
+                this.$toast.success(title + ' merged into your collection!')
+              } else {
+                this.$toast.success(title + ' added to your collection!')
+              }
+            } else {
+              if (data.synced) {
+                this.$toast.error(title + ' is already on your collection!')
+              } else {
+                this.$toast.error('Huh. An unknown error occurred!')
+              }
             }
-          } catch (e) {
-            this.$toast.error('Something happened while trying to add your book :( Please try again!')
+
+            this.$store.dispatch('books/updateList')
+            this.adding = false
           }
+        } catch (e) {
+          this.$toast.error('Something happened while trying to add your book :( Please try again!')
         }
       }
     },
