@@ -10,34 +10,42 @@ userController.register = (req, res) => {
   // via User's $beforeInsert
 
   User.query()
-    .insert({ username: data.username, password: data.password })
+    .insert({
+      username: data.username,
+      password: data.password,
+      email: data.email
+    })
     .then(user => {
+      console.log(user)
       if (user) {
-        res.status(200).json({ id: user.id, username: user.username })
+        res.status(200).json({
+          success: true,
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email
+          }
+        })
       } else {
         res.status(403).json({ success: false, message: 'Unable to create user' })
       }
     }).catch(error => {
-      res.status(500).json(error.message)
+      // Test for unique field errors
+      
+      if (error.code === 'ER_DUP_ENTRY') {
+        if (error.sqlMessage.indexOf('users_email_unique')) {
+          res.status(409).json({ success: false, message: 'This email is already taken.' })
+        } else if (error.sqlMessage.indexOf('users_username_unique')) {
+          res.status(422).json({ success: false, message: 'This username is already taken.' })
+        }
+      }
+      else {
+        res.status(500).json(error.message)
+      }
     })
 }
 
-// Gets all users with the currently logged in user in the first position
-
-userController.getAllForSelect = (req, res) => {
-  const id = req.params.id
-
-  User.query()
-    .select('id', 'username')
-    .orderBy('username', 'desc')
-    .orderByRaw(User.raw('id = ? desc', [id]))
-    .then(users => {
-      res.status(200).json(users)
-    })
-    .catch(error => {
-      console.log(error)
-    })
-}
+// Logs the user in. Accepts both email and username
 
 userController.login = (req, res) => {
   const data = req.body
@@ -46,6 +54,7 @@ userController.login = (req, res) => {
 
   User.query()
     .where('username', '=', data.username)
+    .orWhere('email', '=', data.username)
     .first()
     .then(user => {
       if (user) {
@@ -72,10 +81,34 @@ userController.login = (req, res) => {
             })
         }
       } else {
-        res.status(404)
+        let noUserError = new Error('NoUserFound')
+        noUserError.message = 'We weren\'t able to log you in. Maybe your password is wrong?'
+        noUserError.code = 'NO_USER_FOUND'
+        throw noUserError
       }
     }).catch(error => {
-      res.status(500).json(error.message)
+      if (error.code === 'NO_USER_FOUND') {
+        res.status(409).json(error.message)
+      } else {
+        res.status(500).json(error.message)
+      }
+    })
+}
+
+// Gets all users with the currently logged in user in the first position
+
+userController.getAllForSelect = (req, res) => {
+  const id = req.params.id
+
+  User.query()
+    .select('id', 'username')
+    .orderBy('username', 'desc')
+    .orderByRaw(User.raw('id = ? desc', [id]))
+    .then(users => {
+      res.status(200).json(users)
+    })
+    .catch(error => {
+      console.log(error)
     })
 }
 

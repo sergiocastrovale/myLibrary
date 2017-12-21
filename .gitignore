@@ -18,3 +18,4 @@ static/uploads
 
 # auth
 oauth.js
+/package-lock.json

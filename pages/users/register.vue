@@ -27,17 +27,28 @@
     }),
     methods: {
       async save () {
-        if (this.user.username && this.user.password) {
-          let response = await axios.post('/api/auth/register', {
-            username: this.user.username,
-            password: this.user.password
-          })
+        if (this.user.username && this.user.email && this.user.password) {
+          try {
+            let response = await axios.post('/api/auth/register', {
+              username: this.user.username,
+              password: this.user.password,
+              email: this.user.email
+            })
 
-          if (response.status === 200 && response.data) {
-            this.$toast.success(response.data.username + ' added!')
-            this.$router.push({ path: '/users/login' })
-          } else {
-            this.$toast.error(response.data)
+            // Process the response:
+            // 200: OK
+            // 409 Conflict (email unique constraint failed)
+            // 422 Unprocessable Entity (username unique constraint failed)
+            // Else, display generic error message
+
+            if (response.status === 200) {
+              this.$toast.success('Account for ' + response.data.user.email + ' created successfully!')
+              this.$router.push({ path: '/users/login' })
+            } else {
+              this.$toast.error('An unspecified error occurred. Please try again.')
+            }
+          } catch (e) {
+            this.$toast.error(e.response.data.message)
           }
         } else {
           this.$toast.error('Please fill in the required fields!')

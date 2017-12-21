@@ -108,7 +108,8 @@ bookController.create = (req, res) => {
           description: vol.description,
           pageCount: vol.pageCount,
           publisher: vol.publisher,
-          publishedDate: vol.publishedDate
+          publishedDate: vol.publishedDate,
+          fetched: true
         }).then(book => {
           // Tie this book to the logged in user
 
@@ -194,6 +195,9 @@ bookController.create = (req, res) => {
 
 bookController.add = (req, res) => {
   const data = req.body
+  
+  // Make sure we set this book as a manual entry
+  data.fetched = false
 
   Book.query().insert(data)
     .then(book => {
@@ -266,7 +270,7 @@ bookController.filterByFavorites = (req, res) => {
     })
 }
 
-// Retrieves all books with a file
+// Retrieves all books with a file on a given user's collection
 
 bookController.filterByPDF = (req, res) => {
   Book.query()

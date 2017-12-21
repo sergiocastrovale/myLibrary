@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table v-if="books && books.length">
+    <table v-if="books !== undefined && books.length">
       <thead>
         <tr>
           <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" :class="header.className">

@@ -5,7 +5,7 @@
 
     <form @submit.prevent="login" class="mt-5">
       <label for="username">
-        Username
+        Email or username
         <input type="text" v-model="username" name="username">
       </label>
 
@@ -37,23 +37,20 @@
         // This action handles the whole login assigning process
         // and stores both the user and token
 
-        await this.$store.dispatch('auth/login', { fields: {
-          username: this.username,
-          password: this.password
-        }}).then(() => {
+        try {
+          await this.$store.dispatch('auth/login', { fields: {
+            username: this.username,
+            password: this.password
+          }})
           // Did we login successfully? If so, move on to the list
+          // else show what went wrong
 
           if (this.$store.getters['auth/loggedIn']) {
             this.$router.push({ path: '/books/collection' })
-          } else {
-            console.log('nope')
-            this.$toast.error('We weren\'t able to log you in. Maybe your password is wrong?')
           }
-        })
-      },
-      reset () {
-        this.username = ''
-        this.password = ''
+        } catch (e) {
+          this.$toast.error(e.response.data)
+        }
       }
     }
   }

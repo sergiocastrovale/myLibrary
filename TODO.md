@@ -5,15 +5,11 @@ High priority
 * Forgot password (send mail)
 * Filter by user or 'mine' or 'all'
 * Switch isFavorite, notes, file to user_books
-* Change 'you already have that book' to have users in consideration
 * Upload cover on manual add
 * Handle authors and categories in forms
 * Direct download of files (if allowed)
-* Add isAdmin on users
 * Add fetched on books so we can tell apart automatic from manual entries
 * Deleting only deletes relationship between user and book, not the book itself, unless you're the only one having it
-* Only admins can edit unless it's a manual entry
-* Buy domain
 * Test deploy
 
 Low priority
@@ -24,3 +20,5 @@ Low priority
 * Improve UI of selects
 * My account
 * Update meta tags and titles of website in each main page
+* Add isAdmin on users
+* Only admins can edit unless it's a manual entry

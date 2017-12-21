@@ -4,8 +4,17 @@
   "title": "Welcome!",
   "description": "Create a new account.",
   "properties": {
+    "email": {
+      "title": "Your email",
+      "type": "string",
+      "minLength": 6,
+      "attrs": {
+        "type": "email",
+        "placeholder": "Add your email"
+      }
+    },
     "username": {
-      "title": "Username",
+      "title": "Your username",
       "type": "string",
       "minLength": 2,
       "maxLength": 24,
@@ -25,5 +34,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["username", "password"]
+  "required": ["username", "email", "password"]
 }
