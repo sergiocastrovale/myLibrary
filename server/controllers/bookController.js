@@ -1,7 +1,7 @@
 import Book from '../models/book'
 import Author from '../models/author'
 import Tag from '../models/tag'
-import User from '../models/user'
+import UserBook from '../models/userBook'
 import path from 'path'
 
 const bookController = {}
@@ -51,7 +51,7 @@ bookController.searchInCollection = (req, res) => {
 bookController.findByGoogleId = (req, res) => {
   Book.query()
     .joinEager('users')
-    .where('users.id', '=', req.query.googleId)
+    .where('users.id', '=', req.query.userId)
     .where('googleId', '=', req.query.googleId)
     .first()
     .then(book => {
@@ -229,20 +229,24 @@ bookController.doEdit = (req, res) => {
     })
 }
 
-bookController.addToFavorites = (req, res) => {
-  Book.query()
-    .joinEager('users')
-    .findById(req.body.id)
+// Updates the current UserBook object with the opposite status for isFavorite
+
+bookController.toggleFavorite = (req, res) => {
+  UserBook.query()
+    .where('userId', '=', req.body.userId)
+    .where('bookId', '=', req.body.bookId)
+    .first()
     .then(current => {
-      Book.query()
-        .joinEager('users')
-        .patchAndFetchById(req.body.id, {
-          isFavorite: !current.isFavorite
-        }).then(book => {
-          res.status(200).json(book)
-        }).catch(error => {
-          res.status(500).json(error.message)
-        })
+      if (current) {
+        current.$query()
+          .patchAndFetchById(current.id, {
+            isFavorite: !current.isFavorite
+          }).then(book => {
+            res.status(200).json(book)
+          }).catch(error => {
+            res.status(500).json(error.message)
+          })
+      }
     }).catch(error => {
       res.status(500).json(error.message)
     })

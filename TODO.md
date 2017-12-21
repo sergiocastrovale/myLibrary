@@ -1,10 +1,9 @@
 High priority
 =============
 
-* Add email field to user forms
 * Forgot password (send mail)
 * Filter by user or 'mine' or 'all'
-* Switch isFavorite, notes, file to user_books
+* Switch isFavorite, notes, file to user_books: if I don't have the book and add any of these, the book is added automatically
 * Upload cover on manual add
 * Handle authors and categories in forms
 * Direct download of files (if allowed)

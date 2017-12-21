@@ -24,7 +24,8 @@
 
   export default {
     props: {
-      book: Object
+      book: Object,
+      meAsOwner: Object
     },
     computed: {
       modalName () {

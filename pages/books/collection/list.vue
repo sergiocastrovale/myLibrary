@@ -58,19 +58,7 @@
         </td>
 
         <td class="text-center fs-larger">
-          <div class="d-flex align-items-center">
-            <a>
-              <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>
-            </a>
-
-            <add-to-favorites :book="book"></add-to-favorites>
-
-            <nuxt-link :to="'/books/edit/' + book.id" exact>
-              <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
-            </nuxt-link>
-
-            <remove :book="book"></remove>
-          </div>
+          <book-actions :book="book"></book-actions>
         </td>
       </tr>
       </tbody>
@@ -82,11 +70,8 @@
 </template>
 
 <script>
-  import AddToFavorites from './addToFavorites'
-  import BookFile from './file'
   import BookCover from './cover'
-  import Remove from './remove'
-  import BookDetails from './details'
+  import BookActions from './actions'
   import { orderBy } from 'lodash'
 
   export default {
@@ -132,11 +117,8 @@
       }
     },
     components: {
-      BookFile,
-      BookDetails,
-      Remove,
       BookCover,
-      AddToFavorites
+      BookActions
     }
   }
 </script>
