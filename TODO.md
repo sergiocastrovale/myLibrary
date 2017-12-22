@@ -3,12 +3,11 @@ High priority
 
 * Forgot password (send mail)
 * Filter by user or 'mine' or 'all'
-* Switch isFavorite, notes, file to user_books: if I don't have the book and add any of these, the book is added automatically
+* Switch notes to user_books
 * Upload cover on manual add
 * Handle authors and categories in forms
-* Direct download of files (if allowed)
-* Add fetched on books so we can tell apart automatic from manual entries
-* Deleting only deletes relationship between user and book, not the book itself, unless you're the only one having it
+* Direct download of files (if allowed from user's path field)
+* Use json-schema package to its full extent (UI kit)
 * Test deploy
 
 Low priority

@@ -1,8 +1,8 @@
 <template>
-  <div class="file">
-    <div class="mb-3" :title="book.file">
+  <div v-if="meAsOwner" class="file">
+    <div class="mb-3" :title="meAsOwner.file">
       <label class="file-select">
-        <span v-if="book.file">{{ book.file | truncate(40) }}</span>
+        <span v-if="meAsOwner.file">{{ meAsOwner.file | truncate(40) }}</span>
         <span v-else class="add">(click to edit)</span>
 
         <input type="file" @change="updateFileName">
@@ -16,7 +16,8 @@
 
   export default {
     props: {
-      book: Object
+      book: Object,
+      meAsOwner: Object
     },
     methods: {
       async updateFileName (e) {
@@ -25,13 +26,13 @@
 
         if (files.length) {
           let response = await axios.post('/api/book/updateFile', {
-            id: id,
+            userId: this.meAsOwner.id,
+            bookId: id,
             file: files[0].name
           })
 
           if (response.status === 200 && response.data) {
             this.$store.dispatch('books/updateList')
-            this.$toasted.success('File added to book ' + response.data.title)
           }
         }
       }

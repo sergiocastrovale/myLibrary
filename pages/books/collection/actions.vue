@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-items-center">
+  <div class="actions">
     <a>
       <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>
     </a>
@@ -15,25 +15,29 @@
 </template>
 
 <script>
-  import BookFile from './file'
   import toggleFavorite from './toggleFavorite'
   import Remove from './remove'
   import BookDetails from './details'
 
   export default {
     props: {
-      book: Object
-    },
-    computed: {
-      meAsOwner () {
-        return this.book.users.find(user => user.id === this.$store.state.auth.user.id)
-      }
+      book: Object,
+      meAsOwner: Object
     },
     components: {
-      BookFile,
       BookDetails,
       Remove,
       toggleFavorite
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  table td .actions {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+</style>

@@ -61,11 +61,17 @@ bookController.findByGoogleId = (req, res) => {
     })
 }
 
-bookController.remove = (req, res) => {
-  const book = req.body
+// Removes a book from the logged in user's collection.
+// Does not remove the book from the overall list of books;
+// the purpose of this app is to store as many books as possible,
+// even if nobody owns them!
 
-  Book.query()
-    .deleteById(book.id)
+bookController.remove = (req, res) => {
+  UserBook.query()
+    .where('userId', '=', req.body.userId)
+    .where('bookId', '=', req.body.bookId)
+    .first()
+    .delete()
     .then(deletedRows => {
       res.status(200).json(deletedRows)
     }).catch(error => {
@@ -253,10 +259,13 @@ bookController.toggleFavorite = (req, res) => {
 }
 
 bookController.updateFile = (req, res) => {
-  Book.query()
-    .patchAndFetchById(req.body.id, { file: req.body.file })
-    .then(updatedBook => {
-      res.status(200).json(updatedBook)
+  UserBook.query()
+    .where('userId', '=', req.body.userId)
+    .where('bookId', '=', req.body.bookId)
+    .first()
+    .patch({ file: req.body.file })
+    .then(updated => {
+      res.status(200).json(updated)
     }).catch(error => {
       res.status(500).json(error.message)
     })

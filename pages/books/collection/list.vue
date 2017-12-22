@@ -18,6 +18,8 @@
       </thead>
       <tbody>
       <tr v-for="book in sortedBooks" :key="book.id" class="border-light bg-white p-3 radius-small my-2">
+        <td :class="['ownership', meAsOwner(book.id) ? 'mine' : '']"></td>
+
         <td>
           <book-details :book="book"></book-details>
           <book-cover :book="book" size="small"></book-cover>
@@ -46,7 +48,7 @@
         </td>
 
         <td>
-          <book-file :book="book"></book-file>
+          <book-file :book="book" :meAsOwner="meAsOwner(book.id)"></book-file>
         </td>
 
         <td>
@@ -57,8 +59,8 @@
           </ul>
         </td>
 
-        <td class="text-center fs-larger">
-          <book-actions :book="book"></book-actions>
+        <td class="fs-larger">
+          <book-actions :book="book" :meAsOwner="meAsOwner(book.id)"></book-actions>
         </td>
       </tr>
       </tbody>
@@ -71,6 +73,7 @@
 
 <script>
   import BookCover from './cover'
+  import BookFile from './file'
   import BookActions from './actions'
   import { orderBy } from 'lodash'
 
@@ -81,14 +84,15 @@
     data () {
       return {
         headers: [
-          { id: 0, label: 'Cover' },
-          { id: 1, label: 'Title', field: 'title' },
-          { id: 2, label: 'Authors', field: 'authors' },
-          { id: 3, label: 'Pages', field: 'pageCount' },
-          { id: 5, label: 'Publisher', field: 'publisher' },
-          { id: 6, label: 'File' },
-          { id: 7, label: 'Owners' },
-          { id: 8, label: 'Actions', className: 'actions' }
+          { id: 0, label: '' },
+          { id: 1, label: 'Cover' },
+          { id: 2, label: 'Title', field: 'title' },
+          { id: 3, label: 'Authors', field: 'authors' },
+          { id: 5, label: 'Pages', field: 'pageCount' },
+          { id: 6, label: 'Publisher', field: 'publisher' },
+          { id: 7, label: 'File' },
+          { id: 8, label: 'Owners' },
+          { id: 9, label: 'Actions', className: 'actions' }
         ],
         sortField: 'title',
         sortDirection: 'asc'
@@ -96,7 +100,6 @@
     },
     computed: {
       sortedBooks () {
-        console.log(this.books.length)
         return orderBy(this.books, this.sortField, this.sortDirection)
       },
       sortArrow () {
@@ -104,6 +107,10 @@
       }
     },
     methods: {
+      meAsOwner (id) {
+        const book = this.books.find(book => book.id === id)
+        return book.users.find(user => user.id === this.$store.state.auth.user.id)
+      },
       sortBooks (field) {
         if (this.sortField === field) {
           this.sortDirection = (this.sortDirection === 'asc') ? 'desc' : 'asc'
@@ -118,6 +125,7 @@
     },
     components: {
       BookCover,
+      BookFile,
       BookActions
     }
   }
@@ -125,6 +133,25 @@
 
 <style lang="scss" scoped>
   @import '../../../assets/scss/variables';
+
+  table th:first-child,
+  table td.ownership {
+    padding: 0;
+    min-width: 5px;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    background: transparent;
+
+    &.mine {
+      border-color: $green;
+      background: $green;
+    }
+  }
+
+  table th:last-child {
+    text-align: center;
+  }
 
   .sort {
     font-size: $font-size-small;

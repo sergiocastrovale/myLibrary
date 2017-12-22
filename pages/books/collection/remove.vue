@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="meAsOwner">
     <modal :name="modalName" width="40%" height="auto" :scrollable="true">
       <div class="p-5">
         <h3>
@@ -41,22 +41,22 @@
       },
       async remove () {
         try {
-          let response = await axios.post('/api/book/remove', this.book)
+          let response = await axios.post('/api/book/remove', {
+            bookId: this.book.id,
+            userId: this.$store.state.auth.user.id
+          })
 
           if (response.status === 200) {
             this.$store.dispatch('books/updateList')
+            this.$modal.hide(this.modalName)
             this.$toast.success('Book removed from your library!')
           }
         } catch (e) {
+          console.log(e.message)
+          this.$modal.hide(this.modalName)
           this.$toast.error('Something happened while trying to remove your book :( Please try again!')
         }
       }
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .v--modal-box.v--modal {
-
-  }
-</style>

@@ -4,6 +4,7 @@ exports.up = (knex, Promise) => {
     table.string('username').unique().notNullable()
     table.string('email').unique().notNullable()
     table.string('password').notNullable()
+    table.string('path')
     table.string('token')
     table.boolean('isAdmin').defaultTo(false)
     table.timestamps(false, true)

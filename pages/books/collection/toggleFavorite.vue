@@ -27,7 +27,8 @@
 
           this.$store.dispatch('books/updateList')
         } catch (e) {
-          this.$toasted.error(e.message)
+          console.log(e.message)
+          this.$toasted.error('Something happened while trying to add your book to favorites :( Please try again!')
         }
       }
     }
