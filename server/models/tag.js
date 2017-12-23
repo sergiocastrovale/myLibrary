@@ -1,4 +1,3 @@
-import path from 'path'
 import { Model } from 'objection'
 
 export default class Tag extends Model {
@@ -21,5 +20,13 @@ export default class Tag extends Model {
         }
       }
     }
+  }
+
+  // Finds a tag by name.
+
+  static findByName (name) {
+    return this.query()
+      .where('name', '=', name)
+      .first()
   }
 }

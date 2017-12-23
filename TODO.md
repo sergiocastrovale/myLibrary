@@ -20,3 +20,8 @@ Low priority
 * Update meta tags and titles of website in each main page
 * Add isAdmin on users
 * Only admins can edit unless it's a manual entry
+
+Issues
+===============
+
+Adding a book to the user works twice (once for add, once for merge)

@@ -1,4 +1,3 @@
-import path from 'path'
 import { Model } from 'objection'
 
 export default class Author extends Model {
@@ -21,5 +20,13 @@ export default class Author extends Model {
         }
       }
     }
+  }
+
+  // Finds an author by name.
+
+  static findByName (name) {
+    return this.query()
+      .where('name', '=', name)
+      .first()
   }
 }

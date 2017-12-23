@@ -72,11 +72,34 @@
       loader: 'dots',
       loading: false,
       adding: false,
-      query: 'music history',
+      query: '',
       results: null
     }),
     async fetch ({ store }) {
       await store.dispatch('books/updateList')
+    },
+    created () {
+      const strings = [
+        'chopin',
+        'mozart',
+        'bach',
+        'beethoven',
+        'ancient greece',
+        'ancient rome',
+        'romantic period',
+        'medieval music',
+        'bartok',
+        'liszt',
+        'sonata',
+        'orchestra',
+        'stravinsky',
+        'kurt sachs',
+        'orff',
+        'verdi'
+      ]
+      const n = Math.floor(Math.random() * strings.length)
+
+      this.query = strings[n]
     },
     methods: {
       async search () {

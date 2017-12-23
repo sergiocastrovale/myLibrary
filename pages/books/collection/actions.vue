@@ -1,8 +1,6 @@
 <template>
   <div class="actions">
-    <a>
-      <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>
-    </a>
+    <book-details :book="book" :meAsOwner="meAsOwner"></book-details>
 
     <toggle-favorite :book="book" :meAsOwner="meAsOwner"></toggle-favorite>
 
@@ -16,8 +14,8 @@
 
 <script>
   import toggleFavorite from './toggleFavorite'
-  import Remove from './remove'
   import BookDetails from './details'
+  import Remove from './remove'
 
   export default {
     props: {
@@ -25,8 +23,8 @@
       meAsOwner: Object
     },
     components: {
-      BookDetails,
       Remove,
+      BookDetails,
       toggleFavorite
     }
   }

@@ -27,7 +27,7 @@
     "jsonwebtoken": "^8.1.0",
     "knex": "^0.13.0",
     "mysql": "^2.15.0",
-    "nuxt": "^1.0.0-rc11",
+    "nuxt": "latest",
     "objection": "^0.9.0",
     "request": "^2.83.0",
     "source-map-support": "^0.4.15",

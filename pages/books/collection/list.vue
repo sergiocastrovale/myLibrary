@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table v-if="books !== undefined && books.length">
+    <table v-if="books !== undefined && books && books.length">
       <thead>
         <tr>
           <th v-for="header in headers" :key="header.id" @click="sortBooks(header.field)" :class="header.className">
@@ -21,7 +21,6 @@
         <td :class="['ownership', meAsOwner(book.id) ? 'mine' : '']"></td>
 
         <td>
-          <book-details :book="book"></book-details>
           <book-cover :book="book" size="small"></book-cover>
         </td>
 
@@ -118,9 +117,6 @@
           this.sortField = field
           this.sortDirection = 'asc'
         }
-      },
-      openDetails (id) {
-        this.$modal.show('book-' + id + '-details')
       }
     },
     components: {

@@ -30,23 +30,8 @@ module.exports = {
   ** Add axios globally
   */
   build: {
+    analyze: false,
     vendor: ['axios'],
-
-    babel: {
-      'presets': [
-        ['env', {
-          'targets': {
-            'node': 'current'
-          }
-        }],
-        'stage-1'
-      ],
-      'plugins': []
-    },
-
-    /*
-    ** Run ESLINT on save
-    */
     extend (config, ctx) {
       if (ctx.isClient) {
         config.module.rules.push({
