@@ -12,8 +12,8 @@ router.post('/book/create', bookController.create)
 router.post('/book/toggleFavorite', bookController.toggleFavorite)
 router.post('/book/updateFile', bookController.updateFile)
 router.post('/book/remove', bookController.remove)
-router.get('/books/filterByFavorites', bookController.filterByFavorites)
-router.get('/books/filterByPDF', bookController.filterByPDF)
+router.get('/books/filterByFavorites/:id', bookController.filterByFavorites)
+router.get('/books/filterByPDF/:id', bookController.filterByPDF)
 router.get('/books/filterByUser/:id', bookController.filterByUser)
 
 export default router

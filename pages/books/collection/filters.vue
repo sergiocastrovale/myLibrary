@@ -41,9 +41,14 @@
           this.$store.dispatch('books/resetFilter', 'typeFilter')
           this.$emit('filtered', false)
         } else {
-          this.$store.dispatch('books/filterBy', this.selectedOption)
+          this.$store.dispatch('books/filterBy', {
+            type: this.selectedOption,
+            userId: this.$store.state.auth.user.id
+          })
           this.$emit('filtered', true)
         }
+
+        this.selectedUser = 0
       },
       async fetchUsers () {
         const empty = [{ id: 0, username: '(No user selected)' }]
@@ -59,6 +64,8 @@
           this.$store.dispatch('books/filterByUser', this.selectedUser)
           this.$emit('filtered', true)
         }
+
+        this.selectedOption = 0
       }
     }
   }

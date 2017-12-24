@@ -64,7 +64,7 @@ export default class Book extends Model {
 
   // Retrieves the list of books.
 
-  static list (from, to) {
+  static list () {
     return this.query()
       .joinEager('[users, authors, tags]')
       .orderBy('title')
@@ -189,8 +189,13 @@ export default class Book extends Model {
 
   // Adds the current book to a user's collection.
 
-  static attachUser (book, user) {
-    return book.$relatedQuery('users').relate(user.id)
+  attachUser (user) {
+    this.$relatedQuery('users')
+      .relate(user.id)
+      .then(added => {})
+      .catch(error => {
+        console.log('Error relating user to book', error)
+      })
   }
 
   // Retrieves a given book provided that the current user has it
@@ -202,5 +207,41 @@ export default class Book extends Model {
       .where('users.id', '=', userId)
       .where('googleId', '=', googleId)
       .first()
+  }
+
+  // Manually adds a book.
+
+  static addManually (data) {
+    data.fetched = false
+
+    return this.query().insert(data)
+  }
+
+  // Edits a given book. Returns the updated object.
+
+  static edit (data) {
+    return this.query().patchAndFetchById(data.id, data)
+  }
+
+  // Filters the list with the current user's favorite books.
+
+  static filterByFavorites (userId) {
+    return this.list()
+      .where('users.id', userId)
+      .where('isFavorite', '=', true)
+  }
+
+  // Filters the list with the current user's books with a file.
+
+  static filterByPDF (userId) {
+    return this.list()
+      .where('users.id', userId)
+      .where('file', 'IS NOT', null)
+  }
+
+  // Filters the list with the current user's books.
+
+  static filterByUser (userId) {
+    return this.list().where('users.id', userId)
   }
 }

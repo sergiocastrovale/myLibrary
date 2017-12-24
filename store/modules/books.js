@@ -34,18 +34,19 @@ const actions = {
   async resetFilter ({ commit }, filter) {
     commit('resetFilter', filter)
   },
-  async filterBy ({ commit }, type) {
+  async filterBy ({ commit }, data) {
     let response = null
     let urlPart = 'PDF'
 
-    if (type === 1) {
+    if (data.type === 1) {
       urlPart = 'Favorites'
     }
 
-    response = await axios.get('/api/books/filterBy' + urlPart)
+    response = await axios.get('/api/books/filterBy' + urlPart + '/' + data.userId)
 
     if (response.status === 200 && response.data) {
-      commit('setTypeFilter', type)
+      commit('setUserFilter', data.userId)
+      commit('setTypeFilter', data.type)
       commit('setCount', response.data.length)
       commit('updateList', response.data)
     }
@@ -55,6 +56,7 @@ const actions = {
 
     if (response.status === 200 && response.data) {
       commit('setUserFilter', id)
+      commit('setTypeFilter', null)
       commit('setCount', response.data.length)
       commit('updateList', response.data)
     }
