@@ -3,7 +3,7 @@
     <form class="bg-lightest" @submit.prevent.stop="">
       <i class="fa fa-search" aria-hidden="true"></i>
       <input type="text" v-model="query" placeholder="Type to search in your collection..." @keyup="search"></input>
-      <div @click="reset">Reset</div>
+      <div class="pointer" @click="reset">Reset</div>
     </form>
   </div>
 </template>

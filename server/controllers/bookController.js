@@ -1,6 +1,4 @@
 import Book from '../models/book'
-import Author from '../models/author'
-import Tag from '../models/tag'
 import UserBook from '../models/userBook'
 
 const bookController = {}

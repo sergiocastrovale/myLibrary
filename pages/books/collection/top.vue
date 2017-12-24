@@ -29,6 +29,7 @@
   @import '../../../assets/scss/variables';
 
   .top {
+    height: 12rem;
     display: flex;
     align-items: center;
     background: $lightest;
