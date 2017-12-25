@@ -1,7 +1,7 @@
 <template>
   <div v-if="meAsOwner" class="file">
     <div class="mb-3" :title="meAsOwner.file">
-      <label class="file-select">
+      <label class="edit-in-place">
         <span v-if="meAsOwner.file">{{ meAsOwner.file | truncate(40) }}</span>
         <span v-else class="add">(click to edit)</span>
 
@@ -45,24 +45,6 @@
 
   input[type=file] {
     display: none;
-  }
-
-  .file-select {
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
-
-    &:hover {
-      background: #f9f8d0;
-    }
-
-    .add {
-      color: $medium;
-
-      &:hover {
-        color: #9c9b74;
-      }
-    }
   }
 
   .button {

@@ -28,25 +28,48 @@
           </div>
         </div>
 
-        <!-- <div v-if="book.notes" class="text my-3">
+        <div class="text my-3">
           <i class="fa fa-sticky-note" aria-hidden="true"></i>
           <strong>Notes</strong>
 
           <div class="mt-1">
-            {{ book.notes }}
+            <div v-if="editing">
+              <textarea v-model="notes" :placeholder="notesPlaceholder"></textarea>
+
+              <div class="mt-2">
+                <button class="btn ok small" @click="saveNotes">Save</button>
+                <button class="btn secondary small" @click="cancel">Cancel</button>
+              </div>
+            </div>
+            <div v-else class="edit-in-place" @click="editNotes">
+              <span v-if="notes">{{ notes }}</span>
+              <span v-else>{{ notesPlaceholder }}</span>
+
+              <i aria-hidden="true" title="Edit notes" class="fa fa-edit fs-small ml-1"></i>
+            </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </modal>
 </template>
 
 <script>
+  import axios from 'axios'
   import BookCover from './cover'
 
   export default {
     props: {
-      book: Object
+      book: Object,
+      meAsOwner: Object
+    },
+    data: () => ({
+      notes: '',
+      notesPlaceholder: '(Click to add your private notes on this book)',
+      editing: false
+    }),
+    created () {
+      this.notes = this.meAsOwner ? this.meAsOwner.notes : ''
     },
     computed: {
       modalName () {
@@ -68,6 +91,25 @@
     methods: {
       close () {
         this.$modal.hide(this.modalName)
+      },
+      editNotes () {
+        this.editing = true
+      },
+      cancel () {
+        this.editing = false
+      },
+      async saveNotes () {
+        let response = await axios.post('/api/book/updateNotes', {
+          userId: this.$store.state.auth.user.id,
+          bookId: this.book.id,
+          notes: this.notes
+        })
+
+        if (response.status === 200 && response.data) {
+          this.$store.dispatch('books/updateList')
+          this.$toast.success('Notes updated!')
+          this.editing = false
+        }
       }
     },
     components: {

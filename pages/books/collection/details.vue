@@ -1,6 +1,6 @@
 <template>
   <div>
-      <details-modal :book="book"></details-modal>
+      <details-modal :book="book" :meAsOwner="meAsOwner"></details-modal>
 
       <a>
         <i class="fa fa-eye" aria-hidden="true" title="Details" @click="openDetails(book.id)"></i>

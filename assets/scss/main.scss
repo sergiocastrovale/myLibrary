@@ -185,12 +185,21 @@ table {
   line-height: 50px;
   font-weight: 400;
   border: 0;
+  @include setColorsAndHovers($dark, $lightest, $dark);
 
   &+.btn {
     margin-left: 2rem;
   }
 
-  @include setColorsAndHovers($dark, $lightest, $dark);
+  &.small {
+    padding: 0 1rem;
+    height: 34px;
+    line-height: 34px;
+
+    &+.btn {
+      margin-left: 0.5rem;
+    }
+  }
 
   &.ok {
     @include setColorsAndHovers($green, $lightest, $green);
@@ -245,6 +254,24 @@ table {
 
     > .btn {
       margin-right: 2rem;
+    }
+  }
+}
+
+.edit-in-place {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+
+  &:hover {
+    background: $edit-in-place;
+  }
+
+  .add {
+    color: $medium;
+
+    &:hover {
+      color: $edit-in-place-added;
     }
   }
 }

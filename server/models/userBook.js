@@ -60,7 +60,7 @@ export default class UserBook extends Model {
 
   // Edits the personal notes for the current user/book.
 
-  editNotes (userId, bookId, notes) {
+  static editNotes (userId, bookId, notes) {
     return this.findMyBook(userId, bookId).patch({ notes: notes })
   }
 }
