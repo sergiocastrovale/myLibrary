@@ -8,6 +8,8 @@
       <i class="fa fa-edit" aria-hidden="true" title="Edit"></i>
     </nuxt-link>
 
+    <download :book="book" :meAsOwner="meAsOwner"></download>
+
     <remove :book="book" :meAsOwner="meAsOwner"></remove>
   </div>
 </template>
@@ -15,6 +17,7 @@
 <script>
   import toggleFavorite from './toggleFavorite'
   import BookDetails from './details'
+  import Download from './download'
   import Remove from './remove'
 
   export default {
@@ -24,6 +27,7 @@
     },
     components: {
       Remove,
+      Download,
       BookDetails,
       toggleFavorite
     }

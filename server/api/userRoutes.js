@@ -13,5 +13,6 @@ router.get('/auth/logout', userController.logout)
 // Other routes
 
 router.get('/users/getAllForSelect/:id', userController.getAllForSelect)
+router.post('/user/update', userController.update)
 
 export default router

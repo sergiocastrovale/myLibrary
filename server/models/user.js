@@ -34,4 +34,10 @@ export default class User extends Model {
   passwordsMatch (password) {
     return bcrypt.compareSync(password, this.password)
   }
+
+  // Syncs a local folder path with this user
+
+  updatePath (path) {
+    return this.$query().patchAndFetch({ path: path })
+  }
 }

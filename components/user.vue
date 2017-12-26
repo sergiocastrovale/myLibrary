@@ -3,13 +3,17 @@
     <strong>{{ username }}</strong>
 
     <ul class="fs-small text-center">
-      <li @click="account">
-        <i class="fa fa-address-card-o" aria-hidden="true"></i>
-        <span>Account</span>
+      <li>
+        <nuxt-link :to="'/users/account/' + $store.state.auth.user.id" exact>
+          <i class="fa fa-address-card-o" aria-hidden="true"></i>
+          <span>Account</span>        
+        </nuxt-link>
       </li>
-      <li @click="logout">
-        <i class="fa fa-sign-out" aria-hidden="true"></i>
-        <span>Logout</span>
+      <li>
+        <a href="#" @click="logout">
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+          <span>Logout</span>
+        </a>
       </li>
     </ul>
   </div>

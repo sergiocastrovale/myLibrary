@@ -124,7 +124,9 @@ userController.fetch = (req, res) => {
           success: true,
           user: {
             id: user.id,
-            username: user.username
+            username: user.username,
+            email: user.email,
+            path: user.path
           }
         })
       } else {
@@ -147,6 +149,17 @@ userController.logout = (req, res) => {
       } else {
         res.status(403)
       }
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
+userController.update = (req, res) => {
+  User.query()
+    .findById(req.body.id)
+    .patch(req.body.data)
+    .then(updatedUser => {
+      res.status(200).json(updatedUser)
     }).catch(error => {
       res.status(500).json(error.message)
     })

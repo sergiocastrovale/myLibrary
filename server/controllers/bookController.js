@@ -1,5 +1,7 @@
 import Book from '../models/book'
 import UserBook from '../models/userBook'
+import path from 'path'
+import fs from 'fs'
 
 const bookController = {}
 
@@ -176,6 +178,34 @@ bookController.filterByUser = (req, res) => {
   Book.filterByUser(req.params.id)
     .then(books => {
       res.status(200).json(books)
+    }).catch(error => {
+      res.status(500).json(error.message)
+    })
+}
+
+bookController.download = (req, res) => {
+  Book.findMyBookWithFile(req.query.userId, req.query.bookId)
+    .then(myBook => {
+      console.log(myBook)
+      const userPath = myBook.users[0].path
+      const userFile = myBook.users[0].file
+      const fullPath = path.resolve(userPath, userFile)
+
+      console.log(fullPath)
+
+      fs.createReadStream(fullPath, 'utf-8', (error, data) => {
+        console.log('readStream data', data)
+        if (error) {
+          console.log(error)
+          res.status(500).json(error)
+        } else {
+          res.header('Access-Control-Allow-Origin', '*')
+          res.header('Access-Control-Allow-Headers", "X-Requested-With')
+          res.setHeader('Content-Type', 'application/pdf')
+          res.setHeader('Content-Disposition', 'attachment; filename=' + userFile)
+          fs.pipe(res)
+        }
+      })
     }).catch(error => {
       res.status(500).json(error.message)
     })

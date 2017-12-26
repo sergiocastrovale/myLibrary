@@ -14,7 +14,7 @@
 <script>
   import axios from '~/plugins/axios'
   import FormSchema from 'vue-json-schema'
-  import schema from '@/schemas/user.json'
+  import schema from '@/schemas/userRegister.json'
 
   FormSchema.setComponent('title', 'h2')
   FormSchema.setComponent('description', 'h4')

@@ -199,7 +199,22 @@ export default class Book extends Model {
   }
 
   // Retrieves a given book provided that the current user has it
-  // in his collection.
+  // in his collection and a path and file have been set.
+
+  static findMyBookWithFile (userId, bookId) {
+    return this.query()
+      .joinEager('users')
+      .where({
+        'users.id': userId,
+        'books.id': bookId
+      })
+      .where('users.path', 'IS NOT', null)
+      .where('users_join.file', 'IS NOT', null)
+      .first()
+  }
+
+  // Retrieves a given book provided that the current user has it
+  // in his collection using its googleId.
 
   static findMyBookByGoogleId (userId, googleId) {
     return this.query()
