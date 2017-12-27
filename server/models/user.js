@@ -1,5 +1,5 @@
 import { Model } from 'objection'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 export default class User extends Model {
   // Always hash passwords before inserting
