@@ -18,4 +18,5 @@ static/uploads
 
 # auth
 oauth.js
+knexfile.js
 /package-lock.json
