@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import AppMenu from '~/components/Menu.vue'
+  import AppMenu from '@/components/menu.vue'
 
   export default {
     middleware: 'auth',
