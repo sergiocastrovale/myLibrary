@@ -20,3 +20,4 @@ static/uploads
 oauth.js
 knexfile.js
 /package-lock.json
+/knexfile.js
