@@ -3,6 +3,10 @@
 This project started out as a playground to improve my knowledge on some technologies. As it grew, I found out that keeping track of my eBook collection and wishlist is
 something I actually needed, so I'm continuously updating things and adding new features as I see fit.
 
+## What's next
+
+This is by no means a finished app and there might be bugs and unpolished features here and there. Feel free to submit PRs if you'd like :-)
+
 ## Tech stack
 
 * Node.js + Express
