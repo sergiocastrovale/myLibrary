@@ -18,15 +18,55 @@ This is by no means a finished app and there might be bugs and unpolished featur
 * MySQL
 * Backpack to watch and build the application, so you can use the latest ES6 features (module syntax, async/await, etc.)
 
-## How to install
+## Setup guide
+
+### Installation
 
 ``` bash
-# install dependencies
-$ npm install # Or yarn install
+# Install the knex query builder (knexjs.org)
+$ npm install -g knex
 
-# serve with hot reload at localhost:3000
+# Install project dependencies
+$ npm install
+```
+
+### Database setup
+
+* Copy the knexfile.example.js to knexfile.js
+* Update the needed credentials on knexfile.js
+
+``` js
+  module.exports = {
+    development: {
+      client: 'mysql',
+      connection: {
+        host: '127.0.0.1',
+        user: 'myusername',     // Replace this
+        password: 'mypassword', // Replace this
+        database: 'mydatabase'  // Replace this
+      },
+      migrations: {
+        directory: __dirname + '/db/migrations'
+      },
+      seeds: {
+        directory: __dirname + '/db/seeds'
+      },
+      useNullAsDefault: true
+    }
+  }
+```
+
+## Running the project
+
+### For local development serve with hot reload at localhost:3000
+
+``` bash
 $ npm run dev
+```
 
-# build for production and launch server
+### For production run build and then launch server
+
+``` bash
+$ npm run build
 $ npm start
 ```
