@@ -56,6 +56,12 @@ $ npm install
   }
 ```
 
+* Run the migrations
+
+``` bash
+$ knex migrate:latest
+```
+
 ## Running the project
 
 ### For local development serve with hot reload at localhost:3000
