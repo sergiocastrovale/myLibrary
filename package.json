@@ -17,7 +17,7 @@
     "@nuxtjs/axios": "^4.5.0",
     "@nuxtjs/toast": "^2.3.3",
     "aws-sdk": "^2.175.0",
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "bcryptjs": "^1.1.0",
     "body-parser": "^1.18.2",
     "cross-env": "^5.0.1",
