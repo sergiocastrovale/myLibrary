@@ -1,3 +1,5 @@
+**WARNING: This project is deprecated and very outdated. Feel free to work on it or use it as you want.**
+
 # myLibrary: A playground turned actually useful app
 
 This project started out as a playground to improve my knowledge on some technologies. As it grew, I found out that keeping track of my eBook collection and wishlist is
